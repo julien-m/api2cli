@@ -8,33 +8,27 @@ export default function GettingStarted() {
       </p>
 
       <h2>1. Install the Skill</h2>
-      <p>
-        Pick your agent and add the skill:
-      </p>
-
-      <h3>Claude Code</h3>
+      <p>One command, works with any agent:</p>
       <pre>
-        <code>npx skills-cli add api2cli</code>
+        <code>{`# Install from GitHub
+npx skills add Melvynx/api2cli`}</code>
       </pre>
-      <p>Or manually:</p>
+      <p>Other install methods:</p>
       <pre>
-        <code>cp -r skills/api2cli ~/.claude/skills/</code>
-      </pre>
+        <code>{`# Full GitHub URL
+npx skills add https://github.com/Melvynx/api2cli
 
-      <h3>Cursor</h3>
-      <pre>
-        <code>npx skills-cli add api2cli</code>
-      </pre>
+# Direct path to skill in repo
+npx skills add https://github.com/Melvynx/api2cli/tree/dev/skills/api2cli
 
-      <h3>OpenClaw</h3>
-      <pre>
-        <code>cp -r skills/api2cli ~/.openclaw/workspace/skills/</code>
+# Local path
+npx skills add ./my-local-skills`}</code>
       </pre>
-
       <p>
         Works with any agent that supports{" "}
-        <a href="https://agentskills.io">AgentSkills</a>: Gemini CLI, GitHub
-        Copilot, VS Code, Goose, Junie, Amp, and more.
+        <a href="https://agentskills.io">AgentSkills</a>: Claude Code, Cursor,
+        Gemini CLI, GitHub Copilot, VS Code, OpenClaw, Goose, Junie, Amp, and
+        more.
       </p>
 
       <h2>2. Tell Your Agent What You Need</h2>
