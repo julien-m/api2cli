@@ -7,18 +7,14 @@ description: "Manage {{APP_NAME}} via CLI - {{RESOURCES_LIST}}. Use when user me
 
 ## Setup
 
-Run once per session to make the CLI available:
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-```
-
 If `{{APP_CLI}}` is not found, install and build it:
 ```bash
 bun --version || curl -fsSL https://bun.sh/install | bash
 npx api2cli bundle {{APP_NAME}}
 npx api2cli link {{APP_NAME}}
-export PATH="$HOME/.local/bin:$PATH"
 ```
+
+`api2cli link` adds `~/.local/bin` to PATH automatically. The CLI is available in the next command.
 
 Always use `--json` flag when calling commands programmatically.
 

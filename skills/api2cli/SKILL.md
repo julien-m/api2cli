@@ -67,12 +67,11 @@ program.addCommand(draftsResource);
 ```bash
 npx api2cli bundle <app>
 npx api2cli link <app>
-export PATH="$HOME/.local/bin:$PATH"
 <app>-cli --help
 <app>-cli <resource> list --json
 ```
 
-`api2cli link` prints the export command to run. Always run `export PATH="$HOME/.local/bin:$PATH"` right after linking so `<app>-cli` works directly. Do NOT use `source ~/.zshrc`.
+`api2cli link` creates a symlink in `~/.local/bin/` and adds it to the user's shell profile (`.zshrc`/`.bashrc`) automatically. The CLI is available immediately in the next shell command - no `export PATH` needed.
 
 ### Step 5: Update the AgentSkill and README
 

@@ -59,7 +59,7 @@ export function addToPath(app: string, distDir: string): void {
   ensureBinInPath();
 
   console.log(`${pc.green("+")} Linked ${pc.bold(`${app}-cli`)} -> ${pc.dim(linkPath)}`);
-  console.log(`\nRun this to use it now:\n  ${pc.cyan(`export PATH="$HOME/.local/bin:$PATH" && ${app}-cli --help`)}`);
+  console.log(`  ${pc.dim("PATH updated in")} ${pc.dim(getShellRc())}`);
 }
 
 /** Remove a CLI symlink from ~/.local/bin */
