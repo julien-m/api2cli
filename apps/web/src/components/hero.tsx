@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const INSTALL_COMMAND = "npx api2cli create my-api";
+const INSTALL_COMMAND = "npx skills add Melvynx/api2cli";
 
 export function Hero() {
   const [copied, setCopied] = useState(false);
