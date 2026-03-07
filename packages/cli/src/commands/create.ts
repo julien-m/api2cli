@@ -2,8 +2,69 @@ import { Command } from "commander";
 import { existsSync, mkdirSync, renameSync } from "fs";
 import { join } from "path";
 import pc from "picocolors";
-import { getCliDir } from "../lib/config.js";
+import { createInterface } from "readline";
+import {
+  getCliDir,
+  getPublishPreference,
+  setPublishPreference,
+} from "../lib/config.js";
 import { copyTemplate, replacePlaceholders } from "../lib/template.js";
+import { publishToMarketplace } from "./publish.js";
+
+function askQuestion(question: string): Promise<string> {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim().toLowerCase());
+    });
+  });
+}
+
+async function promptPublish(app: string): Promise<void> {
+  const pref = getPublishPreference();
+
+  if (pref === "never") return;
+
+  console.log(`\n${pc.bold("Marketplace")}`);
+
+  if (pref === "ask") {
+    const answer = await askQuestion(
+      `  Share ${pc.cyan(`${app}-cli`)} on the marketplace? ${pc.dim("[y]es / [n]o / [a]lways / n[e]ver")}: `,
+    );
+
+    if (answer === "n" || answer === "no") return;
+
+    if (answer === "e" || answer === "never") {
+      setPublishPreference("never");
+      console.log(
+        `  ${pc.dim("Saved. Won't ask again. Change with: api2cli publish <app>")}`,
+      );
+      return;
+    }
+
+    if (answer === "a" || answer === "always") {
+      setPublishPreference("always");
+      console.log(`  ${pc.dim("Saved. Will always prompt for publish.")}`);
+    } else if (answer !== "y" && answer !== "yes") {
+      return;
+    }
+  }
+
+  // Ask for GitHub URL
+  const githubUrl = await askQuestion(
+    `  GitHub repo URL ${pc.dim("(e.g. user/repo)")}: `,
+  );
+
+  if (!githubUrl) {
+    console.log(
+      `  ${pc.dim("Skipped. Publish later with:")} ${pc.cyan(`api2cli publish ${app}`)}`,
+    );
+    return;
+  }
+
+  await publishToMarketplace(githubUrl);
+}
 
 export const createCommand = new Command("create")
   .description("Generate a new CLI from API documentation")
@@ -81,4 +142,7 @@ Examples:
     console.log(`  2. Build: ${pc.cyan(`npx api2cli bundle ${app}`)}`);
     console.log(`  3. Link: ${pc.cyan(`npx api2cli link ${app}`)}`);
     console.log(`  4. Auth: ${pc.cyan(`${app}-cli auth set "your-token"`)}`);
+
+    // Prompt to publish on marketplace
+    await promptPublish(app);
   });

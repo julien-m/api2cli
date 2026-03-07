@@ -85,27 +85,25 @@ export function Hero() {
             Get a standardized, agent-ready CLI in minutes.
           </p>
 
-          {/* CTAs */}
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href="/docs/getting-started"
-              className="inline-flex h-11 items-center rounded-xl bg-primary px-6 font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Create my CLI
-            </Link>
-            <Link
-              href="#registry"
-              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/60 px-6 font-mono text-sm font-medium transition-colors hover:bg-card"
-            >
-              Browse CLIs →
-            </Link>
-          </div>
-
-          {/* Install command */}
-          <div className="mt-6 flex flex-col items-center">
+          {/* CTAs + Install command */}
+          <div className="mx-auto mt-8 flex w-full max-w-md flex-col gap-3">
+            <div className="flex gap-3">
+              <Link
+                href="/docs/getting-started"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-primary font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Create my CLI
+              </Link>
+              <Link
+                href="#registry"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-xl border border-border bg-card/60 font-mono text-sm font-medium transition-colors hover:bg-card"
+              >
+                Browse CLIs →
+              </Link>
+            </div>
             <button
               onClick={copyCommand}
-              className="group inline-flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
+              className="group flex w-full items-center justify-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
             >
               <span className="text-muted-foreground/60">$</span>
               <span>{INSTALL_COMMAND}</span>
@@ -113,7 +111,7 @@ export function Hero() {
                 {copied ? "Copied!" : "Copy"}
               </span>
             </button>
-            <p className="mt-1.5 text-xs text-muted-foreground/50">
+            <p className="text-left text-xs text-muted-foreground/50">
               Paste this into your coding agent.
             </p>
           </div>
