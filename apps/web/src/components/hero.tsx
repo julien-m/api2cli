@@ -69,16 +69,21 @@ export function Hero() {
           </div>
 
           {/* Install command */}
-          <button
-            onClick={copyCommand}
-            className="group mt-6 inline-flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
-          >
-            <span className="text-muted-foreground/60">$</span>
-            <span>{INSTALL_COMMAND}</span>
-            <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-              {copied ? "Copied!" : "Copy"}
-            </span>
-          </button>
+          <div className="mt-6 flex flex-col items-start">
+            <button
+              onClick={copyCommand}
+              className="group inline-flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
+            >
+              <span className="text-muted-foreground/60">$</span>
+              <span>{INSTALL_COMMAND}</span>
+              <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+                {copied ? "Copied!" : "Copy"}
+              </span>
+            </button>
+            <p className="mt-1.5 pl-1 text-xs text-muted-foreground/50">
+              Installs the api2cli skill into your coding agent (Claude Code, Cursor, Codex...)
+            </p>
+          </div>
 
           {/* Stats */}
           <div className="mt-10 flex items-center justify-center gap-8 text-sm text-muted-foreground">
