@@ -84,7 +84,29 @@ After implementing resources, update these files:
 
 See [references/skill-generation.md](references/skill-generation.md) for the template and rules.
 
-The skill lives inside the repo so when pushed to GitHub, anyone can install it:
+### Step 6: Install the skill for your agent
+
+After updating the skill, symlink it to the agent's skills directory so the agent can use the CLI in future sessions.
+
+Detect which agent is running and symlink accordingly:
+
+```bash
+# Claude Code
+mkdir -p ~/.claude/skills/<app>-cli
+ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.claude/skills/<app>-cli/SKILL.md
+
+# Cursor
+mkdir -p ~/.cursor/skills/<app>-cli
+ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.cursor/skills/<app>-cli/SKILL.md
+
+# OpenClaw
+mkdir -p ~/.openclaw/workspace/skills/<app>-cli
+ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.openclaw/workspace/skills/<app>-cli/SKILL.md
+```
+
+Use a symlink (`ln -sf`), not a copy - this keeps the skill in sync with the repo. Only symlink to agents that are installed on the system (check if the directory exists: `~/.claude/`, `~/.cursor/`, etc.).
+
+The skill also lives inside the repo so when pushed to GitHub, anyone can install it:
 ```bash
 npx skills add <github-user>/<app>-cli
 ```
