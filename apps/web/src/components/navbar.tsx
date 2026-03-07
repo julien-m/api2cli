@@ -8,7 +8,7 @@ export function Navbar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-xs font-black text-primary-foreground">
             A2C
           </div>
-          <span className="font-mono text-sm font-semibold tracking-tight">
+          <span className="font-[family-name:var(--font-geist-pixel-square)] text-sm font-semibold tracking-tight">
             api2cli
           </span>
         </Link>

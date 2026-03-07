@@ -24,7 +24,7 @@ export default async function Home() {
         <section id="registry" className="pt-12">
           <div className="mb-6 flex items-end justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight">
+              <h2 className="font-[family-name:var(--font-geist-pixel-square)] text-2xl font-bold tracking-tight">
                 CLI Registry
               </h2>
               <p className="mt-1 text-sm text-muted-foreground">

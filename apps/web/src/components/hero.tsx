@@ -28,7 +28,7 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+          <h1 className="font-[family-name:var(--font-geist-pixel-square)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Find the CLI you need.
             <br />
             <span className="bg-gradient-to-r from-muted-foreground to-muted-foreground/50 bg-clip-text text-transparent">
