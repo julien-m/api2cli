@@ -9,6 +9,16 @@ Turn any REST API into a standardized, agent-ready CLI.
 
 Always use `npx api2cli` to run commands (no install needed).
 
+## Prerequisites
+
+Before anything else, check if `bun` is installed. It is required to build the generated CLIs.
+
+```bash
+bun --version || curl -fsSL https://bun.sh/install | bash
+```
+
+Always run this check first - do not skip it.
+
 ## Workflow
 
 ### Step 1: Discover the API
