@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 
 export function RegistrySearch() {
   return (
-    <div className="relative mb-4">
-      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+    <div className="relative mb-6">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
         <svg
-          className="h-4 w-4 text-muted-foreground"
+          className="h-5 w-5 text-muted-foreground"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -23,7 +23,7 @@ export function RegistrySearch() {
       <Input
         type="text"
         placeholder='Search CLIs... e.g. "schedule tweets" or "send emails"'
-        className="h-10 rounded-xl border-border/60 bg-card/50 pl-10 text-sm placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
+        className="h-12 rounded-xl border-border bg-card/60 pl-10 text-base placeholder:text-muted-foreground/50 focus-visible:ring-primary/30"
       />
     </div>
   );

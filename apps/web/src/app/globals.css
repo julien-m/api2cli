@@ -228,9 +228,16 @@
 }
 
 .docs-content a {
-  color: var(--primary);
+  color: oklch(0.70 0.15 255);
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-color: oklch(0.70 0.15 255 / 0.4);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: text-decoration-color 0.15s;
+}
+
+.docs-content a:hover {
+  text-decoration-color: oklch(0.70 0.15 255);
 }
 
 .docs-content blockquote {

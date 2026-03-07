@@ -55,16 +55,16 @@ export function Hero() {
           {/* CTAs */}
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
-              href="#registry"
+              href="/docs/getting-started"
               className="inline-flex h-11 items-center rounded-xl bg-primary px-6 font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
-              Browse CLIs
+              Create my CLI
             </Link>
             <Link
-              href="/docs/getting-started"
+              href="#registry"
               className="inline-flex h-11 items-center rounded-xl border border-border bg-card/60 px-6 font-mono text-sm font-medium transition-colors hover:bg-card"
             >
-              Get Started →
+              Browse CLIs →
             </Link>
           </div>
 
