@@ -20,7 +20,10 @@ export default function RootLayout({
       lang="en"
       className={`dark ${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased grain">
+        <div className="aura" />
+        <div className="relative z-10">{children}</div>
+      </body>
     </html>
   );
 }
