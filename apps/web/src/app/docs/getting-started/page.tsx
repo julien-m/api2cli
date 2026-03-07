@@ -45,34 +45,52 @@ npx skills add https://github.com/Melvynx/api2cli/tree/dev/skills/api2cli
 npx skills add Melvynx/api2cli --list`}</code>
       </pre>
 
-      <h2>2. Tell Your Agent What You Need</h2>
-      <p>Just ask in natural language. Your agent reads the skill and does everything:</p>
+      <h2>2. Use It</h2>
+      <p>
+        In your coding agent, just use the <code>/api2cli</code> command:
+      </p>
+
+      <pre>
+        <code>{`❯ /api2cli create for typefully api
+
+⏺ I'll create a CLI for the Typefully API. Let me start by discovering the API.
+  → Finding API docs...
+  → Base URL: https://api.typefully.com
+  → Auth: Bearer token
+  → Generating resources: drafts, notifications, accounts
+  → Building CLI...
+  → Linking to PATH...
+
+✅ typefully-cli is ready to use!`}</code>
+      </pre>
+
+      <p>More examples:</p>
 
       <div className="space-y-3">
         <div className="rounded-xl border border-border bg-card/60 px-4 py-3">
           <p className="!mb-0 font-mono text-sm">
-            &ldquo;Create a CLI for the Typefully API&rdquo;
+            /api2cli create for stripe api
           </p>
         </div>
         <div className="rounded-xl border border-border bg-card/60 px-4 py-3">
           <p className="!mb-0 font-mono text-sm">
-            &ldquo;I need to manage Stripe subscriptions from the terminal&rdquo;
+            /api2cli create for notion api
           </p>
         </div>
         <div className="rounded-xl border border-border bg-card/60 px-4 py-3">
           <p className="!mb-0 font-mono text-sm">
-            &ldquo;Wrap the Notion API so I can query databases via CLI&rdquo;
+            /api2cli create for linear api
           </p>
         </div>
       </div>
 
-      <p className="mt-4">Your agent will automatically:</p>
+      <p className="mt-4">Your agent automatically:</p>
       <ol>
-        <li>Search for the API documentation</li>
-        <li>Identify endpoints, auth type, and base URL</li>
-        <li>Generate a standardized CLI with all resources</li>
-        <li>Build it and add it to your PATH</li>
-        <li>Test the connection</li>
+        <li>Discovers the API documentation</li>
+        <li>Identifies endpoints, auth type, and base URL</li>
+        <li>Generates a standardized CLI with all resources</li>
+        <li>Builds it and adds it to your PATH</li>
+        <li>Tests the connection</li>
       </ol>
 
       <h2>3. Use Your CLI</h2>
