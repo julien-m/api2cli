@@ -7,15 +7,15 @@ const INSTALL_COMMAND = "npx skills add Melvynx/api2cli";
 
 export function Hero() {
   const [copied, setCopied] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 50, y: 30 });
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!sectionRef.current) return;
     const rect = sectionRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 5;
+    setMouseOffset({ x, y });
   }, []);
 
   const copyCommand = () => {
@@ -30,11 +30,16 @@ export function Hero() {
       onMouseMove={handleMouseMove}
       className="relative border-b border-border/50 bg-gradient-to-b from-background via-background to-muted/20"
     >
-      {/* Red glow follows mouse */}
+      {/* Red glow from top with subtle mouse parallax */}
       <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        className="pointer-events-none absolute left-1/2 -translate-x-1/2 transition-transform duration-700 ease-out"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(213, 71, 71, 0.18) 0%, rgba(180, 50, 50, 0.06) 40%, transparent 65%)`,
+          top: "-120px",
+          width: "800px",
+          height: "500px",
+          background: "radial-gradient(ellipse at center, rgba(213, 71, 71, 0.25) 0%, rgba(180, 50, 50, 0.10) 35%, transparent 65%)",
+          filter: "blur(80px)",
+          transform: `translate(calc(-50% + ${mouseOffset.x}%), ${mouseOffset.y}%)`,
         }}
       />
       {/* Grain overlay */}
@@ -97,7 +102,7 @@ export function Hero() {
           </div>
 
           {/* Install command */}
-          <div className="mt-6 flex flex-col items-start">
+          <div className="mt-6 flex flex-col items-center">
             <button
               onClick={copyCommand}
               className="group inline-flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
@@ -108,7 +113,7 @@ export function Hero() {
                 {copied ? "Copied!" : "Copy"}
               </span>
             </button>
-            <p className="mt-1.5 pl-1 text-xs text-muted-foreground/50">
+            <p className="mt-1.5 text-xs text-muted-foreground/50">
               Paste this into your coding agent.
             </p>
           </div>

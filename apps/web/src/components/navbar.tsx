@@ -6,7 +6,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="api2cli" width={36} height={36} />
+          <Image src="/logo.svg" alt="api2cli" width={24} height={24} />
           <span className="font-[family-name:var(--font-geist-pixel-square)] text-sm font-semibold tracking-tight">
             api<span style={{ color: "#D54747" }}>2</span>cli
           </span>
