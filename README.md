@@ -131,8 +131,8 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 | `api2cli tokens` | List all configured tokens (masked) |
 | `api2cli remove <app>` | Remove a CLI entirely |
 | `api2cli doctor` | Check system requirements |
-| `api2cli install <app>` | Install from registry (coming soon) |
-| `api2cli publish <app>` | Publish to registry (coming soon) |
+| `api2cli install <app>` | Install from registry |
+| `api2cli publish <app>` | Publish to registry |
 | `api2cli update <app>` | Re-sync with API changes |
 
 ### Generated CLIs (`<app>-cli`)
@@ -191,6 +191,35 @@ def456                published 2026-03-06
 **CSV (`--format csv`):** For spreadsheets and piping
 
 **YAML (`--format yaml`):** For config files
+
+## Registry
+
+Browse and publish CLIs at [api2cli.dev](https://api2cli.dev).
+
+### Publish your CLI
+
+Click **"+ Add my CLI"** on the registry page and paste your GitHub repo URL (`owner/repo` or full URL).
+
+The registry auto-fetches from your repo:
+- **Repo info** - description, stars, topics
+- **package.json** - name, version
+- **README.md** - auth type detection
+- **SKILL.md** - name and description from frontmatter
+- **Category** - auto-assigned based on keywords (social, finance, devtools, marketing, etc.)
+
+You can also publish via the API:
+
+```bash
+curl -X POST https://api2cli.dev/api/publish-cli \
+  -H "Content-Type: application/json" \
+  -d '{"githubUrl": "owner/repo"}'
+```
+
+### Install from registry
+
+```bash
+npx skills add <owner>/<repo>
+```
 
 ## Agent Integration
 
