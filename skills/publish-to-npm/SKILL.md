@@ -16,7 +16,7 @@ Run these checks silently. Only stop if auth is missing.
 Run `npm whoami`.
 
 - If it succeeds: note the username, continue.
-- If it fails: tell the user to run `npm login` first. **Stop and wait** until they confirm.
+- If it fails: tell the user to run `npm login` first, and remind them that **npm requires 2FA (two-factor authentication) to publish packages** — they should have an authenticator app (e.g. 1Password, Authy, Google Authenticator) ready before proceeding. **Stop and wait** until they confirm.
 
 ### Resolve package name
 
