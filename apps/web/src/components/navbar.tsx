@@ -34,8 +34,7 @@ export function Navbar() {
             GitHub
           </Link>
           <Link
-            href="https://github.com/Melvynx/api2cli/tree/dev/packages/template"
-            target="_blank"
+            href="/docs/getting-started"
             className="inline-flex h-8 items-center rounded-md bg-primary px-3 font-mono text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
             Get Started

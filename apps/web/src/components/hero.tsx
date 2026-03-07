@@ -1,16 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import { SearchBar } from "./search-bar";
+import Link from "next/link";
+
+const INSTALL_COMMAND = "npx api2cli create my-api";
 
 export function Hero() {
+  const [copied, setCopied] = useState(false);
+
+  const copyCommand = () => {
+    navigator.clipboard.writeText(INSTALL_COMMAND);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section className="relative overflow-hidden border-b border-border/50 bg-gradient-to-b from-background via-background to-muted/20">
       {/* Dot grid background */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)",
+          backgroundImage:
+            "radial-gradient(circle, currentColor 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
@@ -29,22 +40,45 @@ export function Hero() {
           </div>
 
           <h1 className="font-[family-name:var(--font-geist-pixel-square)] text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Find the CLI you need.
+            Any API.
             <br />
             <span className="bg-gradient-to-r from-muted-foreground to-muted-foreground/50 bg-clip-text text-transparent">
-              Or create it in minutes.
+              One CLI pattern.
             </span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Community-built CLI wrappers for every API. Search by describing
-            your problem. Install with one command. Works with every AI agent.
+            Turn any REST API into a standardized, agent-ready CLI in minutes.
+            Browse community CLIs or create your own.
           </p>
 
-          {/* Search bar */}
-          <div className="mt-10">
-            <SearchBar />
+          {/* CTAs */}
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href="#registry"
+              className="inline-flex h-11 items-center rounded-xl bg-primary px-6 font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Browse CLIs
+            </Link>
+            <Link
+              href="/docs/getting-started"
+              className="inline-flex h-11 items-center rounded-xl border border-border bg-card/60 px-6 font-mono text-sm font-medium transition-colors hover:bg-card"
+            >
+              Get Started →
+            </Link>
           </div>
+
+          {/* Install command */}
+          <button
+            onClick={copyCommand}
+            className="group mt-6 inline-flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
+          >
+            <span className="text-muted-foreground/60">$</span>
+            <span>{INSTALL_COMMAND}</span>
+            <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+              {copied ? "Copied!" : "Copy"}
+            </span>
+          </button>
 
           {/* Stats */}
           <div className="mt-10 flex items-center justify-center gap-8 text-sm text-muted-foreground">
