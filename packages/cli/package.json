@@ -1,12 +1,15 @@
 {
   "name": "api2cli",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Turn any REST API into a standardized, agent-ready CLI",
   "type": "module",
   "bin": {
     "api2cli": "./dist/index.js"
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "bun build src/index.ts --outfile dist/index.js --target bun",
     "dev": "bun run src/index.ts",
@@ -22,7 +25,15 @@
     "typescript": "^5.7.0"
   },
   "license": "MIT",
-  "keywords": ["cli", "api", "rest", "agent", "skill", "mcp", "agentskills"],
+  "keywords": [
+    "cli",
+    "api",
+    "rest",
+    "agent",
+    "skill",
+    "mcp",
+    "agentskills"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Melvynx/api2cli.git",
