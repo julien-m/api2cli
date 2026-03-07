@@ -21,6 +21,12 @@ export function Navbar() {
             Registry
           </Link>
           <Link
+            href="/docs"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Docs
+          </Link>
+          <Link
             href="https://github.com/Melvynx/api2cli"
             target="_blank"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
