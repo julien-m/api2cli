@@ -48,9 +48,9 @@ export default async function CliDetailPage({ params }: { params: Params }) {
       : null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
-      <main className="mx-auto max-w-4xl px-6 py-16">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16">
         <div className="mb-10">
           <Link
             href="/cli"
