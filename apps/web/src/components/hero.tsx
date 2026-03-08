@@ -30,32 +30,16 @@ export function Hero() {
       onMouseMove={handleMouseMove}
       className="relative overflow-hidden border-b border-border/30"
     >
-      {/* Red glow from top with subtle mouse parallax */}
+      {/* Subtle red glow from top with mouse parallax */}
       <div
         className="pointer-events-none absolute left-1/2 -translate-x-1/2 transition-transform duration-700 ease-out"
         style={{
-          top: "-120px",
-          width: "800px",
-          height: "500px",
-          background: "radial-gradient(ellipse at center, rgba(213, 71, 71, 0.25) 0%, rgba(180, 50, 50, 0.10) 35%, transparent 65%)",
+          top: "-180px",
+          width: "700px",
+          height: "400px",
+          background: "radial-gradient(ellipse at center, rgba(213, 71, 71, 0.10) 0%, rgba(180, 50, 50, 0.04) 40%, transparent 70%)",
           filter: "blur(80px)",
           transform: `translate(calc(-50% + ${mouseOffset.x}%), ${mouseOffset.y}%)`,
-        }}
-      />
-      {/* Grain overlay */}
-      <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.06]">
-        <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-        </filter>
-        <rect width="100%" height="100%" filter="url(#grain)" />
-      </svg>
-      {/* Dot grid background */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, currentColor 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
         }}
       />
 
