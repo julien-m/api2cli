@@ -46,9 +46,17 @@ export default async function SkillPage({ params }: { params: Params }) {
             ← Back to registry
           </Link>
           <div className="mt-4 flex items-start gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted font-mono text-sm font-bold">
-              {skill.displayName.slice(0, 2).toUpperCase()}
-            </div>
+            {skill.authorGithub ? (
+              <img
+                src={`https://github.com/${skill.authorGithub}.png?size=48`}
+                alt={skill.authorGithub}
+                className="h-12 w-12 rounded-lg"
+              />
+            ) : (
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted font-mono text-sm font-bold">
+                {skill.displayName.slice(0, 2).toUpperCase()}
+              </div>
+            )}
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold tracking-tight">
@@ -144,7 +152,7 @@ export default async function SkillPage({ params }: { params: Params }) {
               <div className="col-span-full">
                 <span className="text-muted-foreground">Repo: </span>
                 <a
-                  href={`https://github.com/${skill.githubRepo}`}
+                  href={skill.githubRepo.startsWith("http") ? skill.githubRepo : `https://github.com/${skill.githubRepo}`}
                   target="_blank"
                   className="font-mono text-primary underline"
                 >

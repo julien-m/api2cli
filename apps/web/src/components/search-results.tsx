@@ -77,7 +77,7 @@ export function SearchResults({
         {results.map((skill, i) => (
           <Link
             key={skill.id}
-            href={`/skills/${skill.name}`}
+            href={`/registry/${skill.name}`}
             className={`flex items-center gap-4 p-4 transition-colors hover:bg-muted/50 ${
               i !== results.length - 1 ? "border-b border-border/50" : ""
             }`}

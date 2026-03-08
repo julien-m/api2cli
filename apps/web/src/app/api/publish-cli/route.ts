@@ -212,6 +212,7 @@ export async function POST(request: Request) {
         category,
         githubRepo: `https://github.com/${owner}/${repo}`,
         stars: repoData.stargazers_count,
+        url: `https://api2cli.dev/registry/${skillName}`,
       },
     });
   } catch (error) {

@@ -37,7 +37,7 @@ export function SkillCard({ skill }: { skill: Skill }) {
         : "text-muted-foreground";
 
   return (
-    <Link href={`/skills/${skill.name}`}>
+    <Link href={`/registry/${skill.name}`}>
       <Card className="group flex h-full flex-col transition-all hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
