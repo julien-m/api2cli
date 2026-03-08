@@ -1,5 +1,5 @@
 {
-  "name": "api2cli-template",
+  "name": "{{APP_CLI}}",
   "version": "0.1.0",
   "description": "CLI for the {{APP_NAME}} API",
   "type": "module",

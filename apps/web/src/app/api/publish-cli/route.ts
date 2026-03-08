@@ -136,24 +136,26 @@ export async function POST(request: Request) {
 
     // Extract description: prefer SKILL.md frontmatter > repo description > package.json
     let description = repoData.description || "";
-    let skillName = repo.toLowerCase().replace(/[^a-z0-9-]/g, "-");
+    let skillName = repo
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, "-")
+      .replace(/-cli$/, "");
 
     if (skillMd) {
-      // Parse YAML frontmatter
       const frontmatterMatch = skillMd.match(/^---\n([\s\S]*?)\n---/);
       if (frontmatterMatch) {
         const nameMatch = frontmatterMatch[1].match(/name:\s*(.+)/);
         const descMatch = frontmatterMatch[1].match(/description:\s*(.+)/);
-        if (nameMatch) skillName = nameMatch[1].trim();
+        if (nameMatch) skillName = nameMatch[1].trim().replace(/-cli$/, "");
         if (descMatch) description = descMatch[1].trim();
       }
     }
 
-    // Build display name
-    const displayName =
+    const rawDisplayName =
       packageJson?.name ||
       repoData.name ||
       repo;
+    const displayName = rawDisplayName.replace(/(-cli)+$/, "-cli");
 
     // Determine category
     const topics: string[] = repoData.topics || [];
@@ -214,7 +216,7 @@ export async function POST(request: Request) {
         category,
         githubRepo: `https://github.com/${owner}/${repo}`,
         stars: repoData.stargazers_count,
-        url: `https://api2cli.dev/registry/${skillName}`,
+        url: `https://api2cli.dev/cli/${skillName}`,
       },
     });
   } catch (error) {

@@ -77,7 +77,7 @@ export function SearchResults({
         {results.map((skill, i) => (
           <Link
             key={skill.id}
-            href={`/registry/${skill.name}`}
+            href={`/cli/${skill.name}`}
             className={`flex items-center gap-4 p-4 transition-colors hover:bg-muted/50 ${
               i !== results.length - 1 ? "border-b border-border/50" : ""
             }`}
@@ -100,7 +100,7 @@ export function SearchResults({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-sm font-semibold">
-                  {skill.name}-cli
+                  {skill.name.endsWith("-cli") ? skill.name : `${skill.name}-cli`}
                 </span>
                 {skill.verified && (
                   <Badge

@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { RefreshReadmeButton } from "@/components/refresh-readme-button";
 import Link from "next/link";
 import { Metadata } from "next";
 
@@ -19,17 +21,17 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: `${skill.displayName} - api2cli`,
     description: skill.description || `Install ${skill.displayName} CLI with npx api2cli install ${skill.name}`,
-    alternates: { canonical: `https://api2cli.dev/registry/${skill.name}` },
+    alternates: { canonical: `https://api2cli.dev/cli/${skill.name}` },
     openGraph: {
       title: `${skill.displayName} - api2cli`,
       description: skill.description || `Install ${skill.displayName} CLI`,
-      url: `https://api2cli.dev/registry/${skill.name}`,
+      url: `https://api2cli.dev/cli/${skill.name}`,
       type: "website",
     },
   };
 }
 
-export default async function RegistryPage({ params }: { params: Params }) {
+export default async function CliDetailPage({ params }: { params: Params }) {
   const { name } = await params;
 
   const [skill] = await db
@@ -150,16 +152,22 @@ export default async function RegistryPage({ params }: { params: Params }) {
         </section>
 
         {/* README */}
-        {skill.readme && (
-          <section className="mb-10">
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        <section className="mb-10">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
               README
             </h2>
-            <pre className="whitespace-pre-wrap rounded-xl border border-border bg-card p-6 font-mono text-sm leading-relaxed text-foreground/80">
-              {skill.readme}
-            </pre>
-          </section>
-        )}
+            <RefreshReadmeButton skillName={skill.name} />
+          </div>
+          {skill.readme ? (
+            <MarkdownRenderer content={skill.readme} />
+          ) : (
+            <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">
+              No README found. Click &ldquo;Refresh from GitHub&rdquo; to fetch
+              it, or add a README.md to your repository.
+            </div>
+          )}
+        </section>
 
         {/* Resources / endpoints */}
         {(skill.resources as { name: string; description?: string; actions: { name: string; method: string; path: string; description?: string }[] }[] ?? []).length > 0 && (

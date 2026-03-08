@@ -1,5 +1,5 @@
 ---
-name: {{APP_CLI}}
+name: {{APP_NAME}}
 description: "Manage {{APP_NAME}} via CLI - {{RESOURCES_LIST}}. Use when user mentions '{{APP_NAME}}' or wants to interact with the {{APP_NAME}} API."
 ---
 
