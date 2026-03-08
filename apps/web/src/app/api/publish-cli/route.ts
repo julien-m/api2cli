@@ -188,14 +188,15 @@ export async function POST(request: Request) {
       authorGithub: owner,
       authorName: repoData.owner?.login || owner,
       tags: topics.length > 0 ? topics : [category],
-      downloads: repoData.stargazers_count || 0,
       verified: false,
     };
 
     const isNew = existing.length === 0;
 
     if (isNew) {
-      await db.insert(skills).values(skillData);
+      await db
+        .insert(skills)
+        .values({ ...skillData, downloads: repoData.stargazers_count || 0 });
     } else {
       await db.update(skills).set(skillData).where(eq(skills.name, skillName));
     }

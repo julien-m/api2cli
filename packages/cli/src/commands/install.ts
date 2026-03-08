@@ -64,13 +64,14 @@ Examples:
   .action(async (source: string, opts) => {
     let owner: string;
     let repo: string;
+    let skillName: string | null = null;
 
     const parsed = parseGithubInput(source);
     if (parsed) {
       owner = parsed.owner;
       repo = parsed.repo;
     } else {
-      // Treat as app name - look up from registry
+      skillName = source;
       console.log(`Looking up ${pc.bold(source)} in registry...`);
       try {
         const res = await fetch(`${REGISTRY_API}/skills/${source}`);
@@ -173,6 +174,12 @@ Examples:
 
     // 5. Symlink skill to agent directories
     symlinkSkill(cliDir, appCli);
+
+    // Track install in registry
+    const trackName = skillName ?? getAppName(repo);
+    fetch(`${REGISTRY_API}/skills/${trackName}/download`, { method: "POST" }).catch(
+      () => {},
+    );
 
     console.log(`\n${pc.green("✓")} Installed ${pc.bold(appCli)}`);
     console.log(`\n${pc.bold("Next:")}`);

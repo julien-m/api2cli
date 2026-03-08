@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { skills } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/navbar";
@@ -39,13 +39,6 @@ export default async function RegistryPage({ params }: { params: Params }) {
     .limit(1);
 
   if (!skill) notFound();
-
-  // Increment view counter
-  db.update(skills)
-    .set({ downloads: sql`${skills.downloads} + 1` })
-    .where(eq(skills.name, name))
-    .execute()
-    .catch(() => {});
 
   const repoUrl = skill.githubRepo?.startsWith("http")
     ? skill.githubRepo
