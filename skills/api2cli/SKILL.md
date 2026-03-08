@@ -17,6 +17,8 @@ bun --version || curl -fsSL https://bun.sh/install | bash
 
 ## Workflow
 
+Follow all steps in order — do not skip any.
+
 ### 1. Discover the API
 
 Find the API docs or OpenAPI spec. Identify: base URL, auth type, auth header, all resources and endpoints.
@@ -48,7 +50,7 @@ npx api2cli link <app>
 
 ### 5. Finalize skill and README
 
-Update `skills/<app>-cli/SKILL.md` and `README.md` with actual resources, then symlink skill to agent directories.
+Replace all `{{...}}` placeholders in `skills/<app>-cli/SKILL.md` and `README.md` with actual values, then symlink skill to agent directories.
 
 See [references/skill-generation.md](references/skill-generation.md) for the template, format, and symlink instructions.
 
