@@ -25,7 +25,7 @@ export default async function Home() {
     .limit(50);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
       <Hero />
 
@@ -35,7 +35,7 @@ export default async function Home() {
       <CliIsNewSkillSection />
       <UniversalSection />
 
-      <main className="mx-auto max-w-6xl px-6 pb-24">
+      <main className="mx-auto max-w-6xl flex-1 px-6 pb-24">
         <section id="cli" className="pt-12">
           <div className="mb-6 flex items-end justify-between">
             <div>
