@@ -1,0 +1,95 @@
+---
+title: Registry
+description: "Browse and install community-built CLI wrappers from the api2cli registry. Publish your own CLI via Sundial Hub, the website, or the API."
+keywords:
+  - registry
+  - marketplace
+  - publish
+  - install
+  - community
+---
+
+The api2cli registry lets the community share CLI wrappers. Before building a CLI from scratch, check if someone already built it.
+
+## Install a CLI
+
+Install any CLI from its GitHub repo. This clones the repo, installs dependencies, builds it, links it to your PATH, and symlinks the AgentSkill to your coding agents.
+
+```bash
+# From GitHub repo
+npx api2cli install owner/repo
+npx api2cli install https://github.com/owner/repo
+
+# Reinstall (overwrite existing)
+npx api2cli install owner/repo --force
+```
+
+One command. Your CLI is ready to use and your agent knows how to use it via the symlinked skill.
+
+## What install does
+
+1. Clones the GitHub repo to `~/.cli/<app>-cli/`
+2. Runs `bun install` to install dependencies
+3. Builds the CLI with `bun build`
+4. Creates a symlink in `~/.local/bin/` and updates your shell PATH
+5. Symlinks `skills/<app>-cli/SKILL.md` to your agent directories (`~/.claude/skills/`, `~/.cursor/skills/`, etc.)
+
+## Publish Your CLI
+
+Share your CLI with the community. Push your repo to GitHub, then publish it to the registry:
+
+### Via Sundial Hub
+
+Publish the generated skill to [Sundial Hub](https://www.sundialhub.com) so any agent can install it:
+
+```bash
+# Login (one-time)
+npx sundial-hub auth login
+
+# Push the skill
+npx sundial-hub push path/to/skills/<app>-cli --visibility public --categories coding
+```
+
+After publishing, anyone can install with:
+
+```bash
+npx sundial-hub add <your-username>/<app>-cli
+```
+
+### Via the website
+
+Click the **"+ Add my CLI"** button on the [registry homepage](/). Paste your GitHub URL (`owner/repo` or full URL).
+
+### Via the API
+
+```bash
+curl -X POST https://api2cli.dev/api/publish-cli \
+  -H "Content-Type: application/json" \
+  -d '{"githubUrl": "owner/repo"}'
+```
+
+### What gets auto-detected
+
+The registry fetches from your GitHub repo:
+
+- **Repo info** - description, stars, topics
+- **package.json** - name, version
+- **README.md** - auth type detection (bearer, api-key, basic)
+- **SKILL.md** - skill name and description from frontmatter
+- **Category** - auto-assigned from keywords (social, finance, devtools, etc.)
+
+## Categories
+
+| Category | Keywords |
+|----------|----------|
+| **Social Media** | `social, twitter, mastodon, bluesky` |
+| **Developer Tools** | `dev, git, ci, cd, deploy, build` |
+| **Finance** | `finance, bank, payment, stripe, invoice` |
+| **Marketing** | `marketing, email, newsletter, seo, campaign` |
+| **Productivity** | `productivity, task, todo, note, calendar` |
+| **Communication** | `chat, message, slack, discord` |
+| **Analytics** | `analytics, metric, monitor, dashboard` |
+| **AI & ML** | `ai, ml, llm, gpt, claude, openai` |
+| **E-Commerce** | `ecommerce, shop, store, product, order` |
+
+> **Your repo needs a skills/ folder.** When you create a CLI with `npx api2cli create`, it automatically includes `skills/<app>-cli/SKILL.md`. Update it with your actual resources before publishing. See [Create a CLI](/docs/create-cli) for the full workflow.

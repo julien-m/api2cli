@@ -1,0 +1,101 @@
+---
+title: Create a CLI
+description: "Step-by-step guide to wrapping any REST API into a standardized CLI with api2cli."
+keywords:
+  - create CLI
+  - REST API
+  - scaffold
+  - api2cli create
+---
+
+Step-by-step guide to wrapping any REST API into a standardized CLI.
+
+## Step 1: Discover the API
+
+Before creating anything, gather information about the API you want to wrap:
+
+1. Find the API documentation URL or OpenAPI spec
+2. Identify the **base URL** (e.g. `https://api.example.com`)
+3. Determine the **auth type**: bearer token, API key, basic auth, or custom
+4. List all resources and their endpoints
+
+## Step 2: Scaffold
+
+```bash
+api2cli create <app-name> \
+  --base-url <api-base-url> \
+  --auth-type <bearer|api-key|basic|custom> \
+  --docs <docs-url>            # optional
+  --openapi <openapi-url>      # optional
+```
+
+### Options
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--base-url` | API base URL | `https://api.example.com` |
+| `--auth-type` | Authentication method | `bearer` |
+| `--auth-header` | Custom auth header name | `Authorization` |
+| `--docs` | API docs URL (for AI-driven generation) | - |
+| `--openapi` | OpenAPI/Swagger spec URL | - |
+| `--force` | Overwrite existing CLI | `false` |
+
+## Step 3: Add Resources
+
+Each API resource (drafts, users, links, etc.) gets its own file. See the [Resources guide](/docs/resources) for the full pattern.
+
+## Step 4: Build and Link
+
+```bash
+# Build the CLI
+api2cli bundle <app>
+
+# Add to your PATH (auto-updates .zshrc/.bashrc)
+api2cli link <app>
+
+# Verify it works
+<app>-cli --help
+```
+
+`api2cli link` creates a symlink in `~/.local/bin/` and adds it to your shell profile automatically. No manual PATH setup needed.
+
+## Step 5: Update the AgentSkill
+
+The scaffold includes `skills/<app>-cli/SKILL.md` with placeholder sections. After implementing resources, update it with the actual commands and flags.
+
+This file teaches AI agents how to use your CLI. When you publish the skill, anyone can install it:
+
+```bash
+# Via Sundial Hub
+npx sundial-hub add your-username/app-cli
+
+# Via Skills CLI
+npx skills add owner/repo
+```
+
+## Step 6: Publish
+
+### To [Sundial Hub](https://www.sundialhub.com) (recommended)
+
+Publish your skill so any agent (Claude Code, Cursor, Codex, etc.) can install it:
+
+```bash
+# Login (one-time)
+npx sundial-hub auth login
+
+# Push the skill
+npx sundial-hub push path/to/skills/<app>-cli --visibility public --categories coding
+```
+
+Others can then install with:
+
+```bash
+npx sundial-hub add your-username/<app>-cli
+```
+
+### To the api2cli.dev registry
+
+Push your repo to GitHub, then publish it to the [registry](/docs/marketplace):
+
+- **Web:** Click **"+ Add my CLI"** on the [registry page](/) and paste your GitHub URL
+- **API:** `curl -X POST https://api2cli.dev/api/publish-cli -H "Content-Type: application/json" -d '{"githubUrl":"owner/repo"}'`

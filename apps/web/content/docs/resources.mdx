@@ -1,0 +1,117 @@
+---
+title: Add Resources
+description: "Learn the resource pattern for mapping REST API endpoints to standardized CLI commands."
+keywords:
+  - resources
+  - CRUD
+  - API endpoints
+  - TypeScript
+---
+
+Resources map to API endpoints. Each resource is a single TypeScript file with standardized CRUD commands.
+
+## Resource Pattern
+
+Every resource follows the same structure. Create a file at `~/.cli/<app>-cli/src/resources/<resource>.ts`:
+
+````typescript
+import { Command } from "commander";
+import { client } from "../lib/client.js";
+import { output } from "../lib/output.js";
+import { handleError } from "../lib/errors.js";
+
+export const draftsResource = new Command("drafts")
+  .description("Manage drafts");
+
+// LIST
+draftsResource
+  .command("list")
+  .description("List all drafts")
+  .option("--limit <n>", "Max results", "20")
+  .option("--json", "Output as JSON")
+  .action(async (opts) => {
+    try {
+      const data = await client.get("/drafts", { limit: opts.limit });
+      output(data, { json: opts.json });
+    } catch (err) {
+      handleError(err, opts.json);
+    }
+  });
+
+// GET
+draftsResource
+  .command("get <id>")
+  .description("Get a draft by ID")
+  .option("--json", "Output as JSON")
+  .action(async (id, opts) => {
+    try {
+      const data = await client.get(`/drafts/${id}`);
+      output(data, { json: opts.json });
+    } catch (err) {
+      handleError(err, opts.json);
+    }
+  });
+
+// CREATE
+draftsResource
+  .command("create")
+  .description("Create a new draft")
+  .requiredOption("--text <text>", "Draft content")
+  .option("--platform <platform>", "Target platform")
+  .option("--json", "Output as JSON")
+  .action(async (opts) => {
+    try {
+      const data = await client.post("/drafts", {
+        text: opts.text,
+        platform: opts.platform,
+      });
+      output(data, { json: opts.json });
+    } catch (err) {
+      handleError(err, opts.json);
+    }
+  });
+
+// DELETE
+draftsResource
+  .command("delete <id>")
+  .description("Delete a draft")
+  .option("--json", "Output as JSON")
+  .action(async (id, opts) => {
+    try {
+      await client.delete(`/drafts/${id}`);
+      output({ deleted: id }, { json: opts.json });
+    } catch (err) {
+      handleError(err, opts.json);
+    }
+  });
+````
+
+## Register the Resource
+
+Add your resource to `src/index.ts`:
+
+```typescript
+import { draftsResource } from "./resources/drafts.js";
+program.addCommand(draftsResource);
+```
+
+## Conventions
+
+- **One file per resource** (drafts.ts, links.ts, users.ts)
+- **Standard CRUD commands**: list, get, create, update, delete
+- Every command must have a `--json` flag
+- Use `client.get/post/patch/delete()` for HTTP requests
+- Use `output()` for formatted responses
+- Use `handleError()` for error handling
+- Add `.description()` and `.example()` to every command
+
+## Output Format
+
+The `output()` function handles formatting automatically:
+
+| Flag | Output |
+|------|--------|
+| (none) | Pretty table for humans |
+| `--json` | JSON envelope: `{ok, data, meta\}` |
+| `--format csv` | CSV for spreadsheets |
+| `--format yaml` | YAML for configs |

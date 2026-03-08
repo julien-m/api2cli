@@ -1,0 +1,90 @@
+---
+title: Agent Integration
+description: "api2cli works with Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Cline, and 30+ more agents via the AgentSkills standard."
+keywords:
+  - agent integration
+  - Claude Code
+  - Cursor
+  - Codex
+  - AgentSkills
+---
+
+api2cli uses the open [AgentSkills](https://agentskills.io) standard. Install the skill once and it works across 40+ coding agents.
+
+## Install
+
+Pick either method — both auto-detect your installed agents:
+
+```bash
+# Via Sundial Hub
+npx sundial-hub add melvynx/api2cli
+
+# Via Skills CLI
+npx skills add Melvynx/api2cli
+```
+
+## Supported Agents
+
+Works with any agent that supports AgentSkills:
+
+| Agent | `--agent` flag |
+|-------|---------------|
+| Claude Code | `claude-code` |
+| Cursor | `cursor` |
+| Codex | `codex` |
+| OpenClaw | `openclaw` |
+| Gemini CLI | `gemini-cli` |
+| GitHub Copilot | `github-copilot` |
+| OpenCode | `opencode` |
+| Amp | `amp` |
+| Windsurf | `windsurf` |
+| Cline | `cline` |
+| Goose | `goose` |
+| OpenHands | `openhands` |
+| Junie | `junie` |
+| Roo Code | `roo` |
+| Kiro CLI | `kiro-cli` |
+| Pi | `pi` |
+| [...and 25+ more](https://github.com/vercel-labs/skills#available-agents) | |
+
+## How It Works
+
+When you install the skill, it places a `SKILL.md` file in each agent's skill directory. This file teaches your agent:
+
+- How to discover APIs and gather endpoint info
+- How to run `api2cli create` with the right flags
+- The resource pattern for implementing endpoints
+- How to build, link, and test the CLI
+
+## Target Specific Agents
+
+```bash
+# Install only for Claude Code and Cursor (Skills CLI)
+npx skills add Melvynx/api2cli -a claude-code -a cursor
+
+# Install globally (all projects)
+npx skills add Melvynx/api2cli -g
+
+# Install globally for one agent
+npx skills add Melvynx/api2cli -g -a claude-code
+```
+
+## Usage
+
+Once installed, just tell your agent in natural language:
+
+> "Use api2cli to create CLI for typefully api"
+
+The agent automatically discovers the API, generates resources, builds, and links the CLI. Zero manual work.
+
+## Why CLI for Agents?
+
+CLIs are the most universal tool interface. Every AI agent can run shell commands. A standardized CLI means:
+
+- **Zero integration work**: agents just run commands
+- **One pattern**: learn one CLI, use them all
+- **JSON output**: structured data with `--json`
+- **Deep help**: agents discover commands via `--help`
+- **No MCP needed**: works without servers or plugins
+
+Browse skills on [Sundial Hub](https://www.sundialhub.com/explore), [skills.sh](https://skills.sh), [ClawHub](https://claw-hub.net), or search with `npx sundial-hub find` / `npx skills find` / `npx clawhub search`.

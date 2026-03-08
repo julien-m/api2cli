@@ -1,23 +1,26 @@
 import { Navbar } from "@/components/navbar";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { CopyMarkdownButton } from "@/components/copy-markdown-button";
+import { getDocSections } from "./doc-manager";
 
-export default function DocsLayout({
+export default async function DocsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const sections = await getDocSections();
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Navbar />
       <div className="mx-auto flex max-w-7xl flex-1">
-        <DocsSidebar />
-        <main className="min-w-0 flex-1 px-8 py-12 lg:px-16">
-          <div className="relative mx-auto max-w-3xl">
-            <div className="absolute top-0 right-0">
+        <DocsSidebar sections={sections} />
+        <main className="min-w-0 flex-1">
+          <div className="relative">
+            <div className="absolute top-4 right-8">
               <CopyMarkdownButton />
             </div>
-            <article className="docs-content">{children}</article>
+            {children}
           </div>
         </main>
       </div>

@@ -1,0 +1,119 @@
+---
+title: Getting Started
+description: "Install the api2cli skill in your AI agent and create CLI wrappers for any REST API. Works with Claude Code, Cursor, Codex, Gemini CLI, and 40+ coding agents."
+keywords:
+  - install
+  - getting started
+  - api2cli
+  - agent skill
+---
+
+Install the api2cli skill in your AI agent. Tell it what API you need. Done. Your agent handles everything.
+
+## 1. Install the Skill
+
+Pick whichever method you prefer:
+
+### Option A: [Sundial Hub](https://www.sundialhub.com)
+
+```bash
+npx sundial-hub add melvynx/api2cli
+```
+
+[Sundial](https://www.sundialhub.com) is the open registry for agent skills. It auto-detects your coding agents (Claude Code, Cursor, Codex, Gemini CLI, and more) and installs the skill to all of them.
+
+### Option B: [Skills CLI](https://github.com/vercel-labs/skills)
+
+```bash
+npx skills add Melvynx/api2cli
+```
+
+The [skills CLI](https://github.com/vercel-labs/skills) also auto-detects your agents and installs to all of them.
+
+### Options (both CLIs)
+
+```bash
+# Install to specific agents only
+npx skills add Melvynx/api2cli -a claude-code -a cursor
+
+# Install globally (available across all projects)
+npx skills add Melvynx/api2cli -g
+
+# Non-interactive (CI/CD friendly)
+npx skills add Melvynx/api2cli -g -a claude-code -y
+
+# Direct path to skill
+npx skills add https://github.com/Melvynx/api2cli/tree/dev/skills/api2cli
+```
+
+## 2. Ask Your Agent
+
+Just tell your agent what you need in plain English:
+
+```
+> Use api2cli to create CLI for typefully api
+
+⏺ I'll create a CLI for the Typefully API. Let me start by discovering the API.
+  → Finding API docs...
+  → Base URL: https://api.typefully.com
+  → Auth: Bearer token
+  → Generating resources: drafts, notifications, accounts
+  → Building CLI...
+  → Linking to PATH...
+
+✅ typefully-cli is ready to use!
+```
+
+More examples:
+
+- `Use api2cli to create CLI for stripe api`
+- `Use api2cli to create CLI for notion api`
+- `Use api2cli to create CLI for linear api`
+
+Your agent automatically:
+
+1. Discovers the API documentation
+2. Identifies endpoints, auth type, and base URL
+3. Generates a standardized CLI with all resources
+4. Builds it and adds it to your PATH
+5. Tests the connection
+
+## 3. Use Your CLI
+
+Once the agent finishes, your CLI is ready:
+
+```bash
+# Set your API token
+typefully-cli auth set "typ_xxx"
+
+# Start using it
+typefully-cli drafts list
+typefully-cli drafts create --text "Hello world"
+
+# Works with any agent via --json
+typefully-cli drafts list --json
+```
+
+## Or Install an Existing CLI
+
+Before creating a new CLI, check the [registry](/). Someone may have already built it:
+
+```bash
+# Install from GitHub repo
+npx api2cli install owner/repo
+```
+
+This clones the repo, installs dependencies, builds, links to your PATH, and symlinks the AgentSkill to your coding agents. One command, fully ready.
+
+## Manage Your Skills
+
+```bash
+# List installed skills (Sundial)
+npx sundial-hub installed
+
+# List installed skills (Skills CLI)
+npx skills list
+
+# Remove a skill
+npx skills remove api2cli
+```
