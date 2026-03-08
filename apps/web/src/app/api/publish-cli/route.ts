@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { skills } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { tweetNewCLI } from "@/lib/twitter";
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
@@ -194,10 +195,16 @@ export async function POST(request: Request) {
       verified: false,
     };
 
-    if (existing.length > 0) {
-      await db.update(skills).set(skillData).where(eq(skills.name, skillName));
-    } else {
+    const isNew = existing.length === 0;
+
+    if (isNew) {
       await db.insert(skills).values(skillData);
+    } else {
+      await db.update(skills).set(skillData).where(eq(skills.name, skillName));
+    }
+
+    if (isNew) {
+      tweetNewCLI({ name: skillName, description }).catch(() => {});
     }
 
     return NextResponse.json({
