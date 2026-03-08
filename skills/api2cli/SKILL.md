@@ -62,7 +62,7 @@ npx api2cli link <app> --openclaw
 
 See [references/openclaw.md](references/openclaw.md) for the one-prompt setup, ClawHub publishing, API key auto-detection, and custom `--skills-path` usage.
 
-Also available on ClawHub: `clawhub install api2cli`
+Also available on ClawHub: `npx clawhub install api2cli`
 
 ### 6. Publish (when user asks)
 
@@ -91,11 +91,11 @@ See [references/publish-to-npm.md](references/publish-to-npm.md) for auth, packa
 
 Publish the generated skill to ClawHub so OpenClaw users can discover and install it.
 
-1. **Auth**: run `clawhub login`. If not authenticated, ask the user to complete login first. **Stop and wait.**
-2. **Push the skill**: run `openclaw skill publish <cli-dir>/skills/<app>-cli`
+1. **Auth**: run `npx clawhub login`. If not authenticated, ask the user to complete login first. **Stop and wait.**
+2. **Push the skill**: run `npx clawhub publish <cli-dir>/skills/<app>-cli --slug <app>-cli`
 3. After publish, users can install with:
    ```bash
-   clawhub install <app>-cli
+   npx clawhub install <app>-cli
    ```
 
 See [references/openclaw.md](references/openclaw.md) for the full OpenClaw setup workflow.

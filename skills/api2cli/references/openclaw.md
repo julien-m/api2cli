@@ -9,8 +9,8 @@ Publish the api2cli skill so OpenClaw users can discover it via `clawhub search`
 ### Pre-flight
 
 ```bash
-clawhub login
-clawhub whoami
+npx clawhub login
+npx clawhub whoami
 ```
 
 If not authenticated, stop and ask the user to complete login first.
@@ -18,19 +18,19 @@ If not authenticated, stop and ask the user to complete login first.
 ### Publish
 
 ```bash
-openclaw skill publish ./skills/api2cli
+npx clawhub publish ./skills/api2cli --slug api2cli --name "api2cli"
 ```
 
 ### Verify
 
 ```bash
-clawhub search api2cli
+npx clawhub search api2cli
 ```
 
 Users can then install with:
 
 ```bash
-clawhub install api2cli
+npx clawhub install api2cli
 ```
 
 ## 2. One-Prompt Setup (copy-paste into OpenClaw)
@@ -173,7 +173,7 @@ Install api2cli and set up <app>-cli for OpenClaw:
 If you found api2cli through ClawHub:
 
 ```bash
-clawhub install api2cli
+npx clawhub install api2cli
 ```
 
 This installs the api2cli skill into your OpenClaw workspace. Then paste the one-prompt from Section 2 to set up individual CLIs.
