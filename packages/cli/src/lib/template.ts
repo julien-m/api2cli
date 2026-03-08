@@ -40,6 +40,7 @@ export function replacePlaceholders(dir: string, vars: TemplateVars): void {
     ["{{BASE_URL}}", vars.baseUrl],
     ["{{AUTH_TYPE}}", vars.authType],
     ["{{AUTH_HEADER}}", vars.authHeader],
+    ["api2cli-template", vars.appCli],
   ];
 
   walkFiles(dir, (filePath) => {
