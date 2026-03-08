@@ -45,6 +45,10 @@ gh repo create <app>-cli --public --source=. --push --description "<description 
 - If `gh repo create` says "unable to add remote" (remote already exists), just push: `git push -u origin <branch>`.
 - If the repo name is taken, ask the user for an alternative name.
 
+## Phase 3.5: Update README
+
+After pushing, check if the README contains `<user>/` in the install commands. If so, replace `<user>` with the actual GitHub username and commit + push the fix.
+
 ## Phase 4: Done
 
 Report:

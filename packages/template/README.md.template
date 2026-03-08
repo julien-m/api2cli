@@ -5,7 +5,7 @@ CLI for the {{APP_NAME}} API. Made with [api2cli.dev](https://api2cli.dev).
 ## Install
 
 ```bash
-npx api2cli install {{GITHUB_REPO}}
+npx api2cli install <user>/{{APP_CLI}}
 ```
 
 This clones the repo, builds the CLI, links it to your PATH, and installs the AgentSkill to your coding agents.
@@ -13,7 +13,7 @@ This clones the repo, builds the CLI, links it to your PATH, and installs the Ag
 ## Install AgentSkill only
 
 ```bash
-npx skills add {{GITHUB_REPO}}
+npx skills add <user>/{{APP_CLI}}
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ npx skills add {{GITHUB_REPO}}
 
 ## Resources
 
-{{RESOURCES_HELP}}
+Run `{{APP_CLI}} --help` to see available resources.
 
 ## Global Flags
 
