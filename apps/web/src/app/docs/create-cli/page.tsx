@@ -1,6 +1,78 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create a CLI - Wrap Any REST API in Minutes",
+  description:
+    "Step-by-step guide to wrapping any REST API into a standardized CLI with api2cli. Discover, scaffold, add resources, build, link, and publish your CLI wrapper.",
+  alternates: { canonical: "https://api2cli.dev/docs/create-cli" },
+  openGraph: {
+    title: "Create a CLI with api2cli",
+    description:
+      "Wrap any REST API into a standardized, agent-ready CLI in minutes.",
+    url: "https://api2cli.dev/docs/create-cli",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      name: "How to Create a CLI with api2cli",
+      description:
+        "Step-by-step guide to wrapping any REST API into a standardized CLI.",
+      totalTime: "PT10M",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Discover the API",
+          text: "Find the API documentation, identify the base URL, determine auth type, and list all resources.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Scaffold",
+          text: "Run api2cli create <app-name> --base-url <url> --auth-type <type> to generate the CLI scaffolding.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Add Resources",
+          text: "Create resource files for each API endpoint following the standardized CRUD pattern.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Build and Link",
+          text: "Run api2cli bundle <app> then api2cli link <app> to build and add to your PATH.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Update the AgentSkill",
+          text: "Edit skills/<app>-cli/SKILL.md with actual commands and flags.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Publish",
+          text: "Publish via Sundial Hub or the api2cli.dev registry for others to install.",
+        },
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+        { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+        { "@type": "ListItem", position: 3, name: "Create a CLI" },
+      ],
+    },
+  ],
+};
+
 export default function CreateCli() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Create a CLI</h1>
       <p>
         Step-by-step guide to wrapping any REST API into a standardized CLI.
@@ -126,18 +198,44 @@ api2cli link <app>
         with the actual commands and flags.
       </p>
       <p>
-        This file teaches AI agents how to use your CLI. When you push the
-        repo to GitHub, anyone can install the skill:
+        This file teaches AI agents how to use your CLI. When you publish the
+        skill, anyone can install it:
       </p>
       <pre>
-        <code>npx skills add owner/repo</code>
+        <code>{`# Via Sundial Hub
+npx sundial-hub add your-username/app-cli
+
+# Via Skills CLI
+npx skills add owner/repo`}</code>
       </pre>
 
-      <h2>Step 6: Publish to the Registry</h2>
+      <h2>Step 6: Publish</h2>
+
+      <h3>
+        To <a href="https://www.sundialhub.com">Sundial Hub</a> (recommended)
+      </h3>
+      <p>
+        Publish your skill so any agent (Claude Code, Cursor, Codex, etc.) can
+        install it:
+      </p>
+      <pre>
+        <code>{`# Login (one-time)
+npx sundial-hub auth login
+
+# Push the skill
+npx sundial-hub push path/to/skills/<app>-cli --visibility public --categories coding`}</code>
+      </pre>
+      <p>
+        Others can then install with:
+      </p>
+      <pre>
+        <code>{`npx sundial-hub add your-username/<app>-cli`}</code>
+      </pre>
+
+      <h3>To the api2cli.dev registry</h3>
       <p>
         Push your repo to GitHub, then publish it to the{" "}
-        <a href="/docs/marketplace">registry</a> so others can find and
-        install it:
+        <a href="/docs/marketplace">registry</a>:
       </p>
       <ul>
         <li>
@@ -150,12 +248,6 @@ api2cli link <app>
           <code>{`curl -X POST https://api2cli.dev/api/publish-cli -H "Content-Type: application/json" -d '{"githubUrl":"owner/repo"}'`}</code>
         </li>
       </ul>
-      <p>
-        Others can then install your CLI with one command:
-      </p>
-      <pre>
-        <code>npx api2cli install owner/repo</code>
-      </pre>
 
       <div className="callout">
         <div className="callout-title">What install does</div>

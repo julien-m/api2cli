@@ -1,6 +1,47 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Agent Integration - Works with 40+ AI Coding Agents",
+  description:
+    "api2cli works with Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Cline, and 30+ more agents via the AgentSkills standard. Install once, use everywhere.",
+  alternates: { canonical: "https://api2cli.dev/docs/agent-integration" },
+  openGraph: {
+    title: "api2cli Agent Integration",
+    description:
+      "Compatible with Claude Code, Cursor, Codex, Gemini CLI, and 40+ coding agents.",
+    url: "https://api2cli.dev/docs/agent-integration",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      headline: "api2cli Agent Integration - Works with 40+ AI Coding Agents",
+      description:
+        "api2cli works with Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, and 30+ more agents via the AgentSkills standard.",
+      url: "https://api2cli.dev/docs/agent-integration",
+      author: { "@type": "Person", name: "Melvynx", url: "https://github.com/Melvynx" },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+        { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+        { "@type": "ListItem", position: 3, name: "Agent Integration" },
+      ],
+    },
+  ],
+};
+
 export default function AgentIntegration() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Agent Integration</h1>
       <p>
         api2cli uses the open{" "}
@@ -9,14 +50,14 @@ export default function AgentIntegration() {
       </p>
 
       <h2>Install</h2>
+      <p>Pick either method — both auto-detect your installed agents:</p>
       <pre>
-        <code>npx skills add Melvynx/api2cli</code>
+        <code>{`# Via Sundial Hub
+npx sundial-hub add melvynx/api2cli
+
+# Via Skills CLI
+npx skills add Melvynx/api2cli`}</code>
       </pre>
-      <p>
-        The{" "}
-        <a href="https://github.com/vercel-labs/skills">skills CLI</a>{" "}
-        auto-detects your installed agents and sets everything up.
-      </p>
 
       <h2>Supported Agents</h2>
       <p>Works with any agent that supports AgentSkills:</p>
@@ -82,7 +123,7 @@ export default function AgentIntegration() {
 
       <h2>Target Specific Agents</h2>
       <pre>
-        <code>{`# Install only for Claude Code and Cursor
+        <code>{`# Install only for Claude Code and Cursor (Skills CLI)
 npx skills add Melvynx/api2cli -a claude-code -a cursor
 
 # Install globally (all projects)
@@ -132,8 +173,10 @@ npx skills add Melvynx/api2cli -g -a claude-code`}</code>
       <div className="callout">
         <div className="callout-title">Discover more skills</div>
         <p className="!mb-0">
-          Browse the skills directory at{" "}
-          <a href="https://skills.sh">skills.sh</a> or search with{" "}
+          Browse skills on{" "}
+          <a href="https://www.sundialhub.com/explore">Sundial Hub</a>,{" "}
+          <a href="https://skills.sh">skills.sh</a>, or search with{" "}
+          <code>npx sundial-hub find</code> /{" "}
           <code>npx skills find</code>.
         </p>
       </div>

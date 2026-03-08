@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 
-const INSTALL_COMMAND = "npx skills add Melvynx/api2cli";
+const INSTALL_CMD = "npx sundial-hub add melvynx/api2cli";
 
 export function Hero() {
   const [copied, setCopied] = useState(false);
@@ -19,7 +19,7 @@ export function Hero() {
   }, []);
 
   const copyCommand = () => {
-    navigator.clipboard.writeText(INSTALL_COMMAND);
+    navigator.clipboard.writeText(INSTALL_CMD);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -90,7 +90,7 @@ export function Hero() {
               className="group flex w-full items-center justify-center gap-3 rounded-xl border border-border/60 bg-card/40 px-5 py-3 font-mono text-sm backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-card/60"
             >
               <span className="text-muted-foreground/60">$</span>
-              <span>{INSTALL_COMMAND}</span>
+              <span>{INSTALL_CMD}</span>
               <span className="rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
                 {copied ? "Copied!" : "Copy"}
               </span>

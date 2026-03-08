@@ -1,6 +1,63 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Getting Started - Install api2cli in 30 Seconds",
+  description:
+    "Install the api2cli skill in your AI agent and create CLI wrappers for any REST API. Works with Claude Code, Cursor, Codex, Gemini CLI, and 40+ coding agents.",
+  alternates: { canonical: "https://api2cli.dev/docs/getting-started" },
+  openGraph: {
+    title: "Getting Started with api2cli",
+    description:
+      "Install the skill, tell your agent what API you need. One command, fully ready.",
+    url: "https://api2cli.dev/docs/getting-started",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      name: "How to Get Started with api2cli",
+      description:
+        "Install the api2cli skill in your AI agent and create CLI wrappers for any REST API.",
+      totalTime: "PT2M",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Install the Skill",
+          text: "Run npx sundial-hub add melvynx/api2cli or npx skills add Melvynx/api2cli to install the api2cli skill in your coding agent.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Ask Your Agent",
+          text: "Tell your agent in plain English: 'Use api2cli to create CLI for typefully api'. The agent discovers the API, generates resources, builds, and links the CLI.",
+        },
+        {
+          "@type": "HowToStep",
+          name: "Use Your CLI",
+          text: "Set your API token with <app>-cli auth set, then start using commands like <app>-cli drafts list.",
+        },
+      ],
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+        { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+        { "@type": "ListItem", position: 3, name: "Getting Started" },
+      ],
+    },
+  ],
+};
+
 export default function GettingStarted() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Getting Started</h1>
       <p>
         Install the api2cli skill in your AI agent. Tell it what API you need.
@@ -8,23 +65,34 @@ export default function GettingStarted() {
       </p>
 
       <h2>1. Install the Skill</h2>
+      <p>Pick whichever method you prefer:</p>
+
+      <h3>
+        Option A: <a href="https://www.sundialhub.com">Sundial Hub</a>
+      </h3>
+      <pre>
+        <code>npx sundial-hub add melvynx/api2cli</code>
+      </pre>
+      <p>
+        <a href="https://www.sundialhub.com">Sundial</a> is the open registry
+        for agent skills. It auto-detects your coding agents (Claude Code,
+        Cursor, Codex, Gemini CLI, and more) and installs the skill to all of
+        them.
+      </p>
+
+      <h3>
+        Option B: <a href="https://github.com/vercel-labs/skills">Skills CLI</a>
+      </h3>
       <pre>
         <code>npx skills add Melvynx/api2cli</code>
       </pre>
       <p>
-        That&apos;s it. The{" "}
-        <a href="https://github.com/vercel-labs/skills">
-          skills CLI
-        </a>{" "}
-        auto-detects your coding agents (Claude Code, Cursor, Codex, OpenClaw,
-        Gemini CLI, and{" "}
-        <a href="https://github.com/vercel-labs/skills#available-agents">
-          37+ more
-        </a>
-        ) and installs the skill to all of them.
+        The{" "}
+        <a href="https://github.com/vercel-labs/skills">skills CLI</a> also
+        auto-detects your agents and installs to all of them.
       </p>
 
-      <h3>Options</h3>
+      <h3>Options (both CLIs)</h3>
       <pre>
         <code>{`# Install to specific agents only
 npx skills add Melvynx/api2cli -a claude-code -a cursor
@@ -32,17 +100,11 @@ npx skills add Melvynx/api2cli -a claude-code -a cursor
 # Install globally (available across all projects)
 npx skills add Melvynx/api2cli -g
 
-# Install specific skill from the repo
-npx skills add Melvynx/api2cli --skill api2cli
-
 # Non-interactive (CI/CD friendly)
 npx skills add Melvynx/api2cli -g -a claude-code -y
 
 # Direct path to skill
-npx skills add https://github.com/Melvynx/api2cli/tree/dev/skills/api2cli
-
-# List available skills without installing
-npx skills add Melvynx/api2cli --list`}</code>
+npx skills add https://github.com/Melvynx/api2cli/tree/dev/skills/api2cli`}</code>
       </pre>
 
       <h2>2. Ask Your Agent</h2>
@@ -126,7 +188,10 @@ npx api2cli install owner/repo`}</code>
 
       <h2>Manage Your Skills</h2>
       <pre>
-        <code>{`# List installed skills
+        <code>{`# List installed skills (Sundial)
+npx sundial-hub installed
+
+# List installed skills (Skills CLI)
 npx skills list
 
 # Remove a skill

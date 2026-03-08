@@ -1,4 +1,18 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Documentation - Learn to Build Agent-Ready CLIs",
+  description:
+    "Complete guide to api2cli: install the skill, create CLI wrappers for any REST API, add resources, and publish to the registry. Works with Claude Code, Cursor, Codex, and 40+ agents.",
+  alternates: { canonical: "https://api2cli.dev/docs" },
+  openGraph: {
+    title: "api2cli Documentation",
+    description:
+      "Complete guide to building agent-ready CLI wrappers for REST APIs.",
+    url: "https://api2cli.dev/docs",
+  },
+};
 
 const cards = [
   {

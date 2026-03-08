@@ -1,6 +1,35 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Commands Reference - Every api2cli Command and Flag",
+  description:
+    "Complete reference for api2cli commands: create, bundle, link, install, publish, and all generated CLI conventions including auth, resources, global flags, and help.",
+  alternates: { canonical: "https://api2cli.dev/docs/commands" },
+  openGraph: {
+    title: "api2cli Commands Reference",
+    description:
+      "Every command and flag in the api2cli ecosystem, fully documented.",
+    url: "https://api2cli.dev/docs/commands",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+    { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+    { "@type": "ListItem", position: 3, name: "Commands Reference" },
+  ],
+};
+
 export default function Commands() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Commands Reference</h1>
       <p>Every command available in the api2cli ecosystem.</p>
 

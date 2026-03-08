@@ -9,21 +9,51 @@ export const metadata: Metadata = {
     default: "api2cli - Turn any API into an agent-ready CLI",
     template: "%s | api2cli",
   },
-  description: "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
+  description:
+    "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
   metadataBase: new URL("https://api2cli.dev"),
+  keywords: [
+    "api2cli",
+    "CLI",
+    "REST API",
+    "AI agent",
+    "command line",
+    "API wrapper",
+    "developer tools",
+    "Claude Code",
+    "Cursor",
+    "Codex",
+    "MCP alternative",
+    "agent skills",
+    "open source",
+  ],
+  authors: [{ name: "Melvynx", url: "https://github.com/Melvynx" }],
+  creator: "Melvynx",
   openGraph: {
     title: "api2cli - Turn any API into an agent-ready CLI",
-    description: "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
+    description:
+      "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
     url: "https://api2cli.dev",
     siteName: "api2cli",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "api2cli - Turn any API into an agent-ready CLI",
-    description: "The open-source marketplace of standardized CLI wrappers for REST APIs.",
+    description:
+      "The open-source marketplace of standardized CLI wrappers for REST APIs.",
+    creator: "@maboroshi_melvynx",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+  },
+  alternates: {
+    canonical: "https://api2cli.dev",
+  },
 };
 
 export default function RootLayout({

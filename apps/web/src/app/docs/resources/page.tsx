@@ -1,6 +1,35 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Add Resources - The CRUD Pattern for API Endpoints",
+  description:
+    "Learn the resource pattern for mapping REST API endpoints to standardized CLI commands. Each resource is a TypeScript file with list, get, create, update, and delete actions.",
+  alternates: { canonical: "https://api2cli.dev/docs/resources" },
+  openGraph: {
+    title: "api2cli Resource Pattern",
+    description:
+      "Map REST API endpoints to standardized CLI commands with the resource pattern.",
+    url: "https://api2cli.dev/docs/resources",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+    { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+    { "@type": "ListItem", position: 3, name: "Add Resources" },
+  ],
+};
+
 export default function Resources() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Add Resources</h1>
       <p>
         Resources map to API endpoints. Each resource is a single TypeScript

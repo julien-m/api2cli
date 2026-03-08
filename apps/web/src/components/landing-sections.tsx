@@ -752,12 +752,14 @@ export function UniversalSection() {
 }
 
 /* ─── FINAL CTA ─── */
+const CTA_CMD = "npx sundial-hub add melvynx/api2cli";
+
 export function FinalCtaSection() {
   const { ref, inView } = useInView(0.1);
   const [copied, setCopied] = useState(false);
 
   const copyCommand = () => {
-    navigator.clipboard.writeText("npx skills add Melvynx/api2cli");
+    navigator.clipboard.writeText(CTA_CMD);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -792,7 +794,7 @@ export function FinalCtaSection() {
               className="group flex w-full items-center justify-center gap-3 rounded-xl border border-border/40 bg-card/20 px-5 py-3.5 font-mono text-sm transition-all hover:border-[#D54747]/30 hover:bg-card/40"
             >
               <span className="text-muted-foreground/40">$</span>
-              <span>npx skills add Melvynx/api2cli</span>
+              <span>{CTA_CMD}</span>
               <span className="rounded-md bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground transition-colors group-hover:bg-[#D54747]/10 group-hover:text-[#D54747]">
                 {copied ? "Copied!" : "Copy"}
               </span>

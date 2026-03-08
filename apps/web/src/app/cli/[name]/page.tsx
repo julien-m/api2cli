@@ -41,6 +41,57 @@ export default async function CliDetailPage({ params }: { params: Params }) {
 
   if (!skill) notFound();
 
+  const cliJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        name: skill.displayName,
+        description:
+          skill.description ||
+          `CLI wrapper for the ${skill.displayName} API`,
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "macOS, Linux, Windows",
+        url: `https://api2cli.dev/cli/${skill.name}`,
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        ...(skill.authorGithub && {
+          author: {
+            "@type": "Person",
+            name: skill.authorGithub,
+            url: `https://github.com/${skill.authorGithub}`,
+          },
+        }),
+        ...(skill.version && { softwareVersion: skill.version }),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://api2cli.dev",
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "CLIs",
+            item: "https://api2cli.dev/cli",
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: skill.displayName,
+          },
+        ],
+      },
+    ],
+  };
+
   const repoUrl = skill.githubRepo?.startsWith("http")
     ? skill.githubRepo
     : skill.githubRepo
@@ -49,6 +100,10 @@ export default async function CliDetailPage({ params }: { params: Params }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(cliJsonLd) }}
+      />
       <Navbar />
       <main className="mx-auto w-full max-w-4xl flex-1 px-6 py-16">
         <div className="mb-10">

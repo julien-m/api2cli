@@ -1,8 +1,3 @@
----
-name: api2cli-publish-to-npm
-description: Publishes an api2cli-generated CLI package to the npm registry. Handles package.json validation, version bumping, building, and npm publish. Use when user asks to "publish to npm", "release to npm", "publish this CLI", "npm publish", "make this installable via npx", "publish a new version", or "update npm".
----
-
 # Publish to npm
 
 Publish an api2cli-generated CLI to the npm registry so users can install it with `npm i -g <name>` or run it with `npx <name>`.
@@ -36,7 +31,7 @@ Read `name` from `package.json`. Determine the publish name:
 
 ## Phase 2: Validate package.json
 
-Fix `package.json` so it's npm-ready. See [references/package-checklist.md](references/package-checklist.md) for details.
+Fix `package.json` so it's npm-ready. See [package-checklist.md](package-checklist.md) for details.
 
 Apply silently:
 - `name` and `version` match resolved values

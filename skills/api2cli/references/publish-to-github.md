@@ -1,8 +1,3 @@
----
-name: api2cli-publish-to-github
-description: Publishes an api2cli-generated CLI to a GitHub repository. Handles git init, .gitignore, committing, and gh repo create. Use when user asks to "push to github", "publish to github", "create a github repo", "add to github", or "put this on github".
----
-
 # Publish to GitHub
 
 Push an api2cli-generated CLI (from `~/.cli/<app>-cli/`) to a new GitHub repository.

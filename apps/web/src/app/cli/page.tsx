@@ -14,6 +14,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://api2cli.dev/cli" },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "CLIs - api2cli",
+  description:
+    "Browse community-built CLI wrappers for REST APIs. Install any CLI in seconds.",
+  url: "https://api2cli.dev/cli",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "api2cli",
+    url: "https://api2cli.dev",
+  },
+};
+
 export default async function CliListPage() {
   const allSkills = await db
     .select()
@@ -23,6 +37,10 @@ export default async function CliListPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 pb-24 pt-12">
         <section id="cli">

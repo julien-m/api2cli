@@ -1,6 +1,6 @@
 ---
 name: api2cli
-description: "Generate a CLI + AgentSkill from any REST API. Use when: user says 'create a CLI for X', 'wrap this API', 'make a skill for X', or 'publish my CLI'. Handles discovery, scaffolding, resource implementation, building, linking, skill generation, and publishing."
+description: "Generate a CLI + AgentSkill from any REST API. Use when: user says 'create a CLI for X', 'wrap this API', 'make a skill for X', 'publish my CLI', 'publish to npm', 'push to github'. Handles discovery, scaffolding, resource implementation, building, linking, skill generation, npm publishing, and GitHub publishing."
 ---
 
 # api2cli
@@ -56,9 +56,45 @@ See [references/skill-generation.md](references/skill-generation.md) for the tem
 
 ### 6. Publish (when user asks)
 
-Push to GitHub and register on api2cli.dev so others can install with one command.
+Before any publish target, run these pre-flight checks:
 
-See [references/publish.md](references/publish.md) for the full publish workflow.
+1. **Verify `gh` CLI is authenticated**: run `gh auth status`. If not logged in, ask the user to run `gh auth login` first. **Stop and wait.**
+2. **Check if the CLI is already on GitHub**: run `git remote get-url origin` in the CLI directory.
+   - If no remote exists → the CLI is not on GitHub yet. **Automatically run the GitHub publish flow first** (see below) before proceeding to npm or registry publish.
+   - If a remote exists → already on GitHub, continue.
+
+#### To GitHub
+
+Push the CLI to a public GitHub repo.
+
+See [references/publish-to-github.md](references/publish-to-github.md) for pre-flight checks, repo creation, and push workflow.
+
+#### To npm
+
+Requires the CLI to be on GitHub first (for `repository` field in package.json). If not on GitHub, run the GitHub publish flow above first.
+
+Publish the CLI to the npm registry so users can `npm i -g <name>` or `npx <name>`.
+
+See [references/publish-to-npm.md](references/publish-to-npm.md) for auth, package.json validation, build, verify, and publish workflow. Also see [references/package-checklist.md](references/package-checklist.md) for the field-by-field package.json reference.
+
+#### To Sundial Hub
+
+Publish the generated skill to the Sundial Hub so any agent (Claude Code, Cursor, Codex, etc.) can install it.
+
+1. **Auth**: run `npx sundial-hub auth status`. If not authenticated, ask the user to run `npx sundial-hub auth login` first. **Stop and wait.**
+2. **Push the skill**: run `npx sundial-hub push <cli-dir>/skills/<app>-cli --visibility public --categories coding`
+3. After publish, users can install with:
+   ```bash
+   npx sundial-hub add <sundial-username>/<app>-cli
+   ```
+
+#### To api2cli.dev registry
+
+Requires the CLI to be on GitHub first. If not on GitHub, run the GitHub publish flow above first.
+
+Register on api2cli.dev so others can install with `npx api2cli install <name>`.
+
+See [references/publish.md](references/publish.md) for the registry publish workflow.
 
 ## Conventions
 

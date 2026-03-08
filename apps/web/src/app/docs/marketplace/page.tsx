@@ -1,6 +1,35 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Registry - Share and Install Community CLIs",
+  description:
+    "Browse and install community-built CLI wrappers from the api2cli registry. Publish your own CLI via Sundial Hub, the website, or the API. One command to install, fully agent-ready.",
+  alternates: { canonical: "https://api2cli.dev/docs/marketplace" },
+  openGraph: {
+    title: "api2cli Registry",
+    description:
+      "Share and install community-built CLI wrappers for REST APIs.",
+    url: "https://api2cli.dev/docs/marketplace",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://api2cli.dev" },
+    { "@type": "ListItem", position: 2, name: "Docs", item: "https://api2cli.dev/docs" },
+    { "@type": "ListItem", position: 3, name: "Registry" },
+  ],
+};
+
 export default function Marketplace() {
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <h1>Registry</h1>
       <p>
         The api2cli registry lets the community share CLI wrappers. Before
@@ -40,6 +69,26 @@ npx api2cli install owner/repo --force`}</code>
         Share your CLI with the community. Push your repo to GitHub, then
         publish it to the registry:
       </p>
+
+      <h3>Via Sundial Hub</h3>
+      <p>
+        Publish the generated skill to{" "}
+        <a href="https://www.sundialhub.com">Sundial Hub</a> so any agent can
+        install it:
+      </p>
+      <pre>
+        <code>{`# Login (one-time)
+npx sundial-hub auth login
+
+# Push the skill
+npx sundial-hub push path/to/skills/<app>-cli --visibility public --categories coding`}</code>
+      </pre>
+      <p>
+        After publishing, anyone can install with:
+      </p>
+      <pre>
+        <code>{`npx sundial-hub add <your-username>/<app>-cli`}</code>
+      </pre>
 
       <h3>Via the website</h3>
       <p>

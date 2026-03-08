@@ -17,6 +17,79 @@ import {
 
 export const revalidate = 60;
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "api2cli",
+      url: "https://api2cli.dev",
+      logo: "https://api2cli.dev/logo.svg",
+      description:
+        "The open-source marketplace of standardized CLI wrappers for REST APIs.",
+      sameAs: ["https://github.com/Melvynx/api2cli"],
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "api2cli",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "macOS, Linux, Windows",
+      description:
+        "Turn any REST API into an agent-ready CLI. Install in seconds, works with every AI agent.",
+      url: "https://api2cli.dev",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      author: {
+        "@type": "Person",
+        name: "Melvynx",
+        url: "https://github.com/Melvynx",
+      },
+    },
+    {
+      "@type": "WebSite",
+      name: "api2cli",
+      url: "https://api2cli.dev",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://api2cli.dev/cli?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is api2cli?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "api2cli is an open-source tool that turns any REST API into a standardized, agent-ready CLI. Install a skill in your AI coding agent, tell it what API you need, and it auto-generates a complete CLI wrapper.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How is api2cli different from MCP?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "CLIs are ~25ms vs ~800ms for MCP, require no WebSocket server, work with any agent that can run shell commands, and follow a universal standardized pattern. No plugins or server setup needed.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Which AI agents does api2cli work with?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "api2cli works with 40+ coding agents including Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot, Windsurf, Cline, and many more via the AgentSkills standard.",
+          },
+        },
+      ],
+    },
+  ],
+};
+
 export default async function Home() {
   const allSkills = await db
     .select()
@@ -26,6 +99,10 @@ export default async function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
       <Hero />
 
