@@ -96,16 +96,23 @@ npx api2cli update <app> [--docs <url>] [--openapi <url>]
 
 This is agent-driven: update resources in `<cli>/src/resources/` then rebuild.
 
-## Registry Commands (coming soon)
+## Registry Commands
 
 ### install
 
+Install a CLI from a GitHub repo. Clones, builds, links to PATH, and symlinks the skill to agent directories.
+
 ```bash
-npx api2cli install <app> [--force]
+npx api2cli install <source> [--force]
 ```
 
-### publish
+| Flag | Description |
+|------|-------------|
+| `<source>` | GitHub repo (`owner/repo`, full URL, or app name from registry) |
+| `--force` | Overwrite existing CLI |
 
 ```bash
-npx api2cli publish <app> [--scope <scope>]
+npx api2cli install Melvynx/typefully-cli
+npx api2cli install https://github.com/Melvynx/typefully-cli
+npx api2cli install typefully    # looks up in api2cli.dev registry
 ```
