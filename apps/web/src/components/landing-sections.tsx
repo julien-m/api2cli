@@ -32,7 +32,13 @@ export function OpenClawSection() {
   useEffect(() => {
     if (!inView) return;
     const interval = setInterval(() => {
-      setActiveStep((s) => (s + 1) % 3);
+      setActiveStep((s) => {
+        if (s >= 2) {
+          clearInterval(interval);
+          return 2;
+        }
+        return s + 1;
+      });
     }, 2500);
     return () => clearInterval(interval);
   }, [inView]);
@@ -381,7 +387,7 @@ export function CliVsMcpSection() {
                 <th className="px-6 py-4 text-left font-mono text-xs tracking-wider text-muted-foreground/50 uppercase">
                   Feature
                 </th>
-                <th className="px-6 py-4 text-center font-mono text-xs tracking-wider text-muted-foreground/30 uppercase line-through">
+                <th className="px-6 py-4 text-center font-mono text-xs tracking-wider text-[#D54747]/70 uppercase line-through">
                   MCP
                 </th>
                 <th className="px-6 py-4 text-center font-mono text-xs tracking-wider text-emerald-500/80 uppercase">
@@ -407,7 +413,7 @@ export function CliVsMcpSection() {
                   <td className="px-6 py-3 font-medium text-foreground/80">
                     {feature}
                   </td>
-                  <td className="px-6 py-3 text-center text-muted-foreground/40">
+                  <td className="px-6 py-3 text-center font-medium text-[#D54747]/70">
                     {mcp}
                   </td>
                   <td className="px-6 py-3 text-center font-medium text-emerald-400">
@@ -516,15 +522,15 @@ export function CliIsNewSkillSection() {
             className={`lg:col-span-2 transition-all delay-300 duration-1000 ${inView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"}`}
           >
             {/* Skill card - struck through */}
-            <div className="relative mb-4 overflow-hidden rounded-xl border border-border/30 bg-card/20 p-5 opacity-60">
+            <div className="relative mb-4 overflow-hidden rounded-xl border border-[#D54747]/30 bg-[#D54747]/[0.03] p-5">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="h-px w-[140%] -rotate-12 bg-destructive/40" />
+                <div className="h-px w-[140%] -rotate-12 bg-[#D54747]/50" />
               </div>
               <div className="relative">
-                <div className="mb-3 font-mono text-xs text-muted-foreground/40 uppercase">
+                <div className="mb-3 font-mono text-xs text-[#D54747] uppercase">
                   Old way: Agent Skill
                 </div>
-                <pre className="overflow-x-auto rounded-lg bg-[#0a0a0a] p-3 font-mono text-xs text-muted-foreground/50">
+                <pre className="overflow-x-auto rounded-lg bg-[#0a0a0a] p-3 font-mono text-xs text-[#D54747]/60">
 {`# SKILL.md — 847 lines
 # Loaded into context every call
 # ~12,000 tokens consumed
@@ -536,10 +542,10 @@ export function CliIsNewSkillSection() {
 4. Hope MCP connects...`}
                 </pre>
                 <div className="mt-3 flex gap-2">
-                  <span className="rounded bg-destructive/10 px-2 py-0.5 font-mono text-xs text-destructive">
+                  <span className="rounded bg-[#D54747]/10 px-2 py-0.5 font-mono text-xs text-[#D54747]">
                     12K tokens/call
                   </span>
-                  <span className="rounded bg-destructive/10 px-2 py-0.5 font-mono text-xs text-destructive">
+                  <span className="rounded bg-[#D54747]/10 px-2 py-0.5 font-mono text-xs text-[#D54747]">
                     Fragile
                   </span>
                 </div>
@@ -773,24 +779,11 @@ export function FinalCtaSection() {
         }}
       />
 
-      <div className="relative mx-auto max-w-3xl px-6 text-center">
+      <div className="relative mx-auto max-w-md px-6 text-center">
         <div
           className={`transition-all duration-1000 ${inView ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
         >
-          <h2 className="font-[family-name:var(--font-geist-pixel-square)] text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Stop configuring.
-            <br />
-            <span className="bg-gradient-to-r from-[#D54747] to-[#FF8A65] bg-clip-text text-transparent">
-              Start building.
-            </span>
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-lg text-lg text-muted-foreground">
-            One command. Every API at your fingertips. Your agent will never
-            be the same.
-          </p>
-
-          <div className="mx-auto mt-10 max-w-md space-y-4">
+          <div className="space-y-4">
             <div className="flex gap-3">
               <Link
                 href="/docs/getting-started"
@@ -816,16 +809,6 @@ export function FinalCtaSection() {
                 {copied ? "Copied!" : "Copy"}
               </span>
             </button>
-          </div>
-
-          <div className="mt-12 flex items-center justify-center gap-6 text-xs text-muted-foreground/40">
-            <span>Open Source</span>
-            <span className="h-3 w-px bg-border/30" />
-            <span>MIT License</span>
-            <span className="h-3 w-px bg-border/30" />
-            <span>Built with Bun</span>
-            <span className="h-3 w-px bg-border/30" />
-            <span>Zero runtime deps</span>
           </div>
         </div>
       </div>

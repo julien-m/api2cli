@@ -28,7 +28,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       onMouseMove={handleMouseMove}
-      className="relative border-b border-border/50 bg-gradient-to-b from-background via-background to-muted/20"
+      className="relative overflow-hidden border-b border-border/30"
     >
       {/* Red glow from top with subtle mouse parallax */}
       <div
@@ -75,7 +75,7 @@ export function Hero() {
           <h1 className="font-[family-name:var(--font-geist-pixel-square)] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
             Superpower your agents
             <br />
-            <span className="bg-gradient-to-r from-white to-[#D54747] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#D54747] to-[#FF8A65] bg-clip-text text-transparent">
               with tailor made CLI.
             </span>
           </h1>
@@ -90,7 +90,7 @@ export function Hero() {
             <div className="flex gap-3">
               <Link
                 href="/docs/getting-started"
-                className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-primary font-mono text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-[#D54747] font-mono text-sm font-semibold text-white transition-all hover:bg-[#c03d3d] hover:shadow-lg hover:shadow-[#D54747]/20"
               >
                 Create my CLI
               </Link>
@@ -116,29 +116,6 @@ export function Hero() {
             </p>
           </div>
 
-          {/* Stats */}
-          <div className="mt-10 flex items-center justify-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <span className="font-mono font-semibold text-foreground">
-                15+
-              </span>
-              <span>Agent platforms</span>
-            </div>
-            <div className="h-4 w-px bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="font-mono font-semibold text-foreground">
-                ~25ms
-              </span>
-              <span>Startup</span>
-            </div>
-            <div className="h-4 w-px bg-border" />
-            <div className="flex items-center gap-2">
-              <span className="font-mono font-semibold text-foreground">
-                0
-              </span>
-              <span>Runtime deps</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
