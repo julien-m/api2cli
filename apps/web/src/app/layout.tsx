@@ -5,9 +5,25 @@ import { GeistPixelSquare } from "geist/font/pixel";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "api2cli — Turn any API into an agent-ready CLI",
-  description:
-    "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
+  title: {
+    default: "api2cli - Turn any API into an agent-ready CLI",
+    template: "%s | api2cli",
+  },
+  description: "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
+  metadataBase: new URL("https://api2cli.dev"),
+  openGraph: {
+    title: "api2cli - Turn any API into an agent-ready CLI",
+    description: "The open-source marketplace of standardized CLI wrappers for REST APIs. Install in seconds, works with every AI agent.",
+    url: "https://api2cli.dev",
+    siteName: "api2cli",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "api2cli - Turn any API into an agent-ready CLI",
+    description: "The open-source marketplace of standardized CLI wrappers for REST APIs.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

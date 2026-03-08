@@ -6,10 +6,28 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
+import { Metadata } from "next";
 
 export const revalidate = 60;
 
 type Params = Promise<{ name: string }>;
+
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+  const { name } = await params;
+  const [skill] = await db.select().from(skills).where(eq(skills.name, name)).limit(1);
+  if (!skill) return { title: "Not Found - api2cli" };
+  return {
+    title: `${skill.displayName} - api2cli`,
+    description: skill.description || `Install ${skill.displayName} CLI with npx api2cli install ${skill.name}`,
+    alternates: { canonical: `https://api2cli.dev/registry/${skill.name}` },
+    openGraph: {
+      title: `${skill.displayName} - api2cli`,
+      description: skill.description || `Install ${skill.displayName} CLI`,
+      url: `https://api2cli.dev/registry/${skill.name}`,
+      type: "website",
+    },
+  };
+}
 
 export default async function RegistryPage({ params }: { params: Params }) {
   const { name } = await params;
