@@ -84,7 +84,7 @@ export function SkillCard({ skill }: { skill: Skill }) {
         </CardHeader>
         <CardContent className="flex flex-1 flex-col">
           {skill.description && (
-            <p className="mb-4 line-clamp-2 flex-1 text-sm text-muted-foreground">
+            <p className="mb-4 line-clamp-1 flex-1 text-sm text-muted-foreground">
               {skill.description}
             </p>
           )}

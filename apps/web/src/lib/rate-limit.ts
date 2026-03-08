@@ -10,25 +10,31 @@ import { redis } from "./redis";
  * - publish: heavy operations like CLI publish (5 req / 60s)
  */
 
+const RATE_LIMIT_READ = 1_000_000;
+const RATE_LIMIT_WRITE = 1_000_000;
+const RATE_LIMIT_VOTE = 1_000_000;
+const RATE_LIMIT_PUBLISH = 1_000_000;
+const RATE_LIMIT_WINDOW = "60 s";
+
 export const rateLimiters = {
   read: new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(60, "60 s"),
+    limiter: Ratelimit.slidingWindow(RATE_LIMIT_READ, RATE_LIMIT_WINDOW),
     prefix: "rl:read",
   }),
   write: new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(10, "60 s"),
+    limiter: Ratelimit.slidingWindow(RATE_LIMIT_WRITE, RATE_LIMIT_WINDOW),
     prefix: "rl:write",
   }),
   vote: new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(20, "60 s"),
+    limiter: Ratelimit.slidingWindow(RATE_LIMIT_VOTE, RATE_LIMIT_WINDOW),
     prefix: "rl:vote",
   }),
   publish: new Ratelimit({
     redis,
-    limiter: Ratelimit.slidingWindow(5, "60 s"),
+    limiter: Ratelimit.slidingWindow(RATE_LIMIT_PUBLISH, RATE_LIMIT_WINDOW),
     prefix: "rl:publish",
   }),
 } as const;

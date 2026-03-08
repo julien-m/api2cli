@@ -135,7 +135,7 @@ export async function POST(request: Request) {
     const skillMd = await fetchRawFile(owner, repo, "SKILL.md");
 
     // Extract description: prefer SKILL.md frontmatter > repo description > package.json
-    let description = repoData.description || "";
+    let description = repoData.description || packageJson?.description || "";
     let skillName = repo
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, "-");

@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
-import { RefreshReadmeButton } from "@/components/refresh-readme-button";
 import Link from "next/link";
 import { Metadata } from "next";
 
