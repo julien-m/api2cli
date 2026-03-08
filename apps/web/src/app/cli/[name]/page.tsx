@@ -152,18 +152,15 @@ export default async function CliDetailPage({ params }: { params: Params }) {
 
         {/* README */}
         <section className="mb-10">
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              README
-            </h2>
-            <RefreshReadmeButton skillName={skill.name} />
-          </div>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            README
+          </h2>
           {skill.readme ? (
             <MarkdownRenderer content={skill.readme} />
           ) : (
             <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">
-              No README found. Click &ldquo;Refresh from GitHub&rdquo; to fetch
-              it, or add a README.md to your repository.
+              No README found. Add a README.md to your repository and
+              re-publish to update it.
             </div>
           )}
         </section>
