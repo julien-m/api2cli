@@ -24,37 +24,33 @@ function parseGithubUrl(url: string): { owner: string; repo: string } | null {
 }
 
 async function fetchGithub(path: string) {
-  const res = await fetch(`https://api.github.com${path}`, {
-    headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
-      Accept: "application/vnd.github.v3+json",
-      "User-Agent": "api2cli-web",
-    },
-  });
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github.v3+json",
+    "User-Agent": "api2cli-web",
+  };
+  if (GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+  }
+  const res = await fetch(`https://api.github.com${path}`, { headers });
   if (!res.ok) return null;
   return res.json();
 }
 
 async function fetchRawFile(owner: string, repo: string, path: string) {
+  const headers: Record<string, string> = {
+    "User-Agent": "api2cli-web",
+  };
+  if (GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+  }
   const res = await fetch(
     `https://raw.githubusercontent.com/${owner}/${repo}/main/${path}`,
-    {
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        "User-Agent": "api2cli-web",
-      },
-    }
+    { headers }
   );
   if (!res.ok) {
-    // Try default branch
     const res2 = await fetch(
       `https://raw.githubusercontent.com/${owner}/${repo}/master/${path}`,
-      {
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          "User-Agent": "api2cli-web",
-        },
-      }
+      { headers }
     );
     if (!res2.ok) return null;
     return res2.text();
