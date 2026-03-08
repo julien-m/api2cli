@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "packages/cli/**"
 
 jobs:
   release:
@@ -55,12 +57,15 @@ jobs:
       - name: Check for changes since last tag
         id: changes
         run: |
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          LAST_TAG=$(git tag -l 'v*' --sort=-v:refname | head -1)
+          echo "Last tag: $LAST_TAG"
           if [ -z "$LAST_TAG" ]; then
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
-            CHANGES=$(git diff --name-only $LAST_TAG HEAD -- packages/cli/ ':!packages/cli/package.json' | wc -l)
-            if [ "$CHANGES" -gt 0 ]; then
+            CHANGED_FILES=$(git diff --name-only $LAST_TAG HEAD -- packages/cli/ ':!packages/cli/package.json')
+            echo "Changed files since $LAST_TAG:"
+            echo "$CHANGED_FILES"
+            if [ -n "$CHANGED_FILES" ]; then
               echo "has_changes=true" >> $GITHUB_OUTPUT
             else
               echo "has_changes=false" >> $GITHUB_OUTPUT

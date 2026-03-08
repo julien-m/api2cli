@@ -15,18 +15,16 @@ export default function Commands() {
         <tbody>
           {[
             ["create <app>", "Generate a new CLI from API docs"],
-            ["bundle <app>", "Build a CLI from source"],
-            ["bundle --all", "Build all installed CLIs"],
-            ["link <app>", "Add a CLI to PATH"],
-            ["link --all", "Link all CLIs"],
+            ["bundle <app> [--compile] [--all]", "Build a CLI from source (--compile for standalone binary)"],
+            ["link <app> [--all]", "Add a CLI to PATH"],
             ["unlink <app>", "Remove from PATH"],
-            ["list", "List all installed CLIs"],
-            ["tokens", "List all configured tokens (masked)"],
-            ["remove <app>", "Remove a CLI entirely"],
+            ["list [--json]", "List all installed CLIs"],
+            ["tokens [--show]", "List all configured tokens (masked)"],
+            ["remove <app> [--keep-token]", "Remove a CLI entirely"],
             ["doctor", "Check system requirements"],
-            ["install <repo>", "Install a CLI from GitHub (clone, build, link, symlink skill)"],
-            ["publish <app>", "Publish to registry (use web UI or API instead)"],
-            ["update <app>", "Re-sync with API changes"],
+            ["install <source> [--force]", "Install a CLI from GitHub (clone, build, link, symlink skill)"],
+            ["publish <app> [--github <url>] [--category <cat>]", "Publish to registry"],
+            ["update <app>", "Re-sync with API changes (agent-driven)"],
           ].map(([cmd, desc]) => (
             <tr key={cmd}>
               <td>

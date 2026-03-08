@@ -25,11 +25,15 @@ export function SkillCard({ skill }: { skill: Skill }) {
     e.stopPropagation();
     if (direction === "up") setUpvotes((v) => v + 1);
     else setDownvotes((v) => v + 1);
-    await fetch(`/api/skills/${skill.name}/vote`, {
+    const res = await fetch(`/api/skills/${skill.name}/vote`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ direction }),
     });
+    if (!res.ok) {
+      if (direction === "up") setUpvotes((v) => v - 1);
+      else setDownvotes((v) => v - 1);
+    }
   };
 
   const popularityColor =

@@ -140,8 +140,11 @@ export async function POST(request: Request) {
     // Fetch README for description extraction
     const readme = await fetchRawFile(owner, repo, "README.md");
 
-    // Fetch SKILL.md if it exists
-    const skillMd = await fetchRawFile(owner, repo, "SKILL.md");
+    // Fetch SKILL.md if it exists (check root first, then skills/<repo>/)
+    let skillMd = await fetchRawFile(owner, repo, "SKILL.md");
+    if (!skillMd) {
+      skillMd = await fetchRawFile(owner, repo, `skills/${repo}/SKILL.md`);
+    }
 
     // Extract description: prefer SKILL.md frontmatter > repo description > package.json
     let description = repoData.description || packageJson?.description || "";

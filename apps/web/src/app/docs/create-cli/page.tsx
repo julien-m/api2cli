@@ -18,8 +18,8 @@ export default function CreateCli() {
           <code>https://api.example.com</code>)
         </li>
         <li>
-          Determine the <strong>auth type</strong>: bearer token, API key, or
-          basic auth
+          Determine the <strong>auth type</strong>: bearer token, API key,
+          basic auth, or custom
         </li>
         <li>List all resources and their endpoints</li>
       </ol>
@@ -28,7 +28,7 @@ export default function CreateCli() {
       <pre>
         <code>{`api2cli create <app-name> \\
   --base-url <api-base-url> \\
-  --auth-type <bearer|api-key|basic> \\
+  --auth-type <bearer|api-key|basic|custom> \\
   --docs <docs-url>            # optional
   --openapi <openapi-url>      # optional`}</code>
       </pre>
@@ -104,7 +104,7 @@ export default function CreateCli() {
 
       <h2>Step 4: Build and Link</h2>
       <pre>
-        <code>{`# Build the CLI (generates a ~5KB JS bundle)
+        <code>{`# Build the CLI
 api2cli bundle <app>
 
 # Add to your PATH (auto-updates .zshrc/.bashrc)
@@ -147,8 +147,7 @@ api2cli link <app>
         </li>
         <li>
           <strong>API:</strong>{" "}
-          <code>curl -X POST api2cli.dev/api/publish-cli -d
-          {`'{"githubUrl":"owner/repo"}'`}</code>
+          <code>{`curl -X POST https://api2cli.dev/api/publish-cli -H "Content-Type: application/json" -d '{"githubUrl":"owner/repo"}'`}</code>
         </li>
       </ul>
       <p>

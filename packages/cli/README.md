@@ -103,7 +103,7 @@ program.addCommand(draftsResource);
 ### 3. Build and link
 
 ```bash
-api2cli bundle <app>        # Build the CLI (~5KB JS bundle)
+api2cli bundle <app>        # Build the CLI
 api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 ```
 
@@ -122,18 +122,16 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 | Command | Description |
 |---------|-------------|
 | `api2cli create <app>` | Generate a new CLI from API docs |
-| `api2cli bundle <app>` | Build a CLI from source |
-| `api2cli bundle --all` | Build all installed CLIs |
-| `api2cli link <app>` | Add a CLI to PATH |
-| `api2cli link --all` | Link all CLIs |
+| `api2cli bundle <app> [--compile] [--all]` | Build a CLI from source (`--compile` for standalone binary) |
+| `api2cli link <app> [--all]` | Add a CLI to PATH |
 | `api2cli unlink <app>` | Remove from PATH |
-| `api2cli list` | List all installed CLIs |
-| `api2cli tokens` | List all configured tokens (masked) |
-| `api2cli remove <app>` | Remove a CLI entirely |
+| `api2cli list [--json]` | List all installed CLIs |
+| `api2cli tokens [--show]` | List all configured tokens (masked) |
+| `api2cli remove <app> [--keep-token]` | Remove a CLI entirely |
 | `api2cli doctor` | Check system requirements |
-| `api2cli install <app>` | Install from registry (coming soon) |
-| `api2cli publish <app>` | Publish to registry (coming soon) |
-| `api2cli update <app>` | Re-sync with API changes |
+| `api2cli install <source> [--force]` | Install from GitHub repo or registry |
+| `api2cli publish <app> [--github <url>] [--category <cat>]` | Publish to registry |
+| `api2cli update <app>` | Re-sync with API changes (agent-driven) |
 
 ### Generated CLIs (`<app>-cli`)
 

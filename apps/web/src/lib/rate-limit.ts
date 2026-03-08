@@ -10,10 +10,10 @@ import { redis } from "./redis";
  * - publish: heavy operations like CLI publish (5 req / 60s)
  */
 
-const RATE_LIMIT_READ = 1_000_000;
-const RATE_LIMIT_WRITE = 1_000_000;
-const RATE_LIMIT_VOTE = 1_000_000;
-const RATE_LIMIT_PUBLISH = 1_000_000;
+const RATE_LIMIT_READ = 60;
+const RATE_LIMIT_WRITE = 10;
+const RATE_LIMIT_VOTE = 3;
+const RATE_LIMIT_PUBLISH = 5;
 const RATE_LIMIT_WINDOW = "60 s";
 
 export const rateLimiters = {

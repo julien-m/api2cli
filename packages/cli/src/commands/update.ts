@@ -9,7 +9,7 @@ export const updateCommand = new Command("update")
   .option("--docs <url>", "Updated API documentation URL")
   .option("--openapi <url>", "Updated OpenAPI spec URL")
   .addHelpText("after", "\nExample:\n  api2cli update typefully --docs https://docs.typefully.com")
-  .action(async (app: string) => {
+  .action(async (app: string, opts) => {
     const cliDir = getCliDir(app);
 
     if (!existsSync(cliDir)) {
@@ -17,10 +17,14 @@ export const updateCommand = new Command("update")
       process.exit(1);
     }
 
-    // TODO: Agent-driven update flow
-    // Re-read API docs -> diff endpoints -> add/update resources -> rebuild
     console.log(`${pc.yellow("🚧")} Update is agent-driven.`);
     console.log(`\nUse your AI agent to update resources in:`);
     console.log(`  ${pc.dim(`${cliDir}/src/resources/`)}`);
+    if (opts.docs) {
+      console.log(`\nAPI docs: ${pc.cyan(opts.docs)}`);
+    }
+    if (opts.openapi) {
+      console.log(`OpenAPI spec: ${pc.cyan(opts.openapi)}`);
+    }
     console.log(`\nThen rebuild: ${pc.cyan(`api2cli bundle ${app}`)}`);
   });

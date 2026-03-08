@@ -175,8 +175,8 @@ Examples:
     // 5. Symlink skill to agent directories
     symlinkSkill(cliDir, appCli);
 
-    // Track install in registry
-    const trackName = skillName ?? getAppName(repo);
+    // Track install in registry (skills are stored with -cli suffix)
+    const trackName = skillName ?? (repo.endsWith("-cli") ? repo : `${repo}-cli`);
     fetch(`${REGISTRY_API}/skills/${trackName}/download`, { method: "POST" }).catch(
       () => {},
     );
