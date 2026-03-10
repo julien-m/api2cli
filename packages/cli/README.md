@@ -37,7 +37,8 @@ api2cli bundle typefully
 api2cli link typefully
 
 # Use it
-typefully-cli auth set "typ_xxx"
+typefully-cli auth set
+# Token: ******** (hidden input, press Enter)
 typefully-cli drafts list
 typefully-cli drafts create --text "Hello world" --platform x
 ```
@@ -61,7 +62,7 @@ api2cli create <app> [options]
 
 This creates `~/.cli/<app>-cli/` with:
 - HTTP client with retry/backoff
-- Auth module (tokens in `~/.config/tokens/`)
+- Auth module (tokens in OS keychain via `creds`)
 - Multi-format output (text, JSON, CSV, YAML)
 - Example resource file to copy
 
@@ -110,7 +111,7 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 ### 4. Use it
 
 ```bash
-<app>-cli auth set "your-token"
+<app>-cli auth set             # Prompts for token (hidden input)
 <app>-cli auth test
 <app>-cli <resource> list --json
 ```
@@ -139,7 +140,7 @@ Every generated CLI follows these exact conventions:
 
 ```bash
 # Authentication
-<app>-cli auth set <token>     # Save token (chmod 600)
+<app>-cli auth set             # Save token (interactive hidden prompt)
 <app>-cli auth show            # Display masked token
 <app>-cli auth show --raw      # Display full token
 <app>-cli auth test            # Verify token works
@@ -245,11 +246,12 @@ api2cli/
 
 ## Token Storage
 
-All tokens are stored in `~/.config/tokens/<app>-cli.txt` with `chmod 600`.
+All tokens are stored securely in the **OS keychain** (macOS Keychain, GNOME Keyring, Windows Credential Manager) via [`creds`](https://github.com/julien-m/keychain-creds). Tokens never touch the filesystem — no plain-text files, no `.env`, no config JSON.
 
 ```bash
-api2cli tokens              # List all tokens (masked)
-api2cli tokens --show       # Show full tokens
+<app>-cli auth set           # Interactive hidden prompt (or pipe: echo -n 'sk-xxx' | <app>-cli auth set)
+api2cli tokens               # List all tokens (masked)
+api2cli tokens --show        # Show full tokens
 ```
 
 ## License

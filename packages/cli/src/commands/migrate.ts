@@ -72,11 +72,11 @@ export function hasToken(): boolean {
   }
 }
 
-/** Save a token to the OS keychain via creds CLI. */
-export function setToken(token: string): void {
+/** Save a token to the OS keychain via creds CLI (interactive masked prompt). */
+export function setToken(): void {
   execFileSync("creds", ["set", CREDS_ENTRY], {
-    input: token.trim(),
     encoding: "utf-8",
+    stdio: "inherit",
   });
 }
 
@@ -125,11 +125,10 @@ export const authCommand = new Command("auth").description("Manage API authentic
 
 authCommand
   .command("set")
-  .description("Save your API token")
-  .argument("<token>", "Your API token")
-  .addHelpText("after", "\\nExample:\\n  {{APP_CLI}} auth set sk-abc123xyz")
-  .action(async (token: string) => {
-    setToken(token);
+  .description("Save your API token (interactive hidden prompt)")
+  .addHelpText("after", "\\nExample:\\n  {{APP_CLI}} auth set")
+  .action(async () => {
+    setToken();
     log.success("Token saved securely");
   });
 

@@ -33,11 +33,11 @@ export function hasToken(): boolean {
   }
 }
 
-/** Save a token to the OS keychain via creds CLI. */
-export function setToken(token: string): void {
+/** Save a token to the OS keychain via creds CLI (interactive masked prompt). */
+export function setToken(): void {
   execFileSync("creds", ["set", CREDS_ENTRY], {
-    input: token.trim(),
     encoding: "utf-8",
+    stdio: "inherit",
   });
 }
 

@@ -1,27 +1,26 @@
-import { Command } from "commander";
-import { getToken, setToken, removeToken, hasToken, maskToken } from "../lib/auth.js";
-import { client } from "../lib/client.js";
-import { log } from "../lib/logger.js";
-import { handleError } from "../lib/errors.js";
+import {Command} from "commander";
+import {getToken, hasToken, maskToken, removeToken, setToken} from "../lib/auth.js";
+import {client} from "../lib/client.js";
+import {log} from "../lib/logger.js";
+import {handleError} from "../lib/errors.js";
 
 export const authCommand = new Command("auth").description("Manage API authentication");
 
 authCommand
   .command("set")
-  .description("Save your API token")
-  .argument("<token>", "Your API token")
-  .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth set sk-abc123xyz")
-  .action(async (token: string) => {
-    setToken(token);
-    log.success("Token saved securely");
-  });
+    .description("Save your API token (interactive hidden prompt)")
+    .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth set\n  echo -n 'sk-xxx' | {{APP_CLI}} auth set")
+    .action(async () => {
+        setToken();
+        log.success("Token saved securely");
+    });
 
 authCommand
-  .command("show")
-  .description("Display current token (masked by default)")
-  .option("--raw", "Show the full unmasked token")
-  .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth show\n  {{APP_CLI}} auth show --raw")
-  .action(async (opts: { raw?: boolean }) => {
+    .command("show")
+    .description("Display current token (masked by default)")
+    .option("--raw", "Show the full unmasked token")
+    .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth show\n  {{APP_CLI}} auth show --raw")
+    .action(async (opts: { raw?: boolean }) => {
     if (!hasToken()) {
       log.warn("No token configured. Run: {{APP_CLI}} auth set <token>");
       return;
