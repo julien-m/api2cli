@@ -12,7 +12,7 @@ authCommand
   .argument("<token>", "Your API token")
   .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth set sk-abc123xyz")
   .action(async (token: string) => {
-    await setToken(token);
+    setToken(token);
     log.success("Token saved securely");
   });
 
@@ -22,11 +22,11 @@ authCommand
   .option("--raw", "Show the full unmasked token")
   .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth show\n  {{APP_CLI}} auth show --raw")
   .action(async (opts: { raw?: boolean }) => {
-    if (!(await hasToken())) {
+    if (!hasToken()) {
       log.warn("No token configured. Run: {{APP_CLI}} auth set <token>");
       return;
     }
-    const token = await getToken();
+    const token = getToken();
     console.log(opts.raw ? token : `Token: ${maskToken(token)}`);
   });
 
@@ -35,7 +35,7 @@ authCommand
   .description("Delete the saved token")
   .addHelpText("after", "\nExample:\n  {{APP_CLI}} auth remove")
   .action(async () => {
-    await removeToken();
+    removeToken();
     log.success("Token removed");
   });
 

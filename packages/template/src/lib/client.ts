@@ -36,7 +36,7 @@ async function request(method: Method, path: string, opts: RequestOptions = {}):
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     Accept: "application/json",
-    ...(await buildAuthHeaders()),
+    ...buildAuthHeaders(),
   };
 
   const fetchOpts: RequestInit = {

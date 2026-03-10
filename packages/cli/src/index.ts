@@ -11,6 +11,7 @@ import { removeCommand } from "./commands/remove.js";
 import { doctorCommand } from "./commands/doctor.js";
 import { updateCommand } from "./commands/update.js";
 import { publishCommand } from "./commands/publish.js";
+import { migrateCommand } from "./commands/migrate.js";
 
 const program = new Command();
 
@@ -33,6 +34,7 @@ program.addCommand(tokensCommand);
 program.addCommand(removeCommand);
 program.addCommand(doctorCommand);
 program.addCommand(updateCommand);
+program.addCommand(migrateCommand);
 
 // Registry
 program.addCommand(installCommand);

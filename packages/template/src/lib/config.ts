@@ -13,8 +13,8 @@ export const AUTH_TYPE = "{{AUTH_TYPE}}";
 /** Auth header name (e.g. Authorization, X-Api-Key) */
 export const AUTH_HEADER = "{{AUTH_HEADER}}";
 
-/** Keychain service name for token storage (compatible with creds CLI) */
-export const KEYCHAIN_SERVICE = "creds:{{CREDS_ENTRY}}";
+/** Creds entry for token storage (e.g. global/dev/myapp) — used by creds CLI */
+export const CREDS_ENTRY = "{{CREDS_ENTRY}}";
 
 /** Global state for output flags (set by root command) */
 export const globalFlags = {
