@@ -195,7 +195,10 @@ export async function POST(request: Request) {
       skillName = `${skillName}-cli`;
     }
 
-    const displayName = (repoData.name || repo).replace(/(-cli)+$/, "-cli");
+    let displayName = repoData.name || repo;
+    while (displayName.endsWith("-cli-cli")) {
+      displayName = displayName.slice(0, -4);
+    }
 
     // Determine category: body > SKILL.md frontmatter > guessCategory
     const topics: string[] = repoData.topics || [];
