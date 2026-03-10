@@ -152,6 +152,7 @@ export const createCommand = new Command("create")
   .option("--base-url <url>", "API base URL", "https://api.example.com")
   .option("--auth-type <type>", "Auth type: bearer, api-key, basic, custom", "bearer")
   .option("--auth-header <name>", "Auth header name", "Authorization")
+  .option("--creds-entry <entry>", "Creds keychain entry (defaults to global/dev/<app>). Uses macOS Keychain via creds CLI")
   .option("--force", "Overwrite existing CLI", false)
   .addHelpText(
     "after",
@@ -187,6 +188,7 @@ Examples:
       baseUrl: opts.baseUrl,
       authType: opts.authType,
       authHeader: opts.authHeader,
+      credsEntry: opts.credsEntry ?? `global/dev/${app}`,
     });
     console.log(`  ${pc.green("+")} Configured for ${pc.bold(app)}`);
 

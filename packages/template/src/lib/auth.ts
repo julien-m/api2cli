@@ -1,34 +1,33 @@
-import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync, chmodSync } from "fs";
-import { dirname } from "path";
-import { TOKEN_PATH, AUTH_TYPE, AUTH_HEADER, APP_CLI } from "./config.js";
+import keytar from "keytar";
+import { userInfo } from "os";
+import { KEYCHAIN_SERVICE, AUTH_TYPE, AUTH_HEADER, APP_CLI } from "./config.js";
 import { CliError } from "./errors.js";
 
-/** Check if a token is configured */
-export function hasToken(): boolean {
-  return existsSync(TOKEN_PATH);
+const ACCOUNT = userInfo().username;
+
+/** Check if a token is configured in the OS keychain */
+export async function hasToken(): Promise<boolean> {
+  const token = await keytar.getPassword(KEYCHAIN_SERVICE, ACCOUNT);
+  return token !== null;
 }
 
-/** Read the stored token. Throws if not configured. */
-export function getToken(): string {
-  if (!hasToken()) {
+/** Read the stored token from the OS keychain. Throws if not configured. */
+export async function getToken(): Promise<string> {
+  const token = await keytar.getPassword(KEYCHAIN_SERVICE, ACCOUNT);
+  if (!token) {
     throw new CliError(2, "No token configured.", `Run: ${APP_CLI} auth set <token>`);
   }
-  return readFileSync(TOKEN_PATH, "utf-8").trim();
+  return token;
 }
 
-/** Save a token to disk with restricted permissions (chmod 600). */
-export function setToken(token: string): void {
-  mkdirSync(dirname(TOKEN_PATH), { recursive: true });
-  writeFileSync(TOKEN_PATH, token.trim(), { mode: 0o600 });
-  // Ensure permissions even if file existed
-  chmodSync(TOKEN_PATH, 0o600);
+/** Save a token to the OS keychain. */
+export async function setToken(token: string): Promise<void> {
+  await keytar.setPassword(KEYCHAIN_SERVICE, ACCOUNT, token.trim());
 }
 
-/** Delete the stored token. */
-export function removeToken(): void {
-  if (existsSync(TOKEN_PATH)) {
-    unlinkSync(TOKEN_PATH);
-  }
+/** Delete the stored token from the OS keychain. */
+export async function removeToken(): Promise<void> {
+  await keytar.deletePassword(KEYCHAIN_SERVICE, ACCOUNT);
 }
 
 /** Mask a token for display: "sk-abc...wxyz" */
@@ -38,8 +37,8 @@ export function maskToken(token: string): string {
 }
 
 /** Build the auth header based on configured auth type. */
-export function buildAuthHeaders(): Record<string, string> {
-  const token = getToken();
+export async function buildAuthHeaders(): Promise<Record<string, string>> {
+  const token = await getToken();
 
   switch (AUTH_TYPE) {
     case "bearer":

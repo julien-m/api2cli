@@ -10,6 +10,7 @@ interface TemplateVars {
   baseUrl: string;
   authType: string;
   authHeader: string;
+  credsEntry: string;
 }
 
 /** Clone the template from GitHub into a target directory */
@@ -40,6 +41,7 @@ export function replacePlaceholders(dir: string, vars: TemplateVars): void {
     ["{{BASE_URL}}", vars.baseUrl],
     ["{{AUTH_TYPE}}", vars.authType],
     ["{{AUTH_HEADER}}", vars.authHeader],
+    ["{{CREDS_ENTRY}}", vars.credsEntry],
     ["api2cli-template", vars.appCli],
   ];
 

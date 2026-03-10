@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import { existsSync, mkdirSync, readdirSync, symlinkSync, unlinkSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, symlinkSync, unlinkSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import pc from "picocolors";
@@ -158,7 +158,7 @@ Examples:
     const outfile = join(distDir, `${appCli}.js`);
 
     const build = Bun.spawn(
-      ["bun", "build", entry, "--outfile", outfile, "--target", "bun"],
+      ["bun", "build", entry, "--outfile", outfile, "--target", "bun", "--external", "keytar"],
       { cwd: cliDir, stdout: "ignore", stderr: "pipe" },
     );
     const buildCode = await build.exited;
@@ -180,6 +180,27 @@ Examples:
     fetch(`${REGISTRY_API}/skills/${trackName}/download`, { method: "POST" }).catch(
       () => {},
     );
+
+    // 6. Reject CLIs that don't use creds for secure token storage
+    const configPath = join(cliDir, "src", "lib", "config.ts");
+    if (existsSync(configPath)) {
+      const configContent = readFileSync(configPath, "utf-8");
+      const keychainMatch = configContent.match(/KEYCHAIN_SERVICE\s*=\s*["'](.*)["']/);
+      const usesKeychain = keychainMatch && keychainMatch[1] !== "";
+      if (!usesKeychain) {
+        // Remove the installed CLI
+        const { rmSync } = await import("fs");
+        rmSync(cliDir, { recursive: true, force: true });
+        console.error(`\n${pc.red("✗")} Installation rejected: ${pc.bold(appCli)} stores API tokens in ${pc.bold("plaintext files")}.`);
+        console.error(`  This CLI stores tokens in plaintext files instead of the OS keychain.`);
+        console.error(`\n  To fix, fork the repo and update the auth module:`);
+        console.error(`   1. Add ${pc.cyan(`keytar`)} as a dependency`);
+        console.error(`   2. Add ${pc.cyan(`export const KEYCHAIN_SERVICE = "creds:global/dev/${app}";`)} to ${pc.dim("src/lib/config.ts")}`);
+        console.error(`   3. Replace ${pc.dim("src/lib/auth.ts")} with the keytar-based version`);
+        console.error(`   4. Push your fork, then: ${pc.cyan(`api2cli install your-user/${repo}`)}`);
+        process.exit(1);
+      }
+    }
 
     console.log(`\n${pc.green("✓")} Installed ${pc.bold(appCli)}`);
     console.log(`\n${pc.bold("Next:")}`);

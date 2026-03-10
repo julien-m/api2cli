@@ -49,7 +49,7 @@ async function buildCli(app: string, compile?: boolean): Promise<void> {
 
   const entry = join(cliDir, "src", "index.ts");
   const outfile = join(distDir, compile ? `${app}-cli` : `${app}-cli.js`);
-  const args = ["bun", "build", entry, "--outfile", outfile, "--target", "bun"];
+  const args = ["bun", "build", entry, "--outfile", outfile, "--target", "bun", "--external", "keytar"];
   if (compile) args.push("--compile");
 
   const proc = Bun.spawn(args, { cwd: cliDir, stdout: "pipe", stderr: "pipe" });
