@@ -3,8 +3,47 @@ dist
 .next
 .env
 .env.local
+.env.*
+!.env.example
 .turbo
 *.tsbuildinfo
+.tsbuildinfo
 .vercel
 .idea
 .DS_Store
+
+# OS — Windows
+Thumbs.db
+
+# OS — macOS
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.DocumentRevisions-V100
+.TemporaryItems
+
+# IDE
+.vscode/
+.zed/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# TypeScript / build
+build/
+.output/
+coverage/
+.nuxt/
+.astro/
+.bun/
+.npm/
+.yarn/
+.pnpm-store/
+
+# Materialized conventions
+.conventions/

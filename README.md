@@ -253,8 +253,6 @@ api2cli/
 ├── packages/
 │   ├── cli/              # api2cli manager (create, bundle, link...)
 │   └── template/         # CLI scaffold (gets cloned per API)
-├── apps/
-│   └── web/              # api2cli.dev marketplace (Next.js + Neon)
 ├── skills/
 │   └── api2cli/          # AgentSkills SKILL.md
 ├── biome.json            # Linter + formatter
@@ -268,7 +266,6 @@ api2cli/
 - **Language:** TypeScript (strict mode)
 - **CLI Framework:** [Commander.js](https://github.com/tj/commander.js)
 - **Linter:** [Biome](https://biomejs.dev)
-- **Web:** Next.js + Neon (PostgreSQL)
 - **Standard:** [AgentSkills](https://agentskills.io)
 
 ## Token Storage

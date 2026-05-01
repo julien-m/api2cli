@@ -182,30 +182,6 @@ Le scaffold que `api2cli create` copie et customise. C'est LE coeur du projet.
 
 ---
 
-## Phase 4 : Web App (`apps/web` - api2cli.dev)
-
-### 4.1 - API Routes
-- [ ] `GET /api/skills` - Liste tous les skills publiés
-  - Pagination, search, sort by downloads
-- [ ] `GET /api/skills/[name]` - Détail d'un skill
-  - Resources, config, SKILL.md content
-- [ ] `POST /api/skills` - Publier un skill (auth required)
-- [ ] `PATCH /api/skills/[name]` - Update un skill
-- [ ] `POST /api/skills/[name]/download` - Increment download counter
-
-### 4.2 - Pages
-- [ ] Landing page : hero + how it works + featured skills
-- [ ] `/explore` : browse skills avec search + filters
-- [ ] `/skills/[name]` : detail page (readme, resources, install command)
-- [ ] `/docs` : documentation
-
-### 4.3 - Design
-- [ ] Dark theme par défaut (dev tool vibes)
-- [ ] Tailwind v4
-- [ ] Minimal, fast, no bloat
-
----
-
 ## Phase 5 : Proof of Concept
 
 ### 5.1 - typefully-cli (premier CLI)
@@ -252,8 +228,6 @@ Phase 1.5 + 2.4 (tests)
 Phase 3 (skill SKILL.md)
     ↓
 Phase 2.2 (registry: install → publish → update)
-    ↓
-Phase 4 (web app api2cli.dev)
     ↓
 Phase 5.2 (dub-cli)
     ↓
