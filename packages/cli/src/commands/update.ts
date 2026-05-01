@@ -9,7 +9,7 @@ export const updateCommand = new Command("update")
 	.option("--docs <url>", "Updated API documentation URL")
 	.option("--openapi <url>", "Updated OpenAPI spec URL")
 	.addHelpText("after", "\nExample:\n  api2cli update typefully --docs https://docs.typefully.com")
-	.action(async (app: string, opts) => {
+	.action(async (app: string, opts: { docs?: string; openapi?: string }) => {
 		const cliDir = getCliDir(app);
 
 		if (!existsSync(cliDir)) {

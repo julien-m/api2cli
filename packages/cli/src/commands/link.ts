@@ -53,7 +53,7 @@ Examples:
   api2cli link typefully --skills-path ~/.openclaw/workspace/skills
   api2cli link --all --openclaw`,
 	)
-	.action((app: string | undefined, opts) => {
+	.action((app: string | undefined, opts: { all?: boolean; openclaw?: boolean; skillsPath?: string }) => {
 		const skillsPaths: string[] = [];
 		if (opts.openclaw) skillsPaths.push(AGENT_SKILL_DIRS.openclaw!);
 		if (opts.skillsPath) skillsPaths.push(opts.skillsPath.replace(/^~/, homedir()));

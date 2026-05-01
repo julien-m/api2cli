@@ -1,6 +1,6 @@
 # {{APP_CLI}}
 
-CLI for the {{APP_NAME}} API. Made with [api2cli.dev](https://api2cli.dev).
+CLI for the {{APP_NAME}} API. Generated with `api2cli`.
 
 ## Install
 

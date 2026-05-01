@@ -10,7 +10,7 @@ export const removeCommand = new Command("remove")
 	.argument("<app>", "CLI to remove")
 	.option("--keep-token", "Keep the auth token")
 	.addHelpText("after", "\nExamples:\n  api2cli remove typefully\n  api2cli remove typefully --keep-token")
-	.action((app: string, opts) => {
+	.action((app: string, opts: { keepToken?: boolean }) => {
 		const cliDir = getCliDir(app);
 
 		if (!existsSync(cliDir)) {

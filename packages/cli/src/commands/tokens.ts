@@ -9,7 +9,7 @@ export const tokensCommand = new Command("tokens")
 	.description("List API tokens stored in the OS keychain (via creds)")
 	.option("--show", "Show full unmasked tokens")
 	.addHelpText("after", "\nExamples:\n  api2cli tokens\n  api2cli tokens --show")
-	.action((opts) => {
+	.action((opts: { show?: boolean }) => {
 		if (!isCredsAvailable()) {
 			console.error(`${pc.red("✗")} \`creds\` CLI not found.`);
 			console.error("  Install it (macOS Keychain manager) and retry.");

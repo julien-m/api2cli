@@ -108,11 +108,10 @@ npx api2cli install <source> [--force]
 
 | Flag | Description |
 |------|-------------|
-| `<source>` | GitHub repo (`owner/repo`, full URL, or app name from registry) |
+| `<source>` | GitHub repo (`owner/repo` or full URL) |
 | `--force` | Overwrite existing CLI |
 
 ```bash
 npx api2cli install julien-m/typefully-cli
 npx api2cli install https://github.com/julien-m/typefully-cli
-npx api2cli install typefully    # looks up in api2cli.dev registry
 ```

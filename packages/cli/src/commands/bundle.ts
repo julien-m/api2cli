@@ -14,7 +14,7 @@ export const bundleCommand = new Command("bundle")
 		"after",
 		"\nExamples:\n  api2cli bundle typefully\n  api2cli bundle typefully --compile\n  api2cli bundle --all",
 	)
-	.action(async (app: string | undefined, opts) => {
+	.action(async (app: string | undefined, opts: { compile?: boolean; all?: boolean }) => {
 		if (opts.all) {
 			if (!existsSync(CLI_ROOT)) {
 				console.log("No CLIs installed.");

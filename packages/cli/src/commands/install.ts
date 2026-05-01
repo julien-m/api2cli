@@ -6,13 +6,11 @@ import pc from "picocolors";
 import { getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
 
-const REGISTRY_API = "https://api2cli.dev/api";
-
-function parseGithubInput(input: string): { owner: string; repo: string } | null {
+export function parseGithubInput(input: string): { owner: string; repo: string } | null {
 	const cleaned = input
 		.trim()
-		.replace(/\.git$/, "")
-		.replace(/\/$/, "");
+		.replace(/\/$/, "")
+		.replace(/\.git$/, "");
 
 	const shortMatch = cleaned.match(/^([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)$/);
 	if (shortMatch) return { owner: shortMatch[1]!, repo: shortMatch[2]! };
@@ -23,7 +21,7 @@ function parseGithubInput(input: string): { owner: string; repo: string } | null
 	return null;
 }
 
-function getAppName(repo: string): string {
+export function getAppName(repo: string): string {
 	return repo.replace(/-cli$/, "");
 }
 
@@ -64,54 +62,24 @@ function symlinkSkill(cliDir: string, appCli: string): void {
 }
 
 export const installCommand = new Command("install")
-	.description("Install a CLI from GitHub repo")
-	.argument("<source>", "GitHub repo (owner/repo) or app name from registry")
+	.description("Install a CLI from a GitHub repo")
+	.argument("<source>", "GitHub repo (owner/repo or full URL)")
 	.option("--force", "Overwrite existing CLI", false)
 	.addHelpText(
 		"after",
 		`
 Examples:
   api2cli install julien-m/typefully-cli
-  api2cli install https://github.com/julien-m/typefully-cli
-  api2cli install typefully`,
+  api2cli install https://github.com/julien-m/typefully-cli`,
 	)
-	.action(async (source: string, opts) => {
-		let owner: string;
-		let repo: string;
-		let skillName: string | null = null;
-
+	.action(async (source: string, opts: { force?: boolean }) => {
 		const parsed = parseGithubInput(source);
-		if (parsed) {
-			owner = parsed.owner;
-			repo = parsed.repo;
-		} else {
-			skillName = source;
-			console.log(`Looking up ${pc.bold(source)} in registry...`);
-			try {
-				const res = await fetch(`${REGISTRY_API}/skills/${source}`);
-				if (!res.ok) {
-					console.error(`${pc.red("✗")} ${source} not found in registry.`);
-					console.error(`  Try: ${pc.cyan("api2cli install owner/repo")}`);
-					process.exit(1);
-				}
-				const data = await res.json();
-				const githubUrl = data.data?.githubRepo || data.githubRepo;
-				if (!githubUrl) {
-					console.error(`${pc.red("✗")} No GitHub repo found for ${source}.`);
-					process.exit(1);
-				}
-				const repoParsed = parseGithubInput(githubUrl);
-				if (!repoParsed) {
-					console.error(`${pc.red("✗")} Invalid repo URL from registry: ${githubUrl}`);
-					process.exit(1);
-				}
-				owner = repoParsed.owner;
-				repo = repoParsed.repo;
-			} catch {
-				console.error(`${pc.red("✗")} Could not reach registry. Use ${pc.cyan("owner/repo")} format instead.`);
-				process.exit(1);
-			}
+		if (!parsed) {
+			console.error(`${pc.red("✗")} Invalid source: ${source}`);
+			console.error(`  Expected ${pc.cyan("owner/repo")} or a full GitHub URL.`);
+			process.exit(1);
 		}
+		const { owner, repo } = parsed;
 
 		const app = getAppName(repo);
 		const appCli = `${app}-cli`;
@@ -189,10 +157,6 @@ Examples:
 
 		// 5. Symlink skill to agent directories
 		symlinkSkill(cliDir, appCli);
-
-		// Track install in registry (skills are stored with -cli suffix)
-		const trackName = skillName ?? (repo.endsWith("-cli") ? repo : `${repo}-cli`);
-		fetch(`${REGISTRY_API}/skills/${trackName}/download`, { method: "POST" }).catch(() => {});
 
 		// 6. Auto-migrate CLIs that don't use keychain for secure token storage
 		const configPath = join(cliDir, "src", "lib", "config.ts");

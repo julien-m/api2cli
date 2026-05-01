@@ -9,7 +9,7 @@ export const listCommand = new Command("list")
 	.description("List all installed CLIs")
 	.option("--json", "Output as JSON")
 	.addHelpText("after", "\nExamples:\n  api2cli list\n  api2cli list --json")
-	.action((opts) => {
+	.action((opts: { json?: boolean }) => {
 		if (!existsSync(CLI_ROOT)) {
 			console.log("No CLIs installed. Run: api2cli create <app>");
 			return;

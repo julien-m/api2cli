@@ -1,4 +1,13 @@
-import { appendFileSync, chmodSync, existsSync, readFileSync, symlinkSync, unlinkSync, writeFileSync } from "node:fs";
+import {
+	appendFileSync,
+	chmodSync,
+	existsSync,
+	mkdirSync,
+	readFileSync,
+	symlinkSync,
+	unlinkSync,
+	writeFileSync,
+} from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import pc from "picocolors";
@@ -35,7 +44,6 @@ function ensureBinInPath(): void {
 
 /** Add a CLI by symlinking its built file to ~/.local/bin/<app>-cli */
 export function addToPath(app: string, distDir: string): void {
-	const { mkdirSync } = require("node:fs");
 	mkdirSync(BIN_DIR, { recursive: true });
 
 	const target = join(distDir, `${app}-cli.js`);

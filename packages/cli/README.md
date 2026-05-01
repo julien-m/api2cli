@@ -130,8 +130,7 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 | `api2cli tokens [--show]` | List all configured tokens (masked) |
 | `api2cli remove <app> [--keep-token]` | Remove a CLI entirely |
 | `api2cli doctor` | Check system requirements |
-| `api2cli install <source> [--force]` | Install from GitHub repo or registry |
-| `api2cli publish <app> [--github <url>] [--category <cat>]` | Publish to registry |
+| `api2cli install <source> [--force]` | Install from a GitHub repo |
 | `api2cli update <app>` | Re-sync with API changes (agent-driven) |
 
 ### Generated CLIs (`<app>-cli`)
@@ -226,8 +225,6 @@ api2cli/
 ├── packages/
 │   ├── cli/              # api2cli manager (create, bundle, link...)
 │   └── template/         # CLI scaffold (gets cloned per API)
-├── apps/
-│   └── web/              # api2cli.dev marketplace (Next.js + Neon)
 ├── skills/
 │   └── api2cli/          # AgentSkills SKILL.md
 ├── biome.json            # Linter + formatter
@@ -241,7 +238,6 @@ api2cli/
 - **Language:** TypeScript (strict mode)
 - **CLI Framework:** [Commander.js](https://github.com/tj/commander.js)
 - **Linter:** [Biome](https://biomejs.dev)
-- **Web:** Next.js + Neon (PostgreSQL)
 - **Standard:** [AgentSkills](https://agentskills.io)
 
 ## Token Storage

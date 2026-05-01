@@ -129,7 +129,7 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 | `api2cli tokens [--show]` | List all configured tokens (masked) |
 | `api2cli remove <app> [--keep-token]` | Remove a CLI entirely |
 | `api2cli doctor` | Check system requirements |
-| `api2cli install <source> [--force]` | Install from GitHub repo or registry |
+| `api2cli install <source> [--force]` | Install from a GitHub repo |
 | `api2cli update <app>` | Re-sync with API changes (agent-driven) |
 
 ### Generated CLIs (`<app>-cli`)
@@ -189,33 +189,13 @@ def456                published 2026-03-06
 
 **YAML (`--format yaml`):** For config files
 
-## Registry
+## Sharing CLIs
 
-Browse and publish CLIs at [api2cli.dev](https://api2cli.dev).
-
-### Publish your CLI
-
-Click **"+ Add my CLI"** on the registry page and paste your GitHub repo URL (`owner/repo` or full URL).
-
-The registry auto-fetches from your repo:
-- **Repo info** - description, stars, topics
-- **package.json** - name, version
-- **README.md** - auth type detection
-- **SKILL.md** - name and description from frontmatter
-- **Category** - auto-assigned based on keywords (social, finance, devtools, marketing, etc.)
-
-You can also publish via the API:
+Generated CLIs live entirely on your machine — there is no public registry. To share one, push it to a GitHub repo and have others install it directly:
 
 ```bash
-curl -X POST https://api2cli.dev/api/publish-cli \
-  -H "Content-Type: application/json" \
-  -d '{"githubUrl": "owner/repo"}'
-```
-
-### Install from registry
-
-```bash
-npx skills add <owner>/<repo>
+api2cli install owner/repo
+api2cli install https://github.com/owner/repo
 ```
 
 ## Agent Integration
