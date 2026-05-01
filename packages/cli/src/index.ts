@@ -1,23 +1,20 @@
 #!/usr/bin/env bun
 import { Command } from "commander";
-import { createCommand } from "./commands/create.js";
-import { installCommand } from "./commands/install.js";
-import { listCommand } from "./commands/list.js";
 import { bundleCommand } from "./commands/bundle.js";
-import { linkCommand } from "./commands/link.js";
-import { unlinkCommand } from "./commands/unlink.js";
-import { tokensCommand } from "./commands/tokens.js";
-import { removeCommand } from "./commands/remove.js";
+import { createCommand } from "./commands/create.js";
 import { doctorCommand } from "./commands/doctor.js";
-import { updateCommand } from "./commands/update.js";
+import { installCommand } from "./commands/install.js";
+import { linkCommand } from "./commands/link.js";
+import { listCommand } from "./commands/list.js";
 import { migrateCommand } from "./commands/migrate.js";
+import { removeCommand } from "./commands/remove.js";
+import { tokensCommand } from "./commands/tokens.js";
+import { unlinkCommand } from "./commands/unlink.js";
+import { updateCommand } from "./commands/update.js";
 
 const program = new Command();
 
-program
-  .name("api2cli")
-  .description("Turn any REST API into a standardized, agent-ready CLI")
-  .version("0.1.0");
+program.name("api2cli").description("Turn any REST API into a standardized, agent-ready CLI").version("0.1.0");
 
 // Core
 program.addCommand(createCommand);
