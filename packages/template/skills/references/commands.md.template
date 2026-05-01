@@ -1,0 +1,77 @@
+# {{APP_CLI}} — Commands Reference
+
+Full syntax for the {{APP_CLI}} CLI.
+
+## Authentication
+
+Tokens are stored in the OS Keychain via the `creds` CLI (no plaintext files).
+
+```bash
+{{APP_CLI}} auth set                # interactive masked prompt
+echo -n 'sk-xxx' | {{APP_CLI}} auth set  # piped (CI-friendly)
+{{APP_CLI}} auth show               # display masked token
+{{APP_CLI}} auth show --raw         # display full token
+{{APP_CLI}} auth test               # verify the token works
+{{APP_CLI}} auth remove             # delete from keychain
+```
+
+## Resources
+
+Every resource follows the same CRUD shape:
+
+```bash
+{{APP_CLI}} <resource> list                # GET /resource
+{{APP_CLI}} <resource> get <id>            # GET /resource/:id
+{{APP_CLI}} <resource> create [flags]      # POST /resource
+{{APP_CLI}} <resource> update <id> [flags] # PATCH /resource/:id
+{{APP_CLI}} <resource> delete <id>         # DELETE /resource/:id
+```
+
+Discover available resources and per-resource flags via `--help`:
+
+```bash
+{{APP_CLI}} --help
+{{APP_CLI}} <resource> --help
+{{APP_CLI}} <resource> <action> --help
+```
+
+## Global Flags
+
+| Flag | Effect |
+|------|--------|
+| `--json` | JSON envelope `{ ok, data, meta }` (use this when calling programmatically) |
+| `--format <text\|json\|csv\|yaml>` | Output format |
+| `--verbose` | Debug logging |
+| `--no-color` | Disable ANSI colors |
+| `--no-header` | Omit table headers (for piping) |
+
+## Output Envelope (`--json`)
+
+```json
+{
+  "ok": true,
+  "data": [ /* ... */ ],
+  "meta": { "total": 42 }
+}
+```
+
+On error: `{ "ok": false, "error": { "code": "...", "message": "..." } }` with non-zero exit code.
+
+## Exit Codes
+
+- `0` — success
+- `1` — API or runtime error
+- `2` — usage error / missing token / not found
+- `3` — keychain locked or access denied
+
+## Setup & Build
+
+If the binary is missing or out of date:
+
+```bash
+bun --version || curl -fsSL https://bun.sh/install | bash
+npx api2cli bundle {{APP_NAME}}
+npx api2cli link {{APP_NAME}}
+```
+
+`api2cli link` adds `~/.local/bin` to PATH automatically.

@@ -1,0 +1,27 @@
+---
+name: {{APP_NAME}}
+description: "Manage {{APP_NAME}} via CLI. Use when user mentions '{{APP_NAME}}' or wants to interact with the {{APP_NAME}} API."
+category: other
+---
+
+# {{APP_CLI}}
+
+CLI for the {{APP_NAME}} API. Token stored in the OS Keychain via `creds`.
+
+## Commands
+
+- `{{APP_CLI}} auth set|show|remove|test`
+- `{{APP_CLI}} <resource> list|get|create|update|delete`
+- `{{APP_CLI}} --help` (full discovery at every level)
+
+Full syntax, flags and examples: **Read** [`references/commands.md`](references/commands.md).
+
+## Setup (only if `{{APP_CLI}}` is missing)
+
+```bash
+bun --version || curl -fsSL https://bun.sh/install | bash
+npx api2cli bundle {{APP_NAME}}
+npx api2cli link {{APP_NAME}}
+```
+
+Always pass `--json` when calling commands programmatically.

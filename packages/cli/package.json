@@ -1,0 +1,47 @@
+{
+  "name": "api2cli",
+  "version": "0.3.16",
+  "description": "Turn any REST API into a standardized, agent-ready CLI",
+  "type": "module",
+  "bin": {
+    "api2cli": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "bun build src/index.ts --outfile dist/index.js --target bun",
+    "dev": "bun run src/index.ts",
+    "release": "release-it"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "picocolors": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "release-it": "^19.0.4",
+    "typescript": "^5.7.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "api",
+    "rest",
+    "agent",
+    "skill",
+    "mcp",
+    "agentskills"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julien-m/api2cli.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/julien-m/api2cli#readme",
+  "bugs": {
+    "url": "https://github.com/julien-m/api2cli/issues"
+  },
+  "author": "julien-m"
+}

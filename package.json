@@ -1,0 +1,12 @@
+{
+  "name": "api2cli-monorepo",
+  "private": true,
+  "workspaces": ["packages/cli", "apps/*"],
+  "scripts": {
+    "build": "bun run --filter './packages/*' build",
+    "lint": "bunx @biomejs/biome check packages/",
+    "lint:fix": "bunx @biomejs/biome check --write packages/",
+    "test": "bun test",
+    "dev": "bun run --filter './apps/*' dev"
+  }
+}
