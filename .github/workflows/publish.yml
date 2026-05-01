@@ -35,9 +35,6 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Update npm for OIDC
-        run: npm install -g npm@latest
-
       - name: Install CLI dependencies
         run: |
           cd packages/cli
