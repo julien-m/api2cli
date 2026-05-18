@@ -202,17 +202,10 @@ api2cli install https://github.com/owner/repo
 
 ### AgentSkills (Claude Code, Cursor, Gemini CLI, etc.)
 
-The repo includes `skills/api2cli/SKILL.md` following the [AgentSkills](https://agentskills.io) open standard. Install it in your agent:
+Install from [`.agent-sync/skills/api2cli/SKILL.md`](.agent-sync/skills/api2cli/SKILL.md), which follows the [AgentSkills](https://agentskills.io) open standard, through cc-hub/agent-sync:
 
 ```bash
-# Claude Code
-cp -r skills/api2cli ~/.claude/skills/
-
-# OpenClaw
-cp -r skills/api2cli ~/.openclaw/workspace/skills/
-
-# Or use skills
-npx skills add api2cli
+cc-hub skill link .agent-sync/skills/api2cli --scope global --targets all --name api2cli
 ```
 
 Once installed, just tell your agent:
@@ -233,8 +226,9 @@ api2cli/
 ├── packages/
 │   ├── cli/              # api2cli manager (create, bundle, link...)
 │   └── template/         # CLI scaffold (gets cloned per API)
-├── skills/
-│   └── api2cli/          # AgentSkills SKILL.md
+├── .agent-sync/
+│   └── skills/
+│       └── api2cli/      # AgentSkills SKILL.md
 ├── biome.json            # Linter + formatter
 ├── tsconfig.base.json    # Shared TypeScript config
 └── TODO.md               # Roadmap
