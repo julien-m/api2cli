@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { ensureAgentSyncSkillSource } from "../lib/agent-sync.js";
 import { CLI_ROOT, getCliDir, getDistDir } from "../lib/config.js";
 
 // @ts-expect-error Bun text import attribute
@@ -26,6 +27,16 @@ interface ParsedConfig {
 	BASE_URL: string;
 	AUTH_TYPE: string;
 	AUTH_HEADER: string;
+}
+
+interface PackageJson {
+	dependencies?: Record<string, string | undefined>;
+	api2cli?: {
+		app: string;
+		credsEntry: string;
+		authType: string;
+	};
+	[key: string]: unknown;
 }
 
 function parseConfig(content: string): ParsedConfig | null {
@@ -58,6 +69,47 @@ function replacePlaceholders(template: string, values: Record<string, string>): 
 	return result;
 }
 
+function stampPackageMetadata(cliDir: string, app: string, authType: string, credsEntry: string): void {
+	const pkgPath = join(cliDir, "package.json");
+	if (!existsSync(pkgPath)) return;
+
+	const pkg = parsePackageJson(readFileSync(pkgPath, "utf-8"));
+	pkg.api2cli = { app, credsEntry, authType };
+	writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+}
+
+function parsePackageJson(content: string): PackageJson {
+	const parsed: unknown = JSON.parse(content);
+	if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+		throw new Error("package.json must contain an object");
+	}
+	const pkg = parsed as Record<string, unknown>;
+	if (pkg.dependencies !== undefined && !isStringRecord(pkg.dependencies)) {
+		throw new Error("package.json dependencies must be an object");
+	}
+	if (pkg.api2cli !== undefined && !isApi2CliMetadata(pkg.api2cli)) {
+		throw new Error("package.json api2cli metadata must contain string fields");
+	}
+	return pkg as PackageJson;
+}
+
+function isStringRecord(value: unknown): value is Record<string, string | undefined> {
+	return (
+		!!value &&
+		typeof value === "object" &&
+		!Array.isArray(value) &&
+		Object.values(value).every((entry) => typeof entry === "string" || entry === undefined)
+	);
+}
+
+function isApi2CliMetadata(value: unknown): value is PackageJson["api2cli"] {
+	if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+	const metadata = value as Record<string, unknown>;
+	return (
+		typeof metadata.app === "string" && typeof metadata.credsEntry === "string" && typeof metadata.authType === "string"
+	);
+}
+
 // ---------------------------------------------------------------------------
 // Core migrate logic (exported for use by install.ts)
 // ---------------------------------------------------------------------------
@@ -78,13 +130,18 @@ export async function migrate(app: string): Promise<boolean> {
 	}
 
 	const configContent = readFileSync(configPath, "utf-8");
+	const parsed = parseConfig(configContent);
 
 	if (isAlreadyMigrated(configContent)) {
+		if (parsed) {
+			const credsEntry = `global/dev/${app}`;
+			stampPackageMetadata(cliDir, app, parsed.AUTH_TYPE, credsEntry);
+		}
+		ensureAgentSyncSkillSource(cliDir, app);
 		console.log(`${pc.dim("–")} ${pc.bold(appCli)} already migrated, skipping`);
 		return true;
 	}
 
-	const parsed = parseConfig(configContent);
 	if (!parsed) {
 		console.error(`${pc.red("✗")} Could not parse config for ${appCli}`);
 		return false;
@@ -114,12 +171,13 @@ export async function migrate(app: string): Promise<boolean> {
 	// 2. Remove keytar if present, no new dependency needed (creds is a system CLI)
 	const pkgPath = join(cliDir, "package.json");
 	if (existsSync(pkgPath)) {
-		const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
+		const pkg = parsePackageJson(readFileSync(pkgPath, "utf-8"));
 		if (pkg.dependencies?.keytar) {
-			pkg.dependencies.keytar = undefined;
-			writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
+			pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).filter(([name]) => name !== "keytar"));
 			console.log(`  ${pc.dim("Removed keytar dependency")}`);
 		}
+		pkg.api2cli = { app, credsEntry, authType: parsed.AUTH_TYPE };
+		writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
 	}
 
 	// 3. Reinstall dependencies (to clean up keytar)
@@ -152,6 +210,7 @@ export async function migrate(app: string): Promise<boolean> {
 
 	console.log(`${pc.green("✓")} Migrated ${pc.bold(appCli)} to use creds CLI`);
 	console.log(`  ${pc.dim(`Creds entry: ${credsEntry}`)}`);
+	ensureAgentSyncSkillSource(cliDir, app);
 	return true;
 }
 

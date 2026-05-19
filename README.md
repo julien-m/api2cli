@@ -64,6 +64,7 @@ This creates `~/.cli/<app>-cli/` with:
 - Auth module (tokens stored in OS Keychain via `creds`)
 - Multi-format output (text, JSON, CSV, YAML)
 - Example resource file to copy
+- Canonical AgentSkill source in `.agent-sync/skills/<app>-cli/`
 
 ### 2. Add resources
 
@@ -104,7 +105,7 @@ program.addCommand(draftsResource);
 
 ```bash
 api2cli bundle <app>        # Build the CLI
-api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
+api2cli link <app>          # Add to PATH and link skill via cc-hub
 ```
 
 ### 4. Use it
@@ -123,7 +124,7 @@ api2cli link <app>          # Add to PATH (updates .bashrc/.zshrc)
 |---------|-------------|
 | `api2cli create <app>` | Generate a new CLI from API docs |
 | `api2cli bundle <app> [--compile] [--all]` | Build a CLI from source (`--compile` for standalone binary) |
-| `api2cli link <app> [--all]` | Add a CLI to PATH |
+| `api2cli link <app> [--all]` | Add a CLI to PATH and link its skill via cc-hub |
 | `api2cli unlink <app>` | Remove from PATH |
 | `api2cli list [--json]` | List all installed CLIs |
 | `api2cli tokens [--show]` | List all configured tokens (masked) |

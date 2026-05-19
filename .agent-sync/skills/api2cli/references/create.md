@@ -40,9 +40,12 @@ Creates `~/.cli/<app>-cli/` with:
       logger.ts           # Logging (suppressed in --json mode)
     resources/
       example.ts          # Example resource to copy
-  skills/
-    <app>-cli/
-      SKILL.md            # AgentSkill template (update after implementing)
+  .agent-sync/
+    skills/
+      <app>-cli/
+        SKILL.md          # AgentSkill template (update after implementing)
+        references/
+          commands.md     # Detailed command reference
   README.md               # README template (update after implementing)
   package.json
   tsconfig.json
@@ -52,5 +55,5 @@ Creates `~/.cli/<app>-cli/` with:
 
 1. Edit resources in `src/resources/`
 2. Build: `npx api2cli bundle <app>`
-3. Link: `npx api2cli link <app>`
+3. Link PATH and AgentSkill via cc-hub: `npx api2cli link <app>`
 4. Auth: `<app>-cli auth set "your-token"`

@@ -3,6 +3,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { ensureAgentSyncSkillSource, linkAgentSyncSkill } from "../lib/agent-sync.js";
 import { CLI_ROOT, getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
 
@@ -12,11 +13,11 @@ const AGENT_SKILL_DIRS: Record<string, string> = {
 	openclaw: join(homedir(), ".openclaw", "workspace", "skills"),
 };
 
-function linkSkill(app: string, skillsPath: string): void {
+function linkSkillToPath(app: string, skillsPath: string): void {
 	const cliDir = getCliDir(app);
-	const skillSourceDir = join(cliDir, "skills", `${app}-cli`);
+	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
 
-	if (!existsSync(join(skillSourceDir, "SKILL.md"))) {
+	if (!skillSourceDir || !existsSync(join(skillSourceDir, "SKILL.md"))) {
 		console.log(`  ${pc.dim("No SKILL.md found for")} ${app}-cli${pc.dim(", skipping skill link")}`);
 		return;
 	}
@@ -38,8 +39,27 @@ function linkSkill(app: string, skillsPath: string): void {
 	console.log(`${pc.green("+")} Skill linked ${pc.bold(`${app}-cli`)} -> ${pc.dim(target)}`);
 }
 
+async function linkSkillWithCcHub(app: string): Promise<boolean> {
+	const cliDir = getCliDir(app);
+	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
+
+	if (!skillSourceDir) {
+		console.log(`  ${pc.dim("No SKILL.md found for")} ${app}-cli${pc.dim(", skipping cc-hub skill link")}`);
+		return true;
+	}
+
+	// cc-hub must exit 0 after creating provider links; any non-zero result fails this CLI command.
+	const linked = await linkAgentSyncSkill(skillSourceDir, app);
+	if (!linked) {
+		console.error(`${pc.red("✗")} cc-hub failed to link ${app}-cli skill`);
+		return false;
+	}
+	console.log(`${pc.green("+")} Skill linked through cc-hub ${pc.bold(`${app}-cli`)}`);
+	return true;
+}
+
 export const linkCommand = new Command("link")
-	.description("Add a CLI to your PATH (and optionally link skills to agent directories)")
+	.description("Add a CLI to your PATH and link its AgentSkill through cc-hub")
 	.argument("[app]", "CLI to link (omit with --all)")
 	.option("--all", "Link all installed CLIs")
 	.option("--openclaw", "Also symlink skill to ~/.openclaw/workspace/skills/")
@@ -53,7 +73,7 @@ Examples:
   api2cli link typefully --skills-path ~/.openclaw/workspace/skills
   api2cli link --all --openclaw`,
 	)
-	.action((app: string | undefined, opts: { all?: boolean; openclaw?: boolean; skillsPath?: string }) => {
+	.action(async (app: string | undefined, opts: { all?: boolean; openclaw?: boolean; skillsPath?: string }) => {
 		const skillsPaths: string[] = [];
 		if (opts.openclaw) skillsPaths.push(AGENT_SKILL_DIRS.openclaw!);
 		if (opts.skillsPath) skillsPaths.push(opts.skillsPath.replace(/^~/, homedir()));
@@ -64,11 +84,16 @@ Examples:
 				return;
 			}
 			const dirs = readdirSync(CLI_ROOT).filter((d) => d.endsWith("-cli"));
+			let failed = false;
 			for (const d of dirs) {
 				const name = d.replace(/-cli$/, "");
 				addToPath(name, getDistDir(name));
-				for (const sp of skillsPaths) linkSkill(name, sp);
+				const linked = await linkSkillWithCcHub(name);
+				if (!linked) failed = true;
+				for (const sp of skillsPaths) linkSkillToPath(name, sp);
 			}
+			// For --all, attempt every CLI before exiting non-zero if any cc-hub link failed.
+			if (failed) process.exit(1);
 			return;
 		}
 
@@ -78,5 +103,7 @@ Examples:
 		}
 
 		addToPath(app, getDistDir(app));
-		for (const sp of skillsPaths) linkSkill(app, sp);
+		const linked = await linkSkillWithCcHub(app);
+		if (!linked) process.exit(1);
+		for (const sp of skillsPaths) linkSkillToPath(app, sp);
 	});

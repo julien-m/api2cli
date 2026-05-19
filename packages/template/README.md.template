@@ -8,13 +8,7 @@ CLI for the {{APP_NAME}} API. Generated with `api2cli`.
 npx api2cli install <user>/{{APP_CLI}}
 ```
 
-This clones the repo, builds the CLI, links it to your PATH, and installs the AgentSkill to your coding agents.
-
-## Install AgentSkill only
-
-```bash
-npx skills add <user>/{{APP_CLI}}
-```
+This clones the repo, builds the CLI, links it to your PATH, and installs the AgentSkill through `cc-hub`.
 
 ## Usage
 

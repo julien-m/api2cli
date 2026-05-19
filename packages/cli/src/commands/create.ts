@@ -1,7 +1,8 @@
-import { existsSync, mkdirSync, readFileSync, renameSync, rmdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { getAgentSyncSkillDir } from "../lib/agent-sync.js";
 import { getCliDir } from "../lib/config.js";
 import { copyTemplate, replacePlaceholders } from "../lib/template.js";
 
@@ -90,11 +91,11 @@ Examples:
 			await install.exited;
 			console.log(`  ${pc.green("+")} Dependencies installed`);
 
-			// 5. Move skill templates into skills/<app>-cli/
+			// 5. Move skill templates into .agent-sync/skills/<app>-cli/
 			//    - SKILL.md (slim header + commands list)
 			//    - references/commands.md (detailed reference loaded on demand)
 			const skillsRoot = join(cliDir, "skills");
-			const skillDir = join(skillsRoot, `${app}-cli`);
+			const skillDir = getAgentSyncSkillDir(cliDir, app);
 			const skillTemplate = join(skillsRoot, "SKILL.md.template");
 			if (existsSync(skillTemplate)) {
 				mkdirSync(skillDir, { recursive: true });
@@ -106,13 +107,9 @@ Examples:
 				const skillRefsDir = join(skillDir, "references");
 				mkdirSync(skillRefsDir, { recursive: true });
 				renameSync(refsCommandsTemplate, join(skillRefsDir, "commands.md"));
-				// Best-effort cleanup of the now-empty templates directory
-				try {
-					rmdirSync(refsTemplateDir);
-				} catch {
-					// not empty / already gone — ignore
-				}
 			}
+			removeIfEmptyOrMetadataOnly(refsTemplateDir);
+			removeIfEmptyOrMetadataOnly(skillsRoot);
 
 			// 6. Rename README.md.template
 			const readmeTemplate = join(cliDir, "README.md.template");
@@ -128,3 +125,11 @@ Examples:
 			console.log(`  4. Auth: ${pc.cyan(`${app}-cli auth set "your-token"`)}`);
 		},
 	);
+
+function removeIfEmptyOrMetadataOnly(dir: string): void {
+	if (!existsSync(dir)) return;
+	const meaningfulEntries = readdirSync(dir).filter((entry) => entry !== ".DS_Store");
+	if (meaningfulEntries.length === 0) {
+		rmSync(dir, { recursive: true, force: true });
+	}
+}

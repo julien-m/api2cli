@@ -1,10 +1,10 @@
 # Finalize Skill and README
 
-After implementing resources, update the skill and README, then symlink the skill to agent directories.
+After implementing resources, update the canonical `.agent-sync` skill and README, then link it through `cc-hub`.
 
 ## 1. Update the SKILL.md
 
-Edit `~/.cli/<app>-cli/skills/<app>-cli/SKILL.md`:
+Edit `~/.cli/<app>-cli/.agent-sync/skills/<app>-cli/SKILL.md`:
 
 1. Update the description to include comma-separated resource names (e.g. "Manage typefully via CLI - drafts, links, accounts.")
 2. Replace the resources TODO comment with the resource map (see format below)
@@ -41,25 +41,16 @@ Run `<app>-cli <resource> --help` for each resource to get real flags. Use this 
 | `<app>-cli accounts get <id> --json` | Get account details |
 ```
 
-## 3. Symlink skill to agent directories
+## 3. Link skill through cc-hub
 
-Symlink (not copy) so the skill stays in sync with the repo. Only symlink to agents that exist on the system.
+Run `api2cli link` after every skill update. It converts legacy `skills/<app>-cli/` folders when needed, then calls `cc-hub skill link --scope global --targets all --force`.
 
 ```bash
-# Claude Code
-mkdir -p ~/.claude/skills/<app>-cli
-ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.claude/skills/<app>-cli/SKILL.md
-
-# Cursor
-mkdir -p ~/.cursor/skills/<app>-cli
-ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.cursor/skills/<app>-cli/SKILL.md
-
-# OpenClaw
-mkdir -p ~/.openclaw/workspace/skills/<app>-cli
-ln -sf ~/.cli/<app>-cli/skills/<app>-cli/SKILL.md ~/.openclaw/workspace/skills/<app>-cli/SKILL.md
+npx api2cli link <app>
+cc-hub skill status --scope global --targets all --name <app>-cli
 ```
 
-Check if the agent directory exists before symlinking (e.g. `~/.claude/`, `~/.cursor/`).
+For OpenClaw or a custom skill directory, pass `--openclaw` or `--skills-path` after the cc-hub link is in place.
 
 ## Rules
 

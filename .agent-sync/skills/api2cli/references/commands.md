@@ -45,7 +45,7 @@ npx api2cli bundle [app] [options]
 
 ### link / unlink
 
-Add or remove a CLI from PATH.
+Add or remove a CLI from PATH. `link` also links the generated AgentSkill locally through `cc-hub` for Claude/Codex.
 
 ```bash
 npx api2cli link [app] [--all]

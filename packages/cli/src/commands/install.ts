@@ -1,8 +1,8 @@
-import { existsSync, lstatSync, mkdirSync, readFileSync, symlinkSync, unlinkSync } from "node:fs";
-import { homedir } from "node:os";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
+import { ensureAgentSyncSkillSource, linkAgentSyncSkill } from "../lib/agent-sync.js";
 import { getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
 
@@ -25,41 +25,18 @@ export function getAppName(repo: string): string {
 	return repo.replace(/-cli$/, "");
 }
 
-function symlinkSkill(cliDir: string, appCli: string): void {
-	// Symlink the WHOLE skill directory so SKILL.md and references/ stay together.
-	const skillSourceDir = join(cliDir, "skills", appCli);
-	if (!existsSync(join(skillSourceDir, "SKILL.md"))) return;
+const linkSkillThroughCcHub = async (cliDir: string, app: string): Promise<boolean> => {
+	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
+	if (!skillSourceDir) return true;
 
-	const agentDirs: { name: string; path: string }[] = [
-		{ name: "Claude Code", path: join(homedir(), ".claude", "skills") },
-		{ name: "Cursor", path: join(homedir(), ".cursor", "skills") },
-		{ name: "OpenClaw", path: join(homedir(), ".openclaw", "workspace", "skills") },
-	];
-
-	for (const agent of agentDirs) {
-		if (!existsSync(join(agent.path, ".."))) continue;
-		mkdirSync(agent.path, { recursive: true });
-
-		const target = join(agent.path, appCli);
-		let stats: ReturnType<typeof lstatSync> | null = null;
-		try {
-			stats = lstatSync(target);
-		} catch {
-			// target does not exist
-		}
-		if (stats) {
-			if (stats.isSymbolicLink()) {
-				unlinkSync(target);
-			} else {
-				// Real directory/file exists — refuse to clobber user data.
-				console.log(`  ${pc.yellow("~")} Skill target exists at ${pc.dim(target)}, skipping (${agent.name})`);
-				continue;
-			}
-		}
-		symlinkSync(skillSourceDir, target);
-		console.log(`  ${pc.green("+")} Skill symlinked for ${pc.dim(agent.name)}`);
+	const linked = await linkAgentSyncSkill(skillSourceDir, app);
+	if (!linked) {
+		console.error(`${pc.red("✗")} cc-hub failed to link ${app}-cli skill`);
+		return false;
 	}
-}
+	console.log(`  ${pc.green("+")} Skill linked through cc-hub`);
+	return true;
+};
 
 export const installCommand = new Command("install")
 	.description("Install a CLI from a GitHub repo")
@@ -155,8 +132,9 @@ Examples:
 		// 4. Link to PATH
 		addToPath(app, distDir);
 
-		// 5. Symlink skill to agent directories
-		symlinkSkill(cliDir, appCli);
+		// 5. Link skill to agent providers through cc-hub/agent-sync
+		const skillLinked = await linkSkillThroughCcHub(cliDir, app);
+		if (!skillLinked) process.exit(1);
 
 		// 6. Auto-migrate CLIs that don't use keychain for secure token storage
 		const configPath = join(cliDir, "src", "lib", "config.ts");

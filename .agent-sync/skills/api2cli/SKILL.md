@@ -46,13 +46,13 @@ npx api2cli link <app>
 <app>-cli <resource> list --json
 ```
 
-`api2cli link` adds `~/.local/bin` to PATH automatically. No `export PATH` needed.
+`api2cli link` adds `~/.local/bin` to PATH and links the generated skill through `cc-hub` into Claude/Codex. No `export PATH` needed.
 
 ### 5. Finalize skill and README
 
-Replace all `{{...}}` placeholders in `skills/<app>-cli/SKILL.md` and `README.md` with actual values, then symlink skill to agent directories.
+Replace all `{{...}}` placeholders in `.agent-sync/skills/<app>-cli/SKILL.md` and `README.md`, then run `npx api2cli link <app>` to link locally via `cc-hub`.
 
-See [references/skill-generation.md](references/skill-generation.md) for the template, format, and symlink instructions.
+**Read** [`references/skill-generation.md`](references/skill-generation.md) for the template, format, and cc-hub linking instructions.
 
 To also link skills for OpenClaw:
 
@@ -64,7 +64,7 @@ npx api2cli link <app> --openclaw
 
 ## Privacy
 
-Generated CLIs are **local only**. This skill does not publish to npm, GitHub, ClawHub, Sundial Hub, or any public registry. CLIs live in `~/.cli/<app>-cli/` and skills are symlinked into local agent directories (`~/.claude/skills/`, `~/.cursor/skills/`, `~/.openclaw/workspace/skills/`).
+Generated CLIs are **local only**. This skill does not publish to npm, GitHub, ClawHub, Sundial Hub, or any public registry. CLIs live in `~/.cli/<app>-cli/`; canonical skills live in `.agent-sync/skills/<app>-cli/` and are linked to Claude/Codex via `cc-hub`.
 
 ## Conventions
 
