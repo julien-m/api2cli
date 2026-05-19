@@ -135,6 +135,15 @@ export async function migrate(app: string): Promise<boolean> {
 	if (isAlreadyMigrated(configContent)) {
 		if (parsed) {
 			const credsEntry = `global/dev/${app}`;
+			const values: Record<string, string> = {
+				APP_NAME: parsed.APP_NAME,
+				APP_CLI: parsed.APP_CLI,
+				BASE_URL: parsed.BASE_URL,
+				AUTH_TYPE: parsed.AUTH_TYPE,
+				AUTH_HEADER: parsed.AUTH_HEADER,
+				CREDS_ENTRY: credsEntry,
+			};
+			writeFileSync(configPath, replacePlaceholders(TEMPLATE_CONFIG, values));
 			stampPackageMetadata(cliDir, app, parsed.AUTH_TYPE, credsEntry);
 		}
 		ensureAgentSyncSkillSource(cliDir, app);
