@@ -2,7 +2,7 @@
 	"name": "api2cli-monorepo",
 	"private": true,
 	"type": "module",
-	"workspaces": ["packages/cli"],
+	"workspaces": ["packages/cli", "packages/template"],
 	"scripts": {
 		"build": "bun run --filter './packages/*' build",
 		"lint": "bunx @biomejs/biome@1.9.4 check packages/",
