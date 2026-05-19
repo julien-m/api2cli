@@ -13,7 +13,7 @@
 		"release": "release-it"
 	},
 	"dependencies": {
-		"commander": "^13.0.0",
+		"commander": "^14.0.3",
 		"picocolors": "^1.1.0"
 	},
 	"devDependencies": {
