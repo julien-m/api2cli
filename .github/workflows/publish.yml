@@ -7,6 +7,9 @@ on:
     paths:
       - "packages/cli/**"
 
+env:
+  BUN_VERSION: "1.3.9"
+
 jobs:
   release:
     if: "!startsWith(github.event.head_commit.message, 'chore: release')"
@@ -27,7 +30,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -35,15 +38,8 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install CLI dependencies
-        run: |
-          cd packages/cli
-          cp package.json /tmp/cli-package.json
-          cd /tmp
-          mkdir cli-build && cd cli-build
-          cp /tmp/cli-package.json package.json
-          bun install
-          cp -r node_modules $GITHUB_WORKSPACE/packages/cli/
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
       - name: Configure git
         run: |
@@ -69,9 +65,63 @@ jobs:
             fi
           fi
 
-      - name: Release
+      - name: Check npm publish eligibility
+        id: npm_publish
         if: steps.changes.outputs.has_changes == 'true'
+        working-directory: packages/cli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          NEXT_VERSION=$(node -e "const parts = require('./package.json').version.split('.').map(Number); parts[2] += 1; console.log(parts.join('.'));")
+
+          {
+            echo "package_name=$PACKAGE_NAME"
+            echo "current_version=$CURRENT_VERSION"
+            echo "next_version=$NEXT_VERSION"
+          } >> "$GITHUB_OUTPUT"
+
+          if ! NPM_USER=$(npm whoami 2>/dev/null); then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "reason=npm token is missing or invalid" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if npm view "${PACKAGE_NAME}@${NEXT_VERSION}" version >/dev/null 2>&1; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "reason=${PACKAGE_NAME}@${NEXT_VERSION} already exists on npm" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          MAINTAINERS_JSON=$(npm view "$PACKAGE_NAME" maintainers --json 2>/dev/null || echo "[]")
+          if ! MAINTAINERS_JSON="$MAINTAINERS_JSON" node -e '
+            const maintainers = JSON.parse(process.env.MAINTAINERS_JSON || "[]");
+            const npmUser = process.argv[1];
+            const allowed = Array.isArray(maintainers) && maintainers.some((maintainer) => {
+              if (typeof maintainer === "string") return maintainer.split(/\s+/)[0] === npmUser;
+              return maintainer?.name === npmUser;
+            });
+            process.exit(allowed ? 0 : 1);
+          ' "$NPM_USER"; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "reason=${NPM_USER} is not a maintainer of ${PACKAGE_NAME}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+
+      - name: Skip release
+        if: steps.changes.outputs.has_changes == 'true' && steps.npm_publish.outputs.enabled != 'true'
+        run: |
+          echo "Skipping npm release: ${{ steps.npm_publish.outputs.reason }}"
+
+      - name: Release
+        if: steps.changes.outputs.has_changes == 'true' && steps.npm_publish.outputs.enabled == 'true'
         working-directory: packages/cli
         run: bun run release -- patch --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

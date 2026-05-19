@@ -4,7 +4,7 @@
 	"description": "Turn any REST API into a standardized, agent-ready CLI",
 	"type": "module",
 	"bin": {
-		"api2cli": "./dist/index.js"
+		"api2cli": "dist/index.js"
 	},
 	"files": ["dist", "README.md"],
 	"scripts": {
@@ -26,7 +26,7 @@
 	"keywords": ["cli", "api", "rest", "agent", "skill", "mcp", "agentskills"],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/julien-m/api2cli.git",
+		"url": "git+https://github.com/julien-m/api2cli.git",
 		"directory": "packages/cli"
 	},
 	"homepage": "https://github.com/julien-m/api2cli#readme",
