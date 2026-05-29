@@ -11,7 +11,7 @@
 		"dev": "bun run src/index.ts"
 	},
 	"dependencies": {
-		"commander": "^13.0.0",
+		"commander": "^15.0.0",
 		"picocolors": "^1.1.0"
 	},
 	"devDependencies": {
