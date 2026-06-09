@@ -4,6 +4,7 @@ import { Command } from "commander";
 import pc from "picocolors";
 import { getAgentSyncSkillDir } from "../lib/agent-sync.js";
 import { getCliDir } from "../lib/config.js";
+import { compileSkillInstructions } from "../lib/skill-compiler.js";
 import { copyTemplate, replacePlaceholders } from "../lib/template.js";
 
 export const createCommand = new Command("create")
@@ -110,6 +111,7 @@ Examples:
 			}
 			removeIfEmptyOrMetadataOnly(refsTemplateDir);
 			removeIfEmptyOrMetadataOnly(skillsRoot);
+			compileSkillInstructions(cliDir, app);
 
 			// 6. Rename README.md.template
 			const readmeTemplate = join(cliDir, "README.md.template");

@@ -5,6 +5,7 @@ import pc from "picocolors";
 import { ensureAgentSyncSkillSource, linkAgentSyncSkill } from "../lib/agent-sync.js";
 import { getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
+import { compileSkillInstructions } from "../lib/skill-compiler.js";
 
 export function parseGithubInput(input: string): { owner: string; repo: string } | null {
 	const cleaned = input
@@ -26,6 +27,7 @@ export function getAppName(repo: string): string {
 }
 
 const linkSkillThroughCcHub = async (cliDir: string, app: string): Promise<boolean> => {
+	compileSkillInstructions(cliDir, app);
 	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
 	if (!skillSourceDir) return true;
 

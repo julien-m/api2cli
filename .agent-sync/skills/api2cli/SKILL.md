@@ -37,7 +37,11 @@ Create `~/.cli/<app>-cli/src/resources/<resource>.ts` for each API resource. Reg
 
 See [references/resource-patterns.md](references/resource-patterns.md) for the CRUD template and library API.
 
-### 4. Build, link, and test
+### 4. Add project-specific skill instructions
+
+If the user gives workflow or business instructions for the generated CLI, write them in `~/.cli/<app>-cli/.api2cli/skill/instruction.md` or another top-level `.md` file in that directory. Do not edit `.agent-sync/skills/<app>-cli/SKILL.md` for custom instructions; `bundle` and `link` compile `.api2cli/skill/*.md` into the final skill automatically.
+
+### 5. Build, link, and test
 
 ```bash
 npx api2cli bundle <app>
@@ -48,9 +52,9 @@ npx api2cli link <app>
 
 `api2cli link` adds `~/.local/bin` to PATH and links the generated skill through `cc-hub` into Claude/Codex. No `export PATH` needed.
 
-### 5. Finalize skill and README
+### 6. Finalize skill and README
 
-Replace all `{{...}}` placeholders in `.agent-sync/skills/<app>-cli/SKILL.md` and `README.md`, then run `npx api2cli link <app>` to link locally via `cc-hub`.
+Keep custom skill guidance in `.api2cli/skill/*.md`, then run `npx api2cli bundle <app>` or `npx api2cli link <app>` to refresh `.agent-sync/skills/<app>-cli/SKILL.md` before linking locally via `cc-hub`.
 
 **Read** [`references/skill-generation.md`](references/skill-generation.md) for the template, format, and cc-hub linking instructions.
 

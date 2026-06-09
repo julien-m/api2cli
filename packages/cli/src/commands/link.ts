@@ -6,6 +6,7 @@ import pc from "picocolors";
 import { ensureAgentSyncSkillSource, linkAgentSyncSkill } from "../lib/agent-sync.js";
 import { CLI_ROOT, getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
+import { compileSkillInstructions } from "../lib/skill-compiler.js";
 
 const AGENT_SKILL_DIRS: Record<string, string> = {
 	claude: join(homedir(), ".claude", "skills"),
@@ -15,6 +16,7 @@ const AGENT_SKILL_DIRS: Record<string, string> = {
 
 function linkSkillToPath(app: string, skillsPath: string): void {
 	const cliDir = getCliDir(app);
+	compileSkillInstructions(cliDir, app);
 	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
 
 	if (!skillSourceDir || !existsSync(join(skillSourceDir, "SKILL.md"))) {
@@ -41,6 +43,7 @@ function linkSkillToPath(app: string, skillsPath: string): void {
 
 async function linkSkillWithCcHub(app: string): Promise<boolean> {
 	const cliDir = getCliDir(app);
+	compileSkillInstructions(cliDir, app);
 	const skillSourceDir = ensureAgentSyncSkillSource(cliDir, app);
 
 	if (!skillSourceDir) {

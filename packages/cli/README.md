@@ -65,6 +65,7 @@ This creates `~/.cli/<app>-cli/` with:
 - Auth module (tokens in OS keychain via `creds`)
 - Multi-format output (text, JSON, CSV, YAML)
 - Example resource file to copy
+- Skill instruction fragments in `.api2cli/skill/instruction.md`
 
 ### 2. Add resources
 
@@ -205,6 +206,8 @@ Once installed, just tell your agent:
 > "Create a CLI for the Typefully API"
 
 The agent reads the skill, discovers the API, generates resources, builds, and links -- all automatically.
+
+Generated CLI skills are compiled artifacts: write project-specific agent instructions in `~/.cli/<app>-cli/.api2cli/skill/*.md`. `api2cli bundle <app>` and `api2cli link <app>` inject those fragments into `.agent-sync/skills/<app>-cli/SKILL.md`.
 
 ### Supported Agents
 

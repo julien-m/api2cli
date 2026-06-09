@@ -43,9 +43,12 @@ Creates `~/.cli/<app>-cli/` with:
   .agent-sync/
     skills/
       <app>-cli/
-        SKILL.md          # AgentSkill template (update after implementing)
+        SKILL.md          # Compiled AgentSkill artifact
         references/
           commands.md     # Detailed command reference
+  .api2cli/
+    skill/
+      instruction.md      # Custom skill instructions compiled by bundle/link
   README.md               # README template (update after implementing)
   package.json
   tsconfig.json
@@ -54,6 +57,7 @@ Creates `~/.cli/<app>-cli/` with:
 ## After create
 
 1. Edit resources in `src/resources/`
-2. Build: `npx api2cli bundle <app>`
-3. Link PATH and AgentSkill via cc-hub: `npx api2cli link <app>`
-4. Auth: `<app>-cli auth set "your-token"`
+2. Add custom agent instructions in `.api2cli/skill/instruction.md` when needed
+3. Build: `npx api2cli bundle <app>` (also compiles `.api2cli/skill/*.md` into the skill)
+4. Link PATH and AgentSkill via cc-hub: `npx api2cli link <app>`
+5. Auth: `<app>-cli auth set "your-token"`

@@ -1,15 +1,15 @@
-# Finalize Skill and README
+# Finalize Skill Instructions and README
 
-After implementing resources, update the canonical `.agent-sync` skill and README, then link it through `cc-hub`.
+After implementing resources, keep custom skill guidance in `.api2cli/skill/*.md`, refresh the compiled `.agent-sync` skill, then link it through `cc-hub`.
 
-## 1. Update the SKILL.md
+## 1. Update custom skill instructions
 
-Edit `~/.cli/<app>-cli/.agent-sync/skills/<app>-cli/SKILL.md`:
+Edit `~/.cli/<app>-cli/.api2cli/skill/instruction.md`:
 
-1. Update the description to include comma-separated resource names (e.g. "Manage typefully via CLI - drafts, links, accounts.")
-2. Replace the resources TODO comment with the resource map (see format below)
+1. Add workflow/business rules the agent should follow when using this CLI
+2. Add more top-level `.md` files in `.api2cli/skill/` when separating policies or workflows helps
 
-Note: `{{RESOURCES_LIST}}` is auto-resolved from `src/resources/` at build time. Only manual update is needed for the RESOURCES_HELP section.
+`api2cli bundle <app>` and `api2cli link <app>` compile every non-empty top-level `.md` file from `.api2cli/skill/` into `.agent-sync/skills/<app>-cli/SKILL.md`. `instruction.md` is compiled first, then other `.md` files alphabetically.
 
 ## 2. Update the README
 
@@ -43,7 +43,7 @@ Run `<app>-cli <resource> --help` for each resource to get real flags. Use this 
 
 ## 3. Link skill through cc-hub
 
-Run `api2cli link` after every skill update. It converts legacy `skills/<app>-cli/` folders when needed, then calls `cc-hub skill link --scope global --targets all --force`.
+Run `api2cli link` after every instruction update. It refreshes the compiled skill, converts legacy `skills/<app>-cli/` folders when needed, then calls `cc-hub skill link --scope global --targets all --force`.
 
 ```bash
 npx api2cli link <app>

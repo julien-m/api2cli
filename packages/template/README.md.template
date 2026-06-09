@@ -18,6 +18,10 @@ This clones the repo, builds the CLI, links it to your PATH, and installs the Ag
 {{APP_CLI}} --help
 ```
 
+## AgentSkill Instructions
+
+Write project-specific agent instructions in `.api2cli/skill/*.md`. `npx api2cli bundle {{APP_NAME}}` and `npx api2cli link {{APP_NAME}}` compile those fragments into `.agent-sync/skills/{{APP_CLI}}/SKILL.md`.
+
 ## Resources
 
 Run `{{APP_CLI}} --help` to see available resources.

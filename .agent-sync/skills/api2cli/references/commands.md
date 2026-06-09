@@ -31,7 +31,7 @@ npx api2cli create my-api --docs https://docs.example.com/api
 
 ### bundle
 
-Build a CLI from source.
+Build a CLI from source and compile `.api2cli/skill/*.md` into the generated AgentSkill.
 
 ```bash
 npx api2cli bundle [app] [options]
@@ -45,7 +45,7 @@ npx api2cli bundle [app] [options]
 
 ### link / unlink
 
-Add or remove a CLI from PATH. `link` also links the generated AgentSkill locally through `cc-hub` for Claude/Codex.
+Add or remove a CLI from PATH. `link` also compiles `.api2cli/skill/*.md` into the generated AgentSkill, then links it locally through `cc-hub` for Claude/Codex.
 
 ```bash
 npx api2cli link [app] [--all]

@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
 import { CLI_ROOT, getCliDir, getDistDir } from "../lib/config.js";
+import { compileSkillInstructions } from "../lib/skill-compiler.js";
 
 export const bundleCommand = new Command("bundle")
 	.description("Build/rebuild a CLI from source")
@@ -44,6 +45,7 @@ async function buildCli(app: string, compile?: boolean): Promise<void> {
 
 	const distDir = getDistDir(app);
 	mkdirSync(distDir, { recursive: true });
+	compileSkillInstructions(cliDir, app);
 
 	console.log(`Building ${pc.bold(`${app}-cli`)}...`);
 
