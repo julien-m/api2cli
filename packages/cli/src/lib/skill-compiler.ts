@@ -67,7 +67,7 @@ ${CUSTOM_INSTRUCTIONS_END}`;
 function upsertManagedBlock(skill: string, block: string): string {
 	const managedBlockPattern = getManagedBlockPattern();
 	if (managedBlockPattern.test(skill)) {
-		return skill.replace(managedBlockPattern, block);
+		return skill.replace(managedBlockPattern, `\n\n${block}\n`);
 	}
 	return `${skill.trimEnd()}\n\n${block}\n`;
 }

@@ -63,6 +63,20 @@ describe("compileSkillInstructions", () => {
 		});
 	});
 
+	it("should keep the managed block separated from surrounding skill content when replacing it", () => {
+		withTempDir((dir) => {
+			writeSkill(
+				dir,
+				"# example-cli\n\nAlways pass `--json`.\n\n<!-- api2cli:custom-instructions:start -->\nold\n<!-- api2cli:custom-instructions:end -->\n",
+			);
+			writeFragment(dir, "instruction.md", "new\n");
+
+			compileSkillInstructions(dir, "example");
+
+			expect(readSkill(dir)).toContain("Always pass `--json`.\n\n<!-- api2cli:custom-instructions:start -->");
+		});
+	});
+
 	it("should ignore empty fragments, non-markdown files, and subdirectories", () => {
 		withTempDir((dir) => {
 			writeSkill(dir);

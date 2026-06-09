@@ -6,8 +6,9 @@ After implementing resources, keep custom skill guidance in `.api2cli/skill/*.md
 
 Edit `~/.cli/<app>-cli/.api2cli/skill/instruction.md`:
 
-1. Add workflow/business rules the agent should follow when using this CLI
-2. Add more top-level `.md` files in `.api2cli/skill/` when separating policies or workflows helps
+1. Use `$skill-creator` before writing or revising custom skill instructions
+2. Add concise workflow/business rules the agent should follow when using this CLI
+3. Add more top-level `.md` files in `.api2cli/skill/` when separating policies or workflows helps
 
 `api2cli bundle <app>` and `api2cli link <app>` compile every non-empty top-level `.md` file from `.api2cli/skill/` into `.agent-sync/skills/<app>-cli/SKILL.md`. `instruction.md` is compiled first, then other `.md` files alphabetically.
 

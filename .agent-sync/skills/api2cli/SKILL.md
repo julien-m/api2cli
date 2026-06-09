@@ -39,7 +39,7 @@ See [references/resource-patterns.md](references/resource-patterns.md) for the C
 
 ### 4. Add project-specific skill instructions
 
-If the user gives workflow or business instructions for the generated CLI, write them in `~/.cli/<app>-cli/.api2cli/skill/instruction.md` or another top-level `.md` file in that directory. Do not edit `.agent-sync/skills/<app>-cli/SKILL.md` for custom instructions; `bundle` and `link` compile `.api2cli/skill/*.md` into the final skill automatically.
+If the user gives workflow or business instructions for the generated CLI, use `$skill-creator` first, then write the optimized instruction in `~/.cli/<app>-cli/.api2cli/skill/instruction.md` or another top-level `.md` file in that directory. Keep it concise, trigger-focused, and procedural. Do not edit `.agent-sync/skills/<app>-cli/SKILL.md` for custom instructions; `bundle` and `link` compile `.api2cli/skill/*.md` into the final skill automatically.
 
 ### 5. Build, link, and test
 
