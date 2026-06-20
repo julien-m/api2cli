@@ -1,5 +1,6 @@
 #!/usr/bin/env bun
 import { Command } from "commander";
+import pkg from "../package.json" with { type: "json" };
 import { bundleCommand } from "./commands/bundle.js";
 import { createCommand } from "./commands/create.js";
 import { doctorCommand } from "./commands/doctor.js";
@@ -14,7 +15,7 @@ import { updateCommand } from "./commands/update.js";
 
 const program = new Command();
 
-program.name("api2cli").description("Turn any REST API into a standardized, agent-ready CLI").version("0.1.0");
+program.name("api2cli").description("Turn any REST API into a standardized, agent-ready CLI").version(pkg.version);
 
 // Core
 program.addCommand(createCommand);
