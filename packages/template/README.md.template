@@ -4,8 +4,10 @@ CLI for the {{APP_NAME}} API. Generated with `api2cli`.
 
 ## Install
 
+Prerequisite: install and link the local `api2cli` binary first; api2cli is not published on npm, so do not use `npx`.
+
 ```bash
-npx api2cli install <user>/{{APP_CLI}}
+api2cli install <user>/{{APP_CLI}}
 ```
 
 This clones the repo, builds the CLI, links it to your PATH, and installs the AgentSkill through `cc-hub`.
@@ -20,7 +22,7 @@ This clones the repo, builds the CLI, links it to your PATH, and installs the Ag
 
 ## AgentSkill Instructions
 
-Write project-specific agent instructions in `.api2cli/skill/*.md`. `npx api2cli bundle {{APP_NAME}}` and `npx api2cli link {{APP_NAME}}` compile those fragments into `.agent-sync/skills/{{APP_CLI}}/SKILL.md`.
+Write project-specific agent instructions in `.api2cli/skill/*.md`. `api2cli bundle {{APP_NAME}}` and `api2cli link {{APP_NAME}}` compile those fragments into `.agent-sync/skills/{{APP_CLI}}/SKILL.md`.
 
 ## Resources
 

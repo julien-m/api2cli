@@ -3,7 +3,7 @@
 ## Command
 
 ```bash
-npx api2cli create <app> [options]
+api2cli create <app> [options]
 ```
 
 | Flag | Description | Default |
@@ -19,9 +19,9 @@ npx api2cli create <app> [options]
 ## Examples
 
 ```bash
-npx api2cli create typefully --base-url https://api.typefully.com --auth-type bearer
-npx api2cli create dub --openapi https://api.dub.co/openapi.json
-npx api2cli create my-api --docs https://docs.example.com/api
+api2cli create typefully --base-url https://api.typefully.com --auth-type bearer
+api2cli create dub --openapi https://api.dub.co/openapi.json
+api2cli create my-api --docs https://docs.example.com/api
 ```
 
 ## What gets generated
@@ -58,6 +58,6 @@ Creates `~/.cli/<app>-cli/` with:
 
 1. Edit resources in `src/resources/`
 2. Add custom agent instructions in `.api2cli/skill/instruction.md` when needed
-3. Build: `npx api2cli bundle <app>` (also compiles `.api2cli/skill/*.md` into the skill)
-4. Link PATH and AgentSkill via cc-hub: `npx api2cli link <app>`
+3. Build: `api2cli bundle <app>` (also compiles `.api2cli/skill/*.md` into the skill)
+4. Link PATH and AgentSkill via cc-hub: `api2cli link <app>`
 5. Auth: `<app>-cli auth set "your-token"`

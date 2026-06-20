@@ -66,12 +66,12 @@ On error: `{ "ok": false, "error": { "code": "...", "message": "..." } }` with n
 
 ## Setup & Build
 
-If the binary is missing or out of date:
+If the `{{APP_CLI}}` binary is missing or out of date (requires the local `api2cli` binary on PATH — it is not published on npm, so do not use `npx`):
 
 ```bash
 bun --version || curl -fsSL https://bun.sh/install | bash
-npx api2cli bundle {{APP_NAME}}
-npx api2cli link {{APP_NAME}}
+api2cli bundle {{APP_NAME}}
+api2cli link {{APP_NAME}}
 ```
 
 `api2cli link` adds `~/.local/bin` to PATH automatically.

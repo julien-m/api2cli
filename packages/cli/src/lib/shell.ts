@@ -51,7 +51,7 @@ export function addToPath(app: string, distDir: string): void {
 
 	if (!existsSync(target)) {
 		console.error(`${pc.red("✗")} Built file not found: ${target}`);
-		console.error(`  Run: ${pc.cyan(`npx api2cli bundle ${app}`)}`);
+		console.error(`  Run: ${pc.cyan(`api2cli bundle ${app}`)}`);
 		process.exit(1);
 	}
 

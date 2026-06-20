@@ -122,8 +122,8 @@ Examples:
 			console.log(`\n${pc.green("✓")} Created ${pc.bold(`${app}-cli`)} at ${pc.dim(cliDir)}`);
 			console.log(`\n${pc.bold("Next steps:")}`);
 			console.log(`  1. Edit resources in ${pc.dim(`${cliDir}/src/resources/`)}`);
-			console.log(`  2. Build: ${pc.cyan(`npx api2cli bundle ${app}`)}`);
-			console.log(`  3. Link: ${pc.cyan(`npx api2cli link ${app}`)}`);
+			console.log(`  2. Build: ${pc.cyan(`api2cli bundle ${app}`)}`);
+			console.log(`  3. Link: ${pc.cyan(`api2cli link ${app}`)}`);
 			console.log(`  4. Auth: ${pc.cyan(`${app}-cli auth set "your-token"`)}`);
 		},
 	);

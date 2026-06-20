@@ -10,20 +10,20 @@ Copy the entire block below and paste it as a message to your OpenClaw agent:
 Set up api2cli for me:
 
 1. Install bun if missing: bun --version || curl -fsSL https://bun.sh/install | bash
-2. Link the skill to OpenClaw: npx api2cli link --all --openclaw
-3. Verify: npx api2cli --help
+2. Link the skill to OpenClaw: api2cli link --all --openclaw
+3. Verify: api2cli --help
 
 Once installed, I can ask you to:
 - Create a CLI for any API: "Use api2cli to create CLI for <api-name>"
-- List local CLIs: "npx api2cli list"
+- List local CLIs: "api2cli list"
 ```
 
 ## Link Commands Reference
 
 ```bash
-npx api2cli link <app> --openclaw                    # single CLI
-npx api2cli link --all --openclaw                    # all installed CLIs
-npx api2cli link <app> --skills-path /custom/path    # custom skills directory
+api2cli link <app> --openclaw                    # single CLI
+api2cli link --all --openclaw                    # all installed CLIs
+api2cli link <app> --skills-path /custom/path    # custom skills directory
 ```
 
 ## How the Agent Uses It

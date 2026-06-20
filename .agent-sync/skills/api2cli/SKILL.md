@@ -7,7 +7,7 @@ description: "Generate a CLI + AgentSkill from any REST API. Use when: user says
 
 Turn any REST API into a standardized, agent-ready CLI.
 
-Always use `npx api2cli` to run commands. Always use `--json` when calling generated CLIs programmatically.
+Always use the locally installed `api2cli` binary to run commands — never run it through `npx`. api2cli is local-only and is not published on npm; `npx` would fetch an unrelated/stale package. Always use `--json` when calling generated CLIs programmatically.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ Find the API docs or OpenAPI spec. Identify: base URL, auth type, auth header, a
 ### 2. Create the scaffold
 
 ```bash
-npx api2cli create <app> --base-url <url> --auth-type bearer
+api2cli create <app> --base-url <url> --auth-type bearer
 ```
 
 See [references/create.md](references/create.md) for all flags and what gets generated.
@@ -44,8 +44,8 @@ If the user gives workflow or business instructions for the generated CLI, use `
 ### 5. Build, link, and test
 
 ```bash
-npx api2cli bundle <app>
-npx api2cli link <app>
+api2cli bundle <app>
+api2cli link <app>
 <app>-cli --help
 <app>-cli <resource> list --json
 ```
@@ -54,14 +54,14 @@ npx api2cli link <app>
 
 ### 6. Finalize skill and README
 
-Keep custom skill guidance in `.api2cli/skill/*.md`, then run `npx api2cli bundle <app>` or `npx api2cli link <app>` to refresh `.agent-sync/skills/<app>-cli/SKILL.md` before linking locally via `cc-hub`.
+Keep custom skill guidance in `.api2cli/skill/*.md`, then run `api2cli bundle <app>` or `api2cli link <app>` to refresh `.agent-sync/skills/<app>-cli/SKILL.md` before linking locally via `cc-hub`.
 
 **Read** [`references/skill-generation.md`](references/skill-generation.md) for the template, format, and cc-hub linking instructions.
 
 To also link skills for OpenClaw:
 
 ```bash
-npx api2cli link <app> --openclaw
+api2cli link <app> --openclaw
 ```
 
 **Read** [`references/openclaw.md`](references/openclaw.md) for the one-prompt setup, API key auto-detection, and custom `--skills-path` usage.

@@ -47,7 +47,7 @@ Run `<app>-cli <resource> --help` for each resource to get real flags. Use this 
 Run `api2cli link` after every instruction update. It refreshes the compiled skill, converts legacy `skills/<app>-cli/` folders when needed, then calls `cc-hub skill link --scope global --targets all --force`.
 
 ```bash
-npx api2cli link <app>
+api2cli link <app>
 cc-hub skill status --scope global --targets all --name <app>-cli
 ```
 

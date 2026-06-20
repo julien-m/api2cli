@@ -20,8 +20,8 @@ Full syntax, flags and examples: **Read** [`references/commands.md`](references/
 
 ```bash
 bun --version || curl -fsSL https://bun.sh/install | bash
-npx api2cli bundle {{APP_NAME}}
-npx api2cli link {{APP_NAME}}
+api2cli bundle {{APP_NAME}}
+api2cli link {{APP_NAME}}
 ```
 
 Always pass `--json` when calling commands programmatically.
