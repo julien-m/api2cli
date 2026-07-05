@@ -4,7 +4,7 @@ CLI for the {{APP_NAME}} API. Generated with `api2cli`.
 
 ## Install
 
-Prerequisite: install and link the local `api2cli` binary first; api2cli is not published on npm, so do not use `npx`.
+Prerequisite: install and link the local `api2cli` binary from `https://github.com/julien-m/api2cli`; do not use the third-party npm package named `api2cli` or `npx`.
 
 ```bash
 api2cli install <user>/{{APP_CLI}}

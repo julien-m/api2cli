@@ -63,6 +63,24 @@ describe("compileSkillInstructions", () => {
 		});
 	});
 
+	it("should preserve dollar sequences when replacing an existing managed block", () => {
+		withTempDir((dir) => {
+			writeSkill(
+				dir,
+				"# example-cli\n\n<!-- api2cli:custom-instructions:start -->\nold\n<!-- api2cli:custom-instructions:end -->\n\nTail content.\n",
+			);
+			writeFragment(dir, "instruction.md", "Use bash `$'\\n'` and regex `$&` literally.\n");
+
+			compileSkillInstructions(dir, "example");
+			compileSkillInstructions(dir, "example");
+
+			const skill = readSkill(dir);
+			expect(skill).toContain("Use bash `$'\\n'` and regex `$&` literally.");
+			expect(skill).not.toContain("Tail content.'");
+			expect(skill.match(/api2cli:custom-instructions:start/g)?.length).toBe(1);
+		});
+	});
+
 	it("should keep the managed block separated from surrounding skill content when replacing it", () => {
 		withTempDir((dir) => {
 			writeSkill(

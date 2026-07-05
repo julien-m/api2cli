@@ -24,8 +24,12 @@ api2cli create <app> → scaffold + build + link → <app>-cli ready to use
 ## Quick Start
 
 ```bash
-# Install
-bun install -g api2cli
+# Install this fork locally; do not use the third-party npm package named api2cli.
+git clone https://github.com/julien-m/api2cli.git
+cd api2cli
+bun install
+bun run build
+(cd packages/cli && bun link)
 
 # Create a CLI for any API
 api2cli create typefully \
