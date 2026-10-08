@@ -9,5 +9,9 @@
 		"lint:fix": "bunx @biomejs/biome@1.9.4 check --write packages/",
 		"typecheck": "bunx tsc --noEmit",
 		"test": "bun test"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"typescript": "^6.0.3"
 	}
 }

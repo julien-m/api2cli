@@ -45,5 +45,7 @@ coverage/
 .yarn/
 .pnpm-store/
 
-# Materialized conventions
+# Materialized conventions and local agent state
 .conventions/
+.claude/
+.agents/
