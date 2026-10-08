@@ -32,8 +32,8 @@ function linkSkillToPath(app: string, skillsPath: string): void {
 	mkdirSync(skillsPath, { recursive: true });
 	const target = join(skillsPath, `${app}-cli`);
 
-	if (existsSync(target)) {
-		const stats = lstatSync(target);
+	const stats = lstatSync(target, { throwIfNoEntry: false });
+	if (stats) {
 		if (stats.isSymbolicLink()) {
 			unlinkSync(target);
 		} else {
