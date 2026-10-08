@@ -4,6 +4,8 @@ Turn any REST API into a standardized, agent-ready CLI in minutes.
 
 One CLI pattern. Every API. Any AI agent can use it.
 
+> Based on [Melvynx/api2cli](https://github.com/Melvynx/api2cli), extended with OS keychain token storage and modular AgentSkill instructions.
+
 ## The Problem
 
 There are 10,000+ SaaS products with REST APIs. AI agents can only interact with a tiny fraction of them because:
@@ -106,7 +108,7 @@ program.addCommand(draftsResource);
 
 ```bash
 api2cli bundle <app>        # Build the CLI
-api2cli link <app>          # Add to PATH and link skill via cc-hub
+api2cli link <app>          # Add to PATH and link the skill
 ```
 
 ### 4. Use it
@@ -125,7 +127,7 @@ api2cli link <app>          # Add to PATH and link skill via cc-hub
 |---------|-------------|
 | `api2cli create <app>` | Generate a new CLI from API docs |
 | `api2cli bundle <app> [--compile] [--all]` | Build a CLI from source (`--compile` for standalone binary) |
-| `api2cli link <app> [--all]` | Add a CLI to PATH and link its skill via cc-hub |
+| `api2cli link <app> [--all]` | Add a CLI to PATH and link its skill (via cc-hub when installed) |
 | `api2cli unlink <app>` | Remove from PATH |
 | `api2cli list [--json]` | List all installed CLIs |
 | `api2cli tokens [--show]` | List all configured tokens (masked) |
@@ -204,11 +206,15 @@ api2cli install https://github.com/owner/repo
 
 ### AgentSkills (Claude Code, Cursor, Gemini CLI, etc.)
 
-Install from [`.agent-sync/skills/api2cli/SKILL.md`](.agent-sync/skills/api2cli/SKILL.md), which follows the [AgentSkills](https://agentskills.io) open standard, through cc-hub/agent-sync:
+Install from [`.agent-sync/skills/api2cli/SKILL.md`](.agent-sync/skills/api2cli/SKILL.md), which follows the [AgentSkills](https://agentskills.io) open standard. With [cc-hub](https://github.com/julien-m/cc-hub):
 
 ```bash
 cc-hub skill link .agent-sync/skills/api2cli --scope global --targets all --name api2cli
 ```
+
+Without cc-hub, symlink the folder into your agent's skills directory (for example `ln -s "$PWD/.agent-sync/skills/api2cli" ~/.claude/skills/api2cli`).
+
+cc-hub is optional: when it is not on your `PATH`, `api2cli link <app>` symlinks the generated skill directly into `~/.claude/skills` and `~/.agents/skills`.
 
 Once installed, just tell your agent:
 
@@ -248,7 +254,7 @@ api2cli/
 
 ## Token Storage
 
-Tokens for every generated CLI are stored in the OS Keychain via the [`creds`](https://github.com/julien-m/creds) CLI. No plaintext files.
+Tokens for every generated CLI are stored in the OS Keychain via the [`creds`](https://github.com/julien-m/keychain-creds) CLI. No plaintext files.
 
 The keychain entry defaults to `global/dev/<app>` (overridable with `--creds-entry` at `create` time) and is recorded in the generated CLI's `package.json` under `api2cli.credsEntry`.
 
@@ -262,4 +268,4 @@ creds rm global/dev/<app>   # Manually remove a token
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE). Original project by [Melvynx](https://github.com/Melvynx/api2cli).

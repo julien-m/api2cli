@@ -195,11 +195,13 @@ def456                published 2026-03-06
 
 ### AgentSkills (Claude Code, Cursor, Gemini CLI, etc.)
 
-Install from [`.agent-sync/skills/api2cli/SKILL.md`](../../.agent-sync/skills/api2cli/SKILL.md), which follows the [AgentSkills](https://agentskills.io) open standard, through cc-hub/agent-sync:
+Install from [`.agent-sync/skills/api2cli/SKILL.md`](../../.agent-sync/skills/api2cli/SKILL.md), which follows the [AgentSkills](https://agentskills.io) open standard. With [cc-hub](https://github.com/julien-m/cc-hub):
 
 ```bash
 cc-hub skill link ../../.agent-sync/skills/api2cli --scope global --targets all --name api2cli
 ```
+
+cc-hub is optional: without it, `api2cli link <app>` symlinks generated skills directly into `~/.claude/skills` and `~/.agents/skills`.
 
 Once installed, just tell your agent:
 

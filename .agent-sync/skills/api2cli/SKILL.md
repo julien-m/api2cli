@@ -50,7 +50,7 @@ api2cli link <app>
 <app>-cli <resource> list --json
 ```
 
-`api2cli link` adds `~/.local/bin` to PATH and links the generated skill through `cc-hub` into Claude/Codex. No `export PATH` needed.
+`api2cli link` adds `~/.local/bin` to PATH and links the generated skill into Claude/Codex (through `cc-hub` when it is on PATH, otherwise by direct symlinks). No `export PATH` needed.
 
 ### 6. Finalize skill and README
 

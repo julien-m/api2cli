@@ -3,7 +3,12 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import { Command } from "commander";
 import pc from "picocolors";
-import { ensureAgentSyncSkillSource, linkAgentSyncSkill } from "../lib/agent-sync.js";
+import {
+	GLOBAL_PROVIDER_SKILL_DIRS,
+	ensureAgentSyncSkillSource,
+	isCcHubAvailable,
+	linkAgentSyncSkill,
+} from "../lib/agent-sync.js";
 import { CLI_ROOT, getCliDir, getDistDir } from "../lib/config.js";
 import { addToPath } from "../lib/shell.js";
 import { compileSkillInstructions } from "../lib/skill-compiler.js";
@@ -51,6 +56,14 @@ async function linkSkillWithCcHub(app: string): Promise<boolean> {
 		return true;
 	}
 
+	// cc-hub is optional: without it, symlink the skill straight into the Claude/Codex skill roots.
+	// A cc-hub that is installed but fails still fails the command below.
+	if (!isCcHubAvailable()) {
+		console.log(`  ${pc.yellow("~")} cc-hub not found on PATH, linking skill directly`);
+		for (const skillsPath of GLOBAL_PROVIDER_SKILL_DIRS) linkSkillToPath(app, skillsPath);
+		return true;
+	}
+
 	// cc-hub must exit 0 after creating provider links; any non-zero result fails this CLI command.
 	const linked = await linkAgentSyncSkill(skillSourceDir, app);
 	if (!linked) {
@@ -62,7 +75,7 @@ async function linkSkillWithCcHub(app: string): Promise<boolean> {
 }
 
 export const linkCommand = new Command("link")
-	.description("Add a CLI to your PATH and link its AgentSkill through cc-hub")
+	.description("Add a CLI to your PATH and link its AgentSkill (through cc-hub when installed)")
 	.argument("[app]", "CLI to link (omit with --all)")
 	.option("--all", "Link all installed CLIs")
 	.option("--openclaw", "Also symlink skill to ~/.openclaw/workspace/skills/")

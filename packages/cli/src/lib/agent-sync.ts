@@ -81,6 +81,14 @@ export function removeLegacyProviderTargets(
 	return removed;
 }
 
+/**
+ * Return true when the optional `cc-hub` binary is resolvable on PATH.
+ * @param which - PATH lookup, injectable for tests; defaults to `Bun.which`.
+ */
+export function isCcHubAvailable(which: (command: string) => string | null = Bun.which): boolean {
+	return which("cc-hub") !== null;
+}
+
 /** Link a canonical skill source through cc-hub into all supported global providers. */
 export async function linkAgentSyncSkill(
 	skillDir: string,

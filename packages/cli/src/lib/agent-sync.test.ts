@@ -6,6 +6,7 @@ import { join } from "node:path";
 import {
 	ensureAgentSyncSkillSource,
 	getAgentSyncSkillDir,
+	isCcHubAvailable,
 	linkAgentSyncSkill,
 	removeLegacyProviderTargets,
 } from "./agent-sync.js";
@@ -119,6 +120,16 @@ describe("linkAgentSyncSkill", () => {
 		});
 
 		expect(linked).toBe(false);
+	});
+});
+
+describe("isCcHubAvailable", () => {
+	it("should report cc-hub available when it resolves on PATH", () => {
+		expect(isCcHubAvailable(() => "/usr/local/bin/cc-hub")).toBe(true);
+	});
+
+	it("should report cc-hub unavailable when it is not on PATH", () => {
+		expect(isCcHubAvailable(() => null)).toBe(false);
 	});
 });
 
